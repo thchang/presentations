@@ -1,0 +1,44 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage{url}
+\usepackage{amsmath,amssymb,geometry}
+\geometry{letterpaper,
+          left       = 1.00in,
+          right      = 1.00in,
+          top        = 1.00in,
+          bottom     = 1.00in}
+\newcommand{\mini}{\mathop{\mbox{minimize}}}
+\newcommand{\X}{\mathcal X}                         % Design constraints
+\newcommand{\U}{\mathcal U}                         % Uncertainty sets
+\newcommand{\R}{\mathbb R}                      % Real  numbers
+
+\begin{document}
+
+\begin{center}
+\textbf{\Large ParMOO: Parallel MultiObjective Optimization in Python}
+\end{center}
+
+\medskip
+
+\begin{center}
+Tyler H. Chang, \url{tchang@anl.gov}\\ 
+and Stefan M. Wild, \url{wild@anl.gov}\\
+Mathematics and Computer Science Division \\                          
+Argonne National Laboratory \\
+%  9700 S. Cass Ave. \\
+Argonne, IL 60439 
+\end{center}
+
+\medskip\noindent
+
+ParMOO is a parallel multiobjective optimization solver that seeks to exploit
+simulation-based structure in objective and constraint functions.
+To exploit structure, ParMOO models simulations separately from objectives
+and constraints.
+ParMOO is implemented in Python.
+In order to achieve scalable parallelism, we use libEnsemble to distribute
+batches of simulation evaluations across parallel resources.
+ParMOO is available for download on GitHub:
+\url{https://github.com/parmoo/parmoo}
+
+\end{document}

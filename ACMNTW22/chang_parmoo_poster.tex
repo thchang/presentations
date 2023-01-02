@@ -1,0 +1,445 @@
+\documentclass[a0paper,landscape]{baposter}
+
+\usepackage{textcomp}
+% \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tgheros}
+% \usepackage{tgbonum}
+% \renewcommand*\familydefault{\sfdefault}
+% \setmainfont{Arial}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{bm}
+\usepackage{enumitem}
+
+%\usepackage{amsfonts}
+%\usepackage{cmbright}
+%\usepackage{comicsans}
+\usepackage[cm]{sfmath}
+
+
+\usepackage{graphicx}
+\usepackage{multicol}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\usepackage{tikz,pgfplots,pgfplotstable,gnuplot-lua-tikz}
+
+\usetikzlibrary{shapes,arrows,decorations.markings,shadows,positioning}
+% \usepackage{helvet}
+%\usepackage{bookman}
+%\usepackage{palatino}
+\usepackage{enumitem}
+\usepackage{tensor}
+\newcommand\Perms[2]{\tensor[_{#1}]P{_{#2}}}
+\newcommand{\captionfont}{\footnotesize}
+
+\usepackage[vlined,titlenotnumbered]{algorithm2e}
+\usepackage{minibox}
+\usepackage{listings}
+% Define custom style for AMPL code listings
+\lstdefinelanguage{AMPL}{keywords={set,param,var,arc,integer,minimize,maximize,subject,to,node,
+sum,in,Current,complements,integer,solve_result_num,IN,contains,less,suffix,INOUT,default,logical,
+Infinity,dimen,max,symbolic,Initial,div,min,table,LOCAL,else,option,then,OUT,environ,setof,union,
+all,exists,shell_exitcodeuntil,binary,forall,solve_exitcodewhile,by,if,solve_messagewithin,check,
+solve_result,true,false,include},sensitive=true,comment=[l]{\#}}
+\lstdefinestyle{AMPL}{
+	language=AMPL,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+        %	keywordstyle=\bfseries,
+        keywordstyle=\color{ArgonneLogoRed},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+% Define custom style for Python code listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{python}{
+    language=python,
+    numbers=none,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{blue},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=3
+}
+\usepackage{tcolorbox}
+
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+
+\renewcommand{\emph}{\textbf}
+
+\graphicspath{{./images/}}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Some math symbols used in the text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Format 
+\newcommand{\cR}{\mathcal{R}_S} 		% Random stream
+\newcommand{\cQ}{Q_L} 	          	% Localopt Queue
+
+\newcommand{\R}{\mathbb{R}}  % The reals
+\newcommand{\cW}{\mathcal{W}} 	% Workers
+\newcommand{\cD}{\mathcal{D}} 		% Box-constrained domain
+\newcommand{\nw}{n_\mathcal{W}} 	% Number of workers
+\newcommand{\tn}{\textnormal}
+\newcommand{\maximize}{\operatornamewithlimits{maximize}}
+\newcommand{\minimize}{\operatornamewithlimits{minimize}}
+\newcommand{\mins}{\operatornamewithlimits{min}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\fGamma}{\operatorname{\Gamma}}
+\newcommand{\floor}[1] {\lfloor #1 \rfloor}
+\newcommand{\ceil}[1] {\lceil #1 \rceil}
+\newcommand{\vol}[1] {\operatorname{vol}\left( #1 \right)}
+\newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
+\newcommand{\Matrix}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\Vector}[1]{\Matrix{#1}}
+
+\newcommand*{\SET}[1]  {\ensuremath{\mathcal{#1}}}
+\newcommand*{\MAT}[1]  {\ensuremath{\mathbf{#1}}}
+\newcommand*{\VEC}[1]  {\ensuremath{\bm{#1}}}
+\newcommand*{\CONST}[1]{\ensuremath{\mathit{#1}}}
+\newcommand*{\norm}[1]{\mathopen\| #1 \mathclose\|}% use instead of $\|x\|$
+\newcommand*{\abs}[1]{\mathopen| #1 \mathclose|}% use instead of $\|x\|$
+\newcommand*{\absLR}[1]{\left| #1 \right|}% use instead of $\|x\|$
+
+\def\norm#1{\mathopen\| #1 \mathclose\|}% use instead of $\|x\|$
+\newcommand{\normLR}[1]{\left\| #1 \right\|}% use instead of $\|x\|$
+
+% Argonne Logo Colors
+\definecolor{ArgonneLogoBlue}{RGB}{4,146,210}
+\definecolor{ArgonneLiteBlue}{RGB}{202,214,246}%{176,196,222}
+\definecolor{ArgonneLogoRed}{RGB}{228,32,41}
+\definecolor{ArgonneLogoGreen}{RGB}{120,202,42}
+\definecolor{PMSCoolGray}{RGB}{112,109,110}
+
+
+\newcommand{\BLUE}[1]{\textcolor{blue}{\bf #1}}
+\newcommand{\RED}[1]{\textcolor{ArgonneLogoRed}{\bf #1}}
+\newcommand{\PURPLE}[1]{\textcolor{purple}{\bf #1}}
+\newcommand{\GREEN}[1]{\textcolor{ArgonneLogoGreen}{\bf #1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Multicol Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\columnsep}{0.7em}
+\setlength{\columnseprule}{0mm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Save space in lists. Use this after the opening of the list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\compresslist}{%
+\setlength{\itemsep}{1pt}%
+\setlength{\parskip}{0pt}%
+\setlength{\parsep}{0pt}%
+}
+
+\newcommand{\alert}{\RED}
+\newcommand{\X}{{\cal X}}
+\newcommand{\U}{{\cal U}}
+\newcommand{\RA}{$\Rightarrow$}
+\newcommand{\ra}{\alert{a}}
+
+\newcommand{\mini}{\mathop{\mbox{minimize}}}
+\newcommand{\maxi}{\mathop{\mbox{maximize}}}
+\newcommand{\st}{\mbox{subject to}}
+\newcommand{\stn}{\mbox{s.t.}}
+\newcommand{\dps}{\displaystyle}
+\newcommand{\readers}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Begin of Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Here starts the poster
+%%%---------------------------------------------------------------------------
+%%% Format it to your taste with the options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\typeout{Poster Starts}
+\background{
+  \begin{tikzpicture}[remember picture,overlay]%
+    \draw (current page.north west)+(-2em,-0em) node[anchor=north west] {\hspace{-2em}\includegraphics[height=1.1\textheight]{silhouettes_background}};
+  \end{tikzpicture}%
+}
+\definecolor{silver}{cmyk}{0,0,0,0.3}
+\definecolor{yellow}{cmyk}{0,0,0.9,0.0}
+\definecolor{reddishyellow}{cmyk}{0,0.22,1.0,0.0}
+\definecolor{black}{cmyk}{0,0,0.0,1.0}
+\definecolor{darkYellow}{cmyk}{0,0,1.0,0.5}
+\definecolor{darkSilver}{cmyk}{0,0,0,0.1}
+
+\definecolor{lightyellow}{cmyk}{0,0,0.3,0.0}
+\definecolor{lighteryellow}{cmyk}{0,0,0.1,0.0}
+\definecolor{lighteryellow}{cmyk}{0,0,0.1,0.0}
+\definecolor{lightestyellow}{cmyk}{0,0,0.05,0.0}
+
+\definecolor{KTHBlue}{cmyk}{.71,.37,0.07,0}
+\definecolor{KTHsilver}{cmyk}{0,0,0,0.35}
+\definecolor{KTHbeige}{cmyk}{0,0.03,0.19,0.04}
+
+% \definecolor{KTHBlue}{RGB}{25,84,166}
+\begin{poster}{
+  % Show grid to help with alignment
+  grid=false,
+  columns=3,
+  % Column spacing
+  colspacing=1em,
+  % Color style
+  % bgColorOne=ArgonneLogoRed,
+  bgColorOne=white,
+  bgColorTwo=white,
+  borderColor=PMSCoolGray,
+  headerColorOne=ArgonneLiteBlue,
+  headerColorTwo=ArgonneLogoBlue,
+  headerFontColor=black,
+  boxColorOne=white,
+  boxColorTwo=white,
+  % Format of textbox
+  textfont=\large,
+  textborder=roundedleft,
+  % Format of text header
+  eyecatcher=true,
+  headerborder=open,
+  % headerheight=0.08\textheight,
+  headerheight=0.14\textheight,
+  headershape=roundedright,
+  headershade=plain,
+%  headershade=shade-lr,
+  headerfont=\Large\sf\bf, %Sans Serif
+  boxshade=plain,
+%  background=shade-tb,
+  background=plain,
+  linewidth=2pt
+  }
+  % Eye Catcher
+  {\includegraphics[height=6em]{Argonne_cmyk_black.eps}} % No eye catcher for this poster. If an eye catcher is present, the title is centered between eye-catcher and logo.
+  % Title
+  {\sf ParMOO: Parallel MultiObjective Optimization in Python\\$\quad$}
+  % Authors
+  {\sf  \phantom{\hspace{0em}}
+    Tyler Chang and Stefan Wild\\
+
+    \smallskip
+
+    {\it \small
+    Argonne National Laboratory,\\
+    Mathematics and Computer Science Division
+    \par
+    }
+
+  }
+  % Top right logo
+  {
+    \includegraphics[height=4em]{DOE_logo_color_cmyk}
+  }
+
+  \tikzstyle{light shaded}=[top color=baposterBGtwo!30!white,bottom color=baposterBGone!30!white,shading=axis,shading angle=30]
+
+  % Width of left inset image
+ \newlength{\leftimgwidth}
+ \setlength{\leftimgwidth}{0.78em+8.0em}
+ 
+ \newcounter{boxnum}
+ \newcommand{\thebox}{\stepcounter{boxnum} \arabic{boxnum}. }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Now define the boxes that make up the poster
+%%%---------------------------------------------------------------------------
+%%% Each box has a name and can be placed absolutely or relatively.
+%%% The only inconvenience is that you can only specify a relative position 
+%%% towards an already declared box. So if you have a box attached to the 
+%%% bottom, one to the top and a third one which should be in between, you 
+%%% have to specify the top and bottom boxes before you specify the middle 
+%%% box.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % A coloured circle useful as a bullet with an adjustably strong filling
+  \newcommand{\colouredcircle}[1]{%
+    \tikz{\useasboundingbox (-0.2em,-0.32em) rectangle(0.2em,0.32em); \draw[draw=black,fill=baposterBGone!80!black!#1!white,line width=0.03em] (0,0) circle(0.18em);}}
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \headerbox{}{name=none,column=0,row=0}{
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%   \setlength{\parskip}{0.5\baselineskip}
+%%   \begin{itemize}[nosep]
+%%     \item text
+%%   \end{itemize}
+%% }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Multiobjective Optimization}{name=robust,column=0,row=0}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  \[
+  \begin{array}{lll}
+    \displaystyle 
+    \mini_{x \in \X}    & F(x) & \alert{F(x) = (f_1(x), f_2(x), \ldots, f_o(x)}\\
+    \st      \;  & G(x) \leq 0 & \alert{G(x) = (g_1(x), g_2(x), \ldots, g_p(x)}
+  \end{array}
+  \]
+  \begin{center}
+  \includegraphics[width=\textwidth]{des-obj-space.png}
+  \end{center}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Multiobjective *Simulation* Optimization}{name=AddMan,column=0,below=robust}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  \[
+  \begin{array}{lll}
+    \displaystyle 
+    \mini_{x \in \X}    & F(x, \BLUE{S(x)}) & \BLUE{S(x) = (s_1(x), s_2(x), \ldots, s_m(x)}\\
+    \st      \;  & G(x, \BLUE{S(x)}) \leq 0 & 
+    \end{array}
+  \]
+  \begin{center}
+  \includegraphics[width=\textwidth]{des-sim-obj-space.png}
+  \end{center}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Common Simulation-based Structures}{name=dual,column=0,below=AddMan}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  
+\RED{Sum-of-squared} \BLUE{simulation outputs}:
+$$
+\min_{x\in {\cal X}} \quad \left(\RED{\sum_{i=1}^{m_1}} \BLUE{S_i(x)}^{\RED{2}},
+\quad \RED{\sum_{j=1}^{m_2}} \BLUE{S_j(x)}^{\RED{2}}\right)
+$$
+\BLUE{One simulation}, \RED{one algebraic} objective:
+$$
+\min_{x\in {\cal X}} \quad \left(\BLUE{S(x)}, \quad \RED{\sum_{i=1}^n x^2}\right)
+$$
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{posterbox}[name=ampl,column=1,row=0]{Response Surface Methodology}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+
+  \medskip
+
+  \begin{itemize}
+    \item \GREEN{Search/sample} data for raw \BLUE{simulations outputs}
+    \item Use \GREEN{surrogates} to model \BLUE{simulations}, \RED{not objectives}
+    \item Separately define \RED{objectives and constraints}
+    \item Scalarize \RED{objectives} using \GREEN{acquisition functions}
+    \item \GREEN{Solve scalarized surrogate problems} and iterate
+  \end{itemize}
+  \begin{center}
+  \includegraphics[width=0.7\textwidth]{surrogate-models.pdf}
+  \end{center}
+\end{posterbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Design Principles}{name=linear,column=1,below=ampl,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  \begin{tcolorbox}[colback=ArgonneLogoGreen!5!white,colframe=ArgonneLogoGreen!75!black,title=Mix-and-match]
+    \begin{itemize}[nosep]
+      \item Initial search (design-of-experiments)
+      \item Surrogate models
+      \item Acquisition/scalarization functions
+      \item Scalar optimization solvers
+    \end{itemize}
+  \end{tcolorbox}
+  \begin{tcolorbox}[colback=ArgonneLogoBlue!5!white,colframe=ArgonneLogoBlue!75!black,title=Easy for users and developers]
+    \begin{itemize}[nosep]
+      \item Support for variety of design vars and simulations
+      \item Support various scientific workflows
+      \item Embed/extract problems from unit cube
+    \end{itemize}
+  \end{tcolorbox}
+  \begin{tcolorbox}[colback=ArgonneLogoRed!5!white,colframe=ArgonneLogoRed!75!black,title=Flexible problem definitions]
+    \begin{itemize}[nosep]
+      \item Add design vars, sims, objs, + constraints
+      \item Add searches, surrogates, acquisitions, optimizer
+      \item Solve serially or in parallel using {\tt libEnsemble} %\cite{libensemble}
+    \end{itemize}
+  \end{tcolorbox}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{A Sample Script}{name=experiments,column=2,row=0}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.1\baselineskip}
+
+  \lstset{style=python}
+  \lstinputlisting{quickstart.py}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Download ParMOO}{name=code,column=2,below=experiments}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  \begin{itemize}[nosep]
+    \item {\tt git clone https://github.com/parmoo/parmoo}
+    \item {\tt pip install parmoo}
+  \end{itemize}
+  \begin{center}
+  \includegraphics[width=0.38\textwidth]{logo-ParMOO.png}
+  \hskip 24pt
+  \includegraphics[width=0.18\textwidth]{logo-py.png}
+  \hskip 24pt
+  \includegraphics[width=0.08\textwidth]{logo-gh.png}
+  \end{center}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Continuing Work}{name=future,column=2,below=code, above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  \begin{itemize}[nosep]
+    \item Continue to add new solvers and techniques
+    \item Support wider variety of problems \& workflows
+  \end{itemize}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\headerbox{References}{name=test,column=2,below=future,above=bottom}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \setlength{\parskip}{0.5\baselineskip}
+%  \scriptsize
+%  \bibliographystyle{abbrv}
+%  \begingroup
+%  \renewcommand{\section}[2]{}
+%  \bibliography{paper}
+%  \endgroup
+%}
+
+\end{poster}%
+%
+\end{document}
