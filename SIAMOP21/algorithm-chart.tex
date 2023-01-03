@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{
+paperwidth=8.5in,
+paperheight=5.7in,
+textwidth=7.5in,
+left=0.5in,
+textheight=4.7in,
+top=0.5in
+}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\begin{document}
+\pagestyle{empty}
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=10em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 2.5cm, auto]
+    % Place nodes
+    \node [block] (search0)
+	{initial {\tt GlobalSearch} to generate simulation data in ${\cal X}$};
+    \node [block, below of=search0] (fit0)
+	{fit a {\tt SurrogateFunction} to each of $m$ simulation outputs};
+    \node [block, right of=search0, node distance=20em] (id)
+	{use $q$ {\tt AcquisitionFunction} to set $q$ new targets};
+    \node [block, below of=id] (optk)
+    {use {\tt SurrogateOptimizer} to generate $q$ candidate solutions
+    (one for each scalarization)};
+    \node [block, below of=optk] (evalk)
+	{evaluate simulations at each candidate solution};
+    \node [block, below of=evalk] (fitk)
+    {update the {\tt SurrogateFunction} models};
+    \node [decision, right of=optk, node distance=20em] (decide)
+	{sim budget done?};
+    \node [block, below of=decide, node distance=3cm] (exit)
+	{construct the final nondominated and efficient set and return};
+    % Draw edges
+    \path [line] (search0) -- (fit0);
+    \path [line] (fit0) -- (id);
+    \path [line] (id) -- (optk);
+    \path [line] (optk) -- (evalk);
+    \path [line] (evalk) -- (fitk);
+    \path [line] (fitk) -- (decide);
+    \path [line] (decide) -- node [near start] {no} (id);
+    \path [line] (decide) -- node {yes} (exit);
+\end{tikzpicture}
+
+
+\end{document}
+

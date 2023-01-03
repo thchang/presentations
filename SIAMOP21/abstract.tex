@@ -1,0 +1,42 @@
+% preamble
+\documentclass[11pt]{article}
+\usepackage{geometry, setspace, multicol}
+\geometry{
+letterpaper,
+total={6.5in,9in},
+left=1in,
+top=1in}
+\parindent = 0pt
+\parskip = 6pt
+
+% document
+\begin{document}
+
+% headers
+\begin{centering}
+\textbf{Surrogate Modeling of Simulations for Multiobjective Optimization Applications}
+\end{centering}
+\begin{flushright}
+Tyler H.\ Chang\\
+\today\\
+Abstract for SIAM OP21
+\end{flushright}
+
+% body
+Many real-world blackbox multiobjective optimization problems are derived
+from complex numerical simulations.
+However, the objectives may not be the direct result of simulations,
+but rather algebraic functions of simulation outputs.
+As an example, consider the case where numerous simulation outputs are
+being minimized, and they are condensed into a smaller number of objectives
+by applying several algebraic utility functions (e.g., sum-of-squares).
+One could consider each objective as an individual blackbox function.
+However, this approach would require each contributing simulation to be
+evaluated each time that a utility function is evaluated.
+Furthermore, this approach would lose precious information about the
+structure of the utility functions.
+In this talk, we consider the advantages (both computational and theoretical)
+of considering simulations separately from objectives, specifically, in
+the context of surrogate modeling.
+
+\end{document}
