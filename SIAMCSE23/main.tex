@@ -1,7 +1,7 @@
 % ANL Beamer template
 \documentclass[aspectratio=169]{beamer}
 \include{header}
-\usebackgroundtemplate{\includegraphics[width=\paperwidth]{NormalANLBlue}}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/NormalANLBlue}}
 
 % Define big arrow down
 \newcommand{\xdownarrow}[1]{%
@@ -12,9 +12,12 @@
 
 % Title/author info
 \title{ParMOO: A parallel framework for multiobjective simulation optimization problems}
-\author{Tyler Chang$^a$ and Stefan Wild$^a$}
+\author{Tyler Chang$^a$ and Stefan Wild$^{a,b}$}
 \institute{$^a$Mathematics and Computer Science Division,\\
-Argonne National Laboratory}
+Argonne National Laboratory\\
+
+$^b$Applied Mathematics and Computational Research Division,\\
+Lawrence Berkley National Laboratory}
 \date{SIAM CSE 23}
 
 % Slides start here
@@ -23,7 +26,7 @@ Argonne National Laboratory}
 % Set the background graphics
 \setbeamertemplate{footline}{}
 {
-\usebackgroundtemplate{\includegraphics[width=\paperwidth]{TitleANLBlue}}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/TitleANLBlue}}
 \frame{\titlepage}
 }
 \setbeamertemplate{footline}[page number]{}
