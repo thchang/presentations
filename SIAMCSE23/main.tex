@@ -11,13 +11,17 @@
 \usepackage{xcolor,ulem}
 
 % Title/author info
-\title{ParMOO: A parallel framework for multiobjective simulation optimization problems}
+\title{\bigskip
+\\
+ParMOO: A Python library for parallel multiobjective simulation optimization}
 \author{Tyler Chang$^a$ and Stefan Wild$^{a,b}$}
 \institute{$^a$Mathematics and Computer Science Division,\\
 Argonne National Laboratory\\
 
+\medskip
+
 $^b$Applied Mathematics and Computational Research Division,\\
-Lawrence Berkley National Laboratory}
+Lawrence Berkeley National Laboratory}
 \date{SIAM CSE 23}
 
 % Slides start here
@@ -44,223 +48,43 @@ Lawrence Berkley National Laboratory}
 \section{Introduction to MOOPs}
 
 \begin{frame}\frametitle{Multiobjective Optimization Problems}
-\begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{center}
+\onslide<1->{
 {\Large
 $$
 \min_{x \in \mathcal{X}} F(x)
 $$
-}
-
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{itemize}
-\item $\mathcal{X} \subset \mathbb{R}^n$ is the feasible set
-\item $F(x) = (f_1(x), f_2(x), \ldots, f_o(x))$
-\end{itemize}
-\end{column}
-\end{columns}
-\bigskip
-\begin{columns}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{feasible_design.eps}
-\end{column}
-\begin{column}{.2\textwidth}
-\begin{center}
-$\xrightarrow{\hspace*{2cm}}$
-$$
-F : {\cal X} \rightarrow {\cal Y}
-$$
-\end{center}
-\end{column}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{convex_pareto.eps}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Dominance Relation}
-\begin{columns}
-\begin{column}{.5\textwidth}
-\begin{center}
-\onslide<2>{
-\includegraphics[width=\textwidth]{dominance_pt1.eps}
-}
-
-\vskip -2.3in
-
-\onslide<3->{
-\includegraphics[width=\textwidth]{dominance_pt2.eps}
-}
-\end{center}
-\end{column}
-\onslide<4>{
-\begin{column}{.5\textwidth}
-\includegraphics[width=\textwidth]{convex_pareto.eps}
-\end{column}}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Scalarization}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-{\large
-$$
-\min_{x\in\mathbb{R}^n} F(x)
-= \left(f_1(x), f_2(x), \ldots, f_o(x)\right)
-$$
-}
-{\large
-$$
-G : \mathbb{R}^o \rightarrow \mathbb{R}
-$$
-}
-{\large
-$$
-\min_{x\in\mathbb{R}^n} (G \circ F)(x)
-$$
-}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{center}
-\onslide<1>{
-\includegraphics[height=1.5in]{scalarization_pt1.eps}
-}
-
-\vskip -1.5in
-
-\onslide<2>{
-\includegraphics[height=1.5in]{scalarization_pt2.eps}
-}
-
-\vskip -1.5in
-
-\onslide<3>{
-\includegraphics[height=1.5in]{scalarization_pt3.eps}
-}
-
-\vskip -1.5in
-
-\onslide<4>{
-\includegraphics[height=1.5in]{scalarization_pt4.eps}
-}
-\end{center}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Summary of MOO Solvers}
-
-\begin{center}
-{\Large
-Scalarization + single-objective solver
-= multiobjective solver
-}
-
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
-\end{center}
-\end{frame}
-
-\begin{frame}{Summary of MOO Solvers}
-
-{\Large
-{\color{green} Acquisition function}$\qquad\qquad\qquad$\\
-}
-\begin{center}
-{\Large
-{\color{red}\sout{Scalarization}} + single-objective solver
-= multiobjective solver
-}
-
-\bigskip
-\bigskip
-\pause
-
-{\Large \bf Goal:}
-
-\medskip
-
-{\Large
-ParMOO a framework for developing, customizing, and deploying
-parallel multiobjective solvers for science/engineering applications}
-\end{center}
-
-\end{frame}
-
-\begin{frame}\frametitle{Multiobjective *Simulation* Optimization}
-\onslide<1>{
-\begin{center}
-{\Large
-Just ``multiobjective solvers'' is too broad!
-}
-\end{center}
-}
-
-\vskip -0.7in
-
-\onslide<2->{
-\begin{columns}
-\begin{column}{.3\textwidth}
-\begin{center}
-Input variables
-\end{center}
-\end{column}
-\begin{column}{.25\textwidth}
-\onslide<3>{
-\begin{center}
-Blackbox process
-\end{center}}
-\end{column}
-\begin{column}{.3\textwidth}
-\begin{center}
-Objective space
-\end{center}
-\end{column}
-\end{columns}
-\begin{columns}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{feasible_design.eps}
-\end{column}
-\begin{column}{.2\textwidth}
-\begin{center}
-\onslide<3>{
-{\scriptsize
-Numerical simulation?\\
-Real-world experiment?\\
-Build a prototype?\\
-Run a test?\\
 }}
+\end{center}
+\begin{columns}
+\begin{column}{.35\textwidth}
+\onslide<2->{
+\includegraphics[width=\textwidth]{feasible_design.eps}
+}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+\onslide<2->{
 $\xrightarrow{\hspace*{2cm}}$
 $$
 F : {\cal X} \rightarrow {\cal Y}
 $$
+}
+\onslide<3->{
+expensive blackbox process
+}
 \end{center}
 \end{column}
 \begin{column}{.35\textwidth}
+\onslide<2->{
 \includegraphics[width=\textwidth]{convex_pareto.eps}
+}
 \end{column}
 \end{columns}
-}
 \end{frame}
 
-\section{Existing Techniques \& Solvers}
-
-\begin{frame}\frametitle{Existing Techniques}
-\begin{itemize}
-\item Multiobjective Evolutionary/genetic algorithms
-\item Multidirectional search
-\item Multiobjective direct search
-\item Multiobjective Bayesian optimization
-\pause
-\item {\bf Multi response surface methodology (RSM)}
-\end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Multiobjective RSM}
+\begin{frame}\frametitle{Multiobjective Response Surface Methodology}
+{or Model-Based Optimization or Active Learning}
 \begin{columns}
 \begin{column}{0.4\textwidth}
 \begin{center}
@@ -301,33 +125,10 @@ $\xdownarrow{0.5cm}$\\
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Existing Solvers, Libraries, and Frameworks}
-{\small
-\begin{table}
-\begin{center}
-\begin{tabular}{c|cccccc}
-Name      & Type     & Language & Method & Consts & Var Types & Surrogates\\
-\hline
-BoostDFO  & L   & Matlab  & MS    & some & real  & yes  \\
-BoTorch   & F   & Python  & BO    & yes  & mixed & yes  \\
-% DEAP      & F   & Python  & EA    & yes  & mixed & no   \\
-% DESDEO    & F   & Python  & any   & yes  & real  & yes  \\
-Dragonfly & F/S & Python  & BO    & yes  & mixed & yes  \\
-jMetal/jMetalPy & L/F & Java/Py   & EA    & yes  & mixed & no   \\
-MODIR     & S   & Fortran & MS    & no   & real  & no   \\
-BiMADS    & S   & C++     & MS    & yes  & mixed & yes  \\
-ParEGO    & S   & C       & EA/BO & no   & real  & yes  \\
-PlatEMO   & L/F & Matlab  & EA    & some & mixed & some \\
-Platypus  & L   & Python  & EA    & yes  & mixed & no   \\
-pagmo/pygmo & F & C++/Py  & EA    & some & mixed & no   \\
-parmoo    & F   & Python  & MS/BO & yes  & mixed & yes  \\
-pymoo     & L/F & Python  & EA    & some & mixed & no   \\
-PyMOSO    & F   & Python  & MS    & yes  & int   & no   \\
-SPEA2     & S   & C       & EA    & no   & real  & no   \\
-VTMOP     & S   & Fortran & MS    & no   & real  & yes  \\
-\end{tabular}
-\end{center}
-\end{table}}
+\begin{frame}\frametitle{Example: HPC library tuning}
+
+
+
 \end{frame}
 
 \section{ParMOO Design Criteria}
