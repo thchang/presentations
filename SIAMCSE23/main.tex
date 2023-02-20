@@ -45,7 +45,7 @@ Lawrence Berkeley National Laboratory}
 % main slides come here
 % ========================================
 
-\section{Introduction to MOOPs}
+\section{Introduction to MOSO + my experience}
 
 \begin{frame}\frametitle{Multiobjective Optimization Problems}
 \begin{center}
@@ -89,12 +89,12 @@ expensive blackbox process
 \begin{column}{0.4\textwidth}
 \begin{center}
 \onslide<2->{
-\includegraphics[width=0.6\textwidth]{lh_doe.eps}\\}
+\includegraphics[width=0.5\textwidth]{lh_doe.eps}\\}
 \medskip
 \vskip 0.5cm
 \medskip
 \onslide<5->{
-\includegraphics[width=0.6\textwidth]{tradeoff.eps}}
+\includegraphics[width=0.5\textwidth]{tradeoff.eps}}
 \end{center}
 \end{column}
 \begin{column}{0.2\textwidth}
@@ -125,13 +125,95 @@ $\xdownarrow{0.5cm}$\\
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Example: HPC library tuning}
+\begin{frame}\frametitle{Example: HPC Performance Tuning}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{../img/moo_old/varsys_hist.png}\\
+{\tiny \sl
+VT VarSys Project -- 40 runs of HPL
+}
+\end{center}
+\end{column}
+\begin{column}{0.1\textwidth}
+$\quad$
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=0.4\textwidth]{../img/probs/anl-bebop.png}\\
+{\tiny \sl
+ANL -- LCRC Computing Resources: Bebop
+}
+\end{center}
+\end{column}
+\end{columns}
+\pause
+\begin{columns}
+\begin{column}{.3\textwidth}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
+\end{center}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+{\tt VTMOP} solver
+$$\xrightarrow{\hspace*{2cm}}$$
+\end{center}
+\end{column}
+\begin{column}{.4\textwidth}
+\includegraphics[width=\textwidth]{../img/moo_old/hpl_n20k_pf.eps}
+\end{column}
+\end{columns}
 
+\medskip
 
+{\tiny\it
+[1] Chang, Larson, and Watson.
+Multiobjective optimization of the variability of the high-performance 
+LINPACK solver.
+{\sl In Proc.\ WSC 2020.}\\
+}
+\end{frame}
+
+\section{3 challenges + solutions}
+
+\begin{frame}\frametitle{Challenge 1}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 1:\\
+
+\bigskip
+
+mixed vars + problem types
+}
+\end{center}
+\vfill
+\end{frame}
+
+\begin{frame}\frametitle{Example: Particle Accelerator Design}
 
 \end{frame}
 
-\section{ParMOO Design Criteria}
+\begin{frame}\frametitle{Example: Parallel Runs}
+
+\end{frame}
+
+\begin{frame}\frametitle{Challenge 2}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 2:\\
+
+\bigskip
+
+parallel evals + computing environments
+}
+\end{center}
+\vfill
+\end{frame}
+
+\section{ParMOO software design + release}
 
 \begin{frame}\frametitle{ParMOO Design Criteria}
 
@@ -292,12 +374,12 @@ deploy in different workflows
 \end{itemize}
 \end{frame}
 
-\section{Results and Sample Problems}
+\section{Example Problems}
 
 \begin{frame}\frametitle{ParMOO Release}
 
 \begin{center}
-\includegraphics[width=0.4\textwidth]{logo-parmoo.png}
+\includegraphics[width=0.4\textwidth]{../img/logos/logo-parmoo.png}
 \end{center}
 
 \begin{columns}
@@ -314,21 +396,21 @@ Written in {\tt Python} (available on {\tt pip} and {\tt GitHub})
 Combine with {\tt libEnsemble} to use parallel solvers
 \end{column}
 \begin{column}{0.2\textwidth}
-\includegraphics[width=0.6\textwidth]{logo-py.png}
+\includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
 
 \bigskip
 
-\includegraphics[width=0.4\textwidth]{logo-gh.png}
+\includegraphics[width=0.4\textwidth]{../img/logos/logo-gh.png}
 \end{column}
 \end{columns}
 
 \bigskip
 \bigskip
 
-{\small
-Chang and Wild. 2022.
+{\tiny
+Chang and Wild.
 ParMOO: A Python library for parallel multiobjective simulation optimization.
-Under review with JOSS.
+{\sl JOSS 8(82):4468 (2023).}
 }
 
 \end{frame}
@@ -447,6 +529,8 @@ Coming in v.~0.2
 \end{itemize}
 \end{frame}
 
+\section{Conclusions + some closing thoughts}
+
 \begin{frame}\frametitle{Resources}
 \begin{center}
 {\large
@@ -454,7 +538,7 @@ E-mail: {\tt tchang@anl.gov}\\
 E-mail: {\tt parmoo@mcs.anl.gov}\\
 \bigskip
 \bigskip
-ParMOO is under review with JOSS\\
+JOSS 8(82):4468 (2023)\\
 \bigskip
 \bigskip
 GitHub: {\tt github.com/parmoo/parmoo}\\
