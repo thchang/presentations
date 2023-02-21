@@ -319,6 +319,58 @@ by Shital Shah et al.\ on Microsoft Research Blog.\\
 \end{columns}
 \end{frame}
 
+\begin{frame}\frametitle{Commercial solvers}
+
+\pause
+
+{\large \bf General purpose:} (solver + backend)\\
+
+\bigskip
+
+Google -- OSS Vizier + Pythia backend
+
+{\tiny\it
+[5] Song et al.
+OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
+In Proc.\ 2022 AutoML-Conf.
+}
+
+\bigskip
+
+Meta -- BoTorch + Ax backend
+
+{\tiny\it
+[6] Balandat et al.
+BoTorch: a framework for efficient monte-carlo Bayesian optimization.
+In NeurIPS 2020.
+}
+
+\bigskip
+\pause
+
+{\large \bf Special purpose:} (solver + special purpose deployment)\\
+
+\bigskip
+
+IBM -- Querry-based Molecular Optimization (QMO)
+
+{\tiny\it
+[7] Hoffman et al.
+Optimizing molecules using efficient queries from property evaluations.
+Nature Machine Intelligence 4:21--31 (2022).
+}
+
+\bigskip
+
+Microsoft -- Archai for NAS
+
+{\tiny\it
+[8] Shah et al.
+Archai: platform for neural architecture search.
+Microsoft Research (Jul, 2022).
+}
+\end{frame}
+
 \begin{frame}\frametitle{SOA and structure-exploiting blackbox optimization}
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -326,7 +378,7 @@ by Shital Shah et al.\ on Microsoft Research Blog.\\
 \onslide<2->{
 \includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
 {\tiny \sl
-``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0 API.\\
+``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0 [9].\\
 }
 }
 \end{center}
@@ -337,7 +389,7 @@ by Shital Shah et al.\ on Microsoft Research Blog.\\
 \includegraphics[height=5em]{siam_news_feb_23.jpg}\\
 {\tiny \sl
 Stochastic dimension reduction explained in this context
-by Stefan [5].\\
+by Stefan [10].\\
 }
 }
 \end{center}
@@ -348,18 +400,28 @@ by Stefan [5].\\
 
 \begin{center}
 \onslide<4->{
-\includegraphics[width=0.4\textwidth]{../img/logos/logo-tao.png}\\
+\includegraphics[width=0.3\textwidth]{../img/logos/logo-tao.png}\\
 {\tiny \sl
-SOS structure can be exploited by DFO solver POUNDERS in TAO [6].\\
+SOS structure can be exploited by DFO solver POUNDERS in TAO [11].\\
 }
 }
 \end{center}
 
 \vfill
 
+\onslide<2->{
+{\tiny\it
+[9] Virtanen et al.
+SciPy 1.0: fundamental algorithms for scientific computing in Python.
+{\sl Nature Methods 17:261--272 (2020).}\\
+}
+}
+
+\medskip
+
 \onslide<3->{
 {\tiny\it
-[5] Wild. Optimization and learning with zeroth-order stochastic oracles.
+[10] Wild. Optimization and learning with zeroth-order stochastic oracles.
 {\sl SIAM News 56(1):1,3 (2023).}\\
 }
 }
@@ -368,7 +430,7 @@ SOS structure can be exploited by DFO solver POUNDERS in TAO [6].\\
 
 \onslide<4->{
 {\tiny\it
-[6] Wild.
+[11] Wild.
 Solving derivative-free nonlinear least squares problems with POUNDERS.
 {\sl Adv.\ and Trends in Optimization with Engineering Applications,
 Ch.\ 40, pp.\ 529--540
@@ -404,37 +466,67 @@ SOA optimization + exploiting problem structure
 \item Highly customizable framework for multiobjective RSM
 \item Flexible problem types (mixed-variables, constraints, etc.)
 \item Easy to use, deploy, and extend (unforeseen use-cases and environments)
-\item Exploit structure and domain knowledge
+\item Solve large-scale problems + exploit structure and domain knowledge
 \end{enumerate}
+
+\vfill
+
+{\tiny\it
+[12]
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+In prep.
+}
 \end{frame}
 
-\begin{frame}\frametitle{Customizability}
-ParMOO uses an object-oriented framework:\\
-\begin{columns}
-\begin{column}{0.7\textwidth}
-\includegraphics[width=\textwidth]{algorithm-flowchart.png}
-\end{column}
-\begin{column}{0.3\textwidth}
-\pause
-\begin{itemize}
-\item Search/DOE
-\item Surrogate model
-\item Acquisition function
-\item Single-obj solver
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Simulation Structure}
+\begin{frame}\frametitle{Goal 1: Customizability}
+ParMOO UML:\\
 \begin{center}
-\onslide<1>{
-\includegraphics[height=2in]{des-obj-space.png}}
+\includegraphics[width=\textwidth]{uml-diagram-1.pdf}
+\end{center}
+\end{frame}
 
-\vskip -2in
+\begin{frame}\frametitle{Goal 2: Flexible problem types}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{embedder-extractor.pdf}
+\end{center}
+\end{frame}
 
-\onslide<2>{
-\includegraphics[height=2in]{des-sim-obj-space.png}}
+\begin{frame}\frametitle{Goal 3: Easy to deploy}
+
+Extend {\tt MOOP} base class and overwrite {\tt MOOP.evaluateSimulation()}
+evaluator backend.
+
+\pause
+\bigskip
+
+Examples:
+\begin{itemize}
+\item parallel simulation evaluations on HPC systems with libEnsemble [13]
+\item streaming experiment data via Kafka producer/consumer requests with the MDML [14]
+\end{itemize}
+
+\vfill
+
+{\tiny\it
+[13] Hudson et al.
+libEnsemble: a library to coordinate the concurrent evaluation of dynamic ensembles of calculations.
+IEEE TPDS 33(4):977--988 (2021).\\
+}
+
+\medskip
+
+{\tiny\it
+[14] Elias et al.
+The manufacturing data and machine learning platform: enabling real-time monitoring and control of scientific experiments via IoT.
+In Proc.\ 2020 IEEE WF-IoT.\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Goal 4: problem structure}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{obj-sim-des-space.eps}
 \end{center}
 \end{frame}
 
@@ -485,67 +577,6 @@ Use expensive surrogate models for {\color{red} $h_1$} (i.e.,
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Flexible Problem Types}
-\begin{columns}
-\begin{column}{0.8\textwidth}
-\begin{itemize}
-\onslide<2-> \item Mixed variable-types
-\onslide<3->{ {\bf Ex: categorical variables}}
-\begin{itemize}
-\onslide<4-> \item Focus on {\it embedding} into continuous space\\
-\bigskip
-\bigskip
-
-\end{itemize}
-\onslide<5-> \item (Nonlinear) constraints
-\begin{itemize}
-\onslide<6-> \item Focus on {\it augmented Lagrangian} penalties
-(relax to augmented unconstrained problem)
-\end{itemize}
-\end{itemize}
-\end{column}
-\begin{column}{0.2\textwidth}
-\onslide<4->{
-\includegraphics[width=0.95\textwidth]{embedder.png}}\\
-\onslide<6->{
-\includegraphics[width=1.2\textwidth]{feasible-region.png}}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Design constraints}
-
-\pause
-{\bf Easy to use:}
-\begin{itemize}
-\item OOP gives a clean interface for adding attributes to a MOOP instance
-\item Total modularity (free to mix-and-match)
-%\pause \item Tried to balance flexibility vs. complexity
-\end{itemize}
-
-\bigskip
-\pause
-{\bf Easy to deploy:}
-\begin{itemize}
-%\pause \item Provides (optional) checkpointing, logging, and error handling
-\item Simulation/experiment evaluations are only called in the
-{\tt MOOP.solve()} method
-\item Extend {\tt MOOP} class and overwrite {\tt solve()} to
-deploy in different workflows
-\item {\bf Ex:} Deploy parallel solvers on HPC systems using
-{\tt libEnsemble}
-\end{itemize}
-
-\bigskip
-\pause
-{\bf Easy to maintain and extend:}
-\begin{itemize}
-\item OOP + total modularity makes adding new features easy
-\item Agile development with continuous integration
-\item Well-documented interface, contributing, and release process
-\end{itemize}
-\end{frame}
-
 \section{Example Problems}
 
 \begin{frame}\frametitle{ParMOO Release}
@@ -555,24 +586,33 @@ deploy in different workflows
 \end{center}
 
 \begin{columns}
-\begin{column}{0.8\textwidth}
+\begin{column}{0.7\textwidth}
 
-Written in {\tt Python} (available on {\tt pip} and {\tt GitHub})
-
-\bigskip
-\bigskip
-\url{https://parmoo.readthedocs.io/en/latest/quickstart.html}
+Written in {\tt Python}
 
 \bigskip
+
+Version 0.2.0 is now available on
+available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
+
 \bigskip
-Combine with {\tt libEnsemble} to use parallel solvers
+\bigskip
+\url{https://github.com/parmoo/parmoo}
+
+\bigskip
+
+\url{https://parmoo.readthedocs.io}
 \end{column}
 \begin{column}{0.2\textwidth}
+\begin{center}
 \includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
 
 \bigskip
 
-\includegraphics[width=0.4\textwidth]{../img/logos/logo-gh.png}
+\includegraphics[width=0.25\textwidth]{../img/logos/logo-gh.png}
+$\quad$
+\includegraphics[width=0.35\textwidth]{../img/logos/logo-conda.png}
+\end{center}
 \end{column}
 \end{columns}
 
@@ -580,7 +620,7 @@ Combine with {\tt libEnsemble} to use parallel solvers
 \bigskip
 
 {\tiny
-Chang and Wild.
+[15] Chang and Wild.
 ParMOO: A Python library for parallel multiobjective simulation optimization.
 {\sl JOSS 8(82):4468 (2023).}
 }
@@ -616,8 +656,10 @@ $$
 
 \vfill
 
-{\small
-Bollapragada et al. Journal of Physics G: Nuclear and Particle Physics 48(2), 2020.}\par
+{\tiny\it
+[16] Bollapragada et al.
+Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
+Journal of Physics G: Nuclear and Particle Physics 48(2):024001 (2020).\\}
 \end{frame}
 
 \begin{frame}\frametitle{Fayans Solution with ParMOO}
@@ -685,20 +727,10 @@ equation of input
 \end{center}
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{pareto_front.png}
+\includegraphics[width=0.8\textwidth]{cfr_pareto_front.png}\\
+\includegraphics[width=0.9\textwidth]{hv_2.eps}
 \end{column}
 \end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Next Release}
-
-Coming in v.~0.2
-\begin{itemize}
-\item Interactive post-run visualization tools
-\item Support for customized embeddings and passing raw (unscaled) inputs
-\item MDML (Apache Kafka) interface for distributing simulation evalutations
-\item (Maybe) advanced techniques for design-of-experiments
-\end{itemize}
 \end{frame}
 
 \section{Conclusions + some closing thoughts}
@@ -706,21 +738,24 @@ Coming in v.~0.2
 \begin{frame}\frametitle{Resources}
 \begin{center}
 {\large
+GitHub: {\tt github.com/parmoo/parmoo}\\
+Docs: {\tt parmoo.readthedocs.io}\\
+PyPI: {\tt pip install parmoo}\\
+Conda: {\tt conda install --channel=conda-forge parmoo}}
+
+\bigskip
+\bigskip
+
 E-mail: {\tt tchang@anl.gov}\\
 E-mail: {\tt parmoo@mcs.anl.gov}\\
 \bigskip
 \bigskip
-JOSS 8(82):4468 (2023)\\
-\bigskip
-\bigskip
-GitHub: {\tt github.com/parmoo/parmoo}\\
-Docs: {\tt parmoo.readthedocs.io}\\
-PyPI: {\tt pip install parmoo}}
+{\sl Chang and Wild. JOSS 8(82):4468 (2023)}\\
 
-\bigskip
-\bigskip
+\vfill
 
-{\small This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.}
+{\tiny This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.\\}
+
 \end{center}
 \end{frame}
 
