@@ -8,7 +8,29 @@
   {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
 }
 
+% Packages used
 \usepackage{xcolor,ulem}
+\usepackage{listings}
+% Define custom style for Python code listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{python}{
+    language=python,
+    numbers=none,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{blue},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codegreen},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=3
+}
 
 % Title/author info
 \title{\bigskip
@@ -577,7 +599,10 @@ Use expensive surrogate models for {\color{red} $h_1$} (i.e.,
 \end{columns}
 \end{frame}
 
-\section{Example Problems}
+\begin{frame}[fragile]\frametitle{Sample code}
+  \lstset{style=python}
+  \lstinputlisting{quickstart.py}
+\end{frame}
 
 \begin{frame}\frametitle{ParMOO Release}
 
@@ -626,6 +651,8 @@ ParMOO: A Python library for parallel multiobjective simulation optimization.
 }
 
 \end{frame}
+
+\section{Example Problems}
 
 \begin{frame}\frametitle{Example 1: Fayans EDF Model Calibration}
 Find params $x \in [0, 1]^{13}$ to fit the Fayans model to data $d_i$:
@@ -727,10 +754,21 @@ equation of input
 \end{center}
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=0.8\textwidth]{cfr_pareto_front.png}\\
-\includegraphics[width=0.9\textwidth]{hv_2.eps}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{cfr_pareto_front.png}\\
+\includegraphics[width=0.8\textwidth]{hv_2.eps}
+\end{center}
 \end{column}
 \end{columns}
+
+\vfill
+
+{\tiny\it
+[17] Chang et al.
+A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
+Under review.\\
+}
+
 \end{frame}
 
 \section{Conclusions + some closing thoughts}

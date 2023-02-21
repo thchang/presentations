@@ -1,9 +1,8 @@
 # Create MOOP
 my_moop = MOOP(LocalGPS)
-# Add a continuous design variable
+# Add a continuous + categorical design variable
 my_moop.addDesign({'name': "x1", 'des_type': "continuous",
                    'lb': 0.0, 'ub': 1.0})
-# Add a categorical design variable
 my_moop.addDesign({'name': "x2", 'des_type': "categorical", 'levels': 3})
 # Define a simulation function
 def sim_func(x):
