@@ -165,7 +165,7 @@ $$\xrightarrow{\hspace*{2cm}}$$
 \end{column}
 \end{columns}
 
-\medskip
+\vfill
 
 {\tiny\it
 [1] Chang, Larson, and Watson.
@@ -192,10 +192,59 @@ mixed vars + problem types
 \end{frame}
 
 \begin{frame}\frametitle{Example: Particle Accelerator Design}
+\begin{columns}
+\begin{column}{.3\textwidth}
+\begin{center}
+{\large OPAL-t}\\
+(Object Oriented Parallel Accelerator Library for beam-lines + linacs)
+\end{center}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
+\end{center}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+{\tt VTMOP} solver
+$$\xrightarrow{\hspace*{2cm}}$$
+\end{center}
+\end{column}
+\begin{column}{.4\textwidth}
+\includegraphics[width=\textwidth]{opal_res_4k.eps}
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[2] Chang et al.
+Algorithm 1028: VTMOP: Solver for blackbox multiobjective optimization problems.
+{\sl ACM TOMS 48(3):36 (2022).}\\
+}
+
+\medskip
+
+{\tiny\it
+[3] Neveu et al.
+Comparison of multiobjective optimization methods for the LCLS-II photoinjector.
+{\sl CPC 283:108566 (2023).}\\
+}
 
 \end{frame}
 
-\begin{frame}\frametitle{Example: Parallel Runs}
+\begin{frame}\frametitle{Handling parallel evals}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{vtmop_libe_diagram.png}\\
+\end{center}
+
+\vfill
+
+{\tiny\it
+[4] Chang et al.
+Managing computationally expensive blackbox multiobjective optimization
+problems with libEnsemble.
+{\sl In Proc.\ SpringSim 2020.}\\
+}
 
 \end{frame}
 
@@ -213,26 +262,149 @@ parallel evals + computing environments
 \vfill
 \end{frame}
 
+\begin{frame}\frametitle{Commercial solutions}
+\begin{columns}
+\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=6em]{../img/probs/linkedin-notifications.png}\\
+{\tiny \sl
+``Using Bayesian optimization for balancing metrics in recommendation systems''
+by Yunbao Ouyang et al.\ on LinkedIn Engineering Blog.\\
+}
+\end{center}
+\end{column}
+\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/google-cookies.png}\\
+{\tiny \sl
+``The makings of a smart cookie''
+by Daniel Golovin on Google Research Blog.\\
+}
+\end{center}
+\end{column}
+\end{columns}
+\begin{columns}
+\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[width=5em]{../img/probs/ibm-sdl.png}\\
+{\tiny \sl
+``Accelerating molecular optimization with AI'' by Payel Das et al.\
+on IBM Research Blog.\\
+}
+\end{center}
+\end{column}
+\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/meta-nas.png}\\
+{\tiny \sl
+``Optimizing model accuracy and latency using Bayesian multi-objective NAS''
+by David Eriksson et al.\ on Meta Research Blog.\\
+}
+\end{center}
+\end{column}
+\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/microsoft-nas.png}\\
+{\tiny \sl
+``Archai can design your neural network with state-of-the-art NAS''
+by Shital Shah et al.\ on Microsoft Research Blog.\\
+}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{SOA and structure-exploiting blackbox optimization}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\onslide<2->{
+\includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
+{\tiny \sl
+``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0 API.\\
+}
+}
+\end{center}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\onslide<3->{
+\includegraphics[height=5em]{siam_news_feb_23.jpg}\\
+{\tiny \sl
+Stochastic dimension reduction explained in this context
+by Stefan [5].\\
+}
+}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{center}
+\onslide<4->{
+\includegraphics[width=0.4\textwidth]{../img/logos/logo-tao.png}\\
+{\tiny \sl
+SOS structure can be exploited by DFO solver POUNDERS in TAO [6].\\
+}
+}
+\end{center}
+
+\vfill
+
+\onslide<3->{
+{\tiny\it
+[5] Wild. Optimization and learning with zeroth-order stochastic oracles.
+{\sl SIAM News 56(1):1,3 (2023).}\\
+}
+}
+
+\medskip
+
+\onslide<4->{
+{\tiny\it
+[6] Wild.
+Solving derivative-free nonlinear least squares problems with POUNDERS.
+{\sl Adv.\ and Trends in Optimization with Engineering Applications,
+Ch.\ 40, pp.\ 529--540
+(2017).}\\
+}
+}
+\end{frame}
+
+\begin{frame}\frametitle{Challenge 3}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 3:\\
+
+\bigskip
+
+SOA optimization + exploiting problem structure
+}
+\end{center}
+\vfill
+\end{frame}
+
 \section{ParMOO software design + release}
 
 \begin{frame}\frametitle{ParMOO Design Criteria}
 
-\textbf{Design goals:}
-\begin{enumerate}
-\item Highly customizable framework for multiobjective RSM
-\item Exploit structure and domain knowledge simulation-based optimization
-problems
-\item Flexible problem types (mixed-variables, constraints, etc.)
-\end{enumerate}
+{\large
+\textbf{Design goals:}}
 
 \medskip
-\pause
 
-\textbf{Design constraints:}
 \begin{enumerate}
-\item Easy to deploy (parallelism, checkpointing, logging, flexibility)
-\item Easy to maintain and extend
-\item Easy to use (clean interfaces)
+\item Highly customizable framework for multiobjective RSM
+\item Flexible problem types (mixed-variables, constraints, etc.)
+\item Easy to use, deploy, and extend (unforeseen use-cases and environments)
+\item Exploit structure and domain knowledge
 \end{enumerate}
 \end{frame}
 
