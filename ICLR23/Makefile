@@ -1,7 +1,7 @@
 # Makefile for 
 
 
-HEADER = chang_parmoo_poster
+HEADER = parmoo_mdml_cfr_poster
 PICS = ../img
 #BIB = .
 TEX = . 
@@ -24,7 +24,6 @@ pic_files = $(shell find $(PICS) \
 	#bibtex $(HEADER)
 	#pdflatex $(HEADER)
 	pdflatex $(HEADER)
-	pdflatex abstract.tex
 	#biber $(HEADER)
 	#pdflatex -shell-escape $(HEADER)	
 	#pdflatex -shell-escape $(HEADER)	
