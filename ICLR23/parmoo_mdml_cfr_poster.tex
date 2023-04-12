@@ -318,24 +318,27 @@ solve_result,true,false,include},sensitive=true,comment=[l]{\#}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Model-based optimization and learning}{name=opt,column=0,below=mdml}{
+\headerbox{Model-based optimization}{name=opt,column=0,below=mdml,above=bottom}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
-  
-\RED{Sum-of-squared} \BLUE{simulation outputs}:
-$$
-\min_{x\in {\cal X}} \quad \left(\RED{\sum_{i=1}^{m_1}} \BLUE{S_i(x)}^{\RED{2}},
-\quad \RED{\sum_{j=1}^{m_2}} \BLUE{S_j(x)}^{\RED{2}}\right)
-$$
-\BLUE{One simulation}, \RED{one algebraic} objective:
-$$
-\min_{x\in {\cal X}} \quad \left(\BLUE{S(x)}, \quad \RED{\sum_{i=1}^n x^2}\right)
-$$
+
+  \medskip
+
+  \begin{itemize}
+    \item \GREEN{Search/sample} raw \BLUE{experimental data}
+    \item Use \GREEN{surrogates} to model \BLUE{experiments}
+    \item Define \RED{objectives + constraints} on \BLUE{experiments}
+    \item Use multiobjective \GREEN{acquisition functions} to set targets
+    \item \GREEN{Solve acquisition on surrogates} $\Rightarrow$ next \BLUE{experiment}
+  \end{itemize}
+  \begin{center}
+  \includegraphics[width=0.7\textwidth]{../img/moo_old/surrogate-models.pdf}
+  \end{center}
 
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=ampl,column=1,row=0]{Response Surface Methodology}
+\begin{posterbox}[name=ampl,column=1,row=0]{Our framework and software stack}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
 
