@@ -296,39 +296,29 @@ solve_result,true,false,include},sensitive=true,comment=[l]{\#}}
 %% }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Multiobjective Optimization}{name=robust,column=0,row=0}{
+\headerbox{Our (Big) Goals}{name=goals,column=0,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
-  \[
-  \begin{array}{lll}
-    \displaystyle 
-    \mini_{x \in \X}    & F(x) & \alert{F(x) = (f_1(x), f_2(x), \ldots, f_o(x)}\\
-    \st      \;  & G(x) \leq 0 & \alert{G(x) = (g_1(x), g_2(x), \ldots, g_p(x)}
-  \end{array}
-  \]
+  \begin{itemize}
+  \item Design a software framework for {\sl self-driving labs}
+  \item Accelerate discovery via intelligent experimentation
+  \item Democratize lab-work by building open-source tools
+  \end{itemize}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Streaming data from multiple sources}{name=mdml,column=0,below=goals}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+  The {\sl MDML} is a Kafka based platform for streaming, analyzing, and
+  logging experiment and simulation data
   \begin{center}
-  \includegraphics[width=\textwidth]{../img/moo_old/des-obj-space.png}
+  \includegraphics[width=0.8\textwidth]{../img/moo_new/MDML_arch_v2.png}
   \end{center}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Multiobjective *Simulation* Optimization}{name=AddMan,column=0,below=robust}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \setlength{\parskip}{0.5\baselineskip}
-  \[
-  \begin{array}{lll}
-    \displaystyle 
-    \mini_{x \in \X}    & F(x, \BLUE{S(x)}) & \BLUE{S(x) = (s_1(x), s_2(x), \ldots, s_m(x)}\\
-    \st      \;  & G(x, \BLUE{S(x)}) \leq 0 & 
-    \end{array}
-  \]
-  \begin{center}
-  \includegraphics[width=\textwidth]{../img/moo_old/des-sim-obj-space.png}
-  \end{center}
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Common Simulation-based Structures}{name=dual,column=0,below=AddMan}{
+\headerbox{Model-based optimization and learning}{name=opt,column=0,below=mdml}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
   
@@ -391,18 +381,18 @@ $$
   \end{tcolorbox}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{A Sample Script}{name=experiments,column=2,row=0}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \setlength{\parskip}{0.1\baselineskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\headerbox{A Sample Script}{name=experiments,column=2,row=0}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \setlength{\parskip}{0.1\baselineskip}
+%
+%  \lstset{style=python}
+%  \lstinputlisting{quickstart.py}
+%
+%}
 
-  \lstset{style=python}
-  \lstinputlisting{quickstart.py}
-
-}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Download ParMOO}{name=code,column=2,below=experiments}{
+\headerbox{Download ParMOO}{name=code,column=2,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
   \begin{itemize}[nosep]
