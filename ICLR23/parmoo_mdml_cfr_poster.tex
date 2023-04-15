@@ -286,34 +286,37 @@ solve_result,true,false,include},sensitive=true,comment=[l]{\#}}
   \newcommand{\colouredcircle}[1]{%
     \tikz{\useasboundingbox (-0.2em,-0.32em) rectangle(0.2em,0.32em); \draw[draw=black,fill=baposterBGone!80!black!#1!white,line width=0.03em] (0,0) circle(0.18em);}}
 
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \headerbox{}{name=none,column=0,row=0}{
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%   \setlength{\parskip}{0.5\baselineskip}
-%%   \begin{itemize}[nosep]
-%%     \item text
-%%   \end{itemize}
-%% }
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \headerbox{Our (Big) Goals}{name=goals,column=0,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
+
+  \smallskip
+
+  {\small
   \begin{itemize}
   \item Design a software framework for {\sl self-driving labs}
   \item Accelerate discovery via intelligent experimentation
   \item Democratize lab-work by building open-source tools
-  \end{itemize}
+  \end{itemize}}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \headerbox{Streaming data from multiple sources}{name=mdml,column=0,below=goals}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
-  The {\sl MDML} is a Kafka based platform for streaming, analyzing, and
+
+  \smallskip
+
+  {\small
+  \begin{itemize}
+  \item How to collect and analyze data?
+  \item MDML is a platform for streaming, analyzing, and
   logging experiment and simulation data
+  \end{itemize}
+  }
   \begin{center}
-  \includegraphics[width=0.8\textwidth]{../img/moo_new/MDML_arch_v2.png}
+  \includegraphics[width=0.85\textwidth]{../img/moo_new/MDML_arch_v2.png}
   \end{center}
 }
 
@@ -322,117 +325,192 @@ solve_result,true,false,include},sensitive=true,comment=[l]{\#}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
 
-  \medskip
+  \smallskip
 
+  {\small
   \begin{itemize}
-    \item \GREEN{Search/sample} raw \BLUE{experimental data}
-    \item Use \GREEN{surrogates} to model \BLUE{experiments}
-    \item Define \RED{objectives + constraints} on \BLUE{experiments}
-    \item Use multiobjective \GREEN{acquisition functions} to set targets
-    \item \GREEN{Solve acquisition on surrogates} $\Rightarrow$ next \BLUE{experiment}
+  \item ParMOO (multiobjective optimization) library is used to implement an
+  active learning loop
   \end{itemize}
+  }
+
   \begin{center}
-  \includegraphics[width=0.7\textwidth]{../img/moo_old/surrogate-models.pdf}
+
+  \vskip -20pt
+
+  \includegraphics[width=0.89\textwidth]{../img/moo_new/active-learning-loop.pdf}
   \end{center}
 
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{posterbox}[name=ampl,column=1,row=0]{Our framework and software stack}
+\begin{posterbox}[name=framework,column=1,row=0]{Our framework and software stack}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
 
-  \medskip
+  \smallskip
 
+  {\small
   \begin{itemize}
-    \item \GREEN{Search/sample} data for raw \BLUE{simulations outputs}
-    \item Use \GREEN{surrogates} to model \BLUE{simulations}, \RED{not objectives}
-    \item Separately define \RED{objectives and constraints}
-    \item Scalarize \RED{objectives} using \GREEN{acquisition functions}
-    \item \GREEN{Solve scalarized surrogate problems} and iterate
-  \end{itemize}
+  \item MDML gives us access to {\sl heterogeneous data from laboratory sources}
+  \item ParMOO gives us modular/customizable {\sl modeling, embedding, and solvers}
+  \end{itemize}}
   \begin{center}
-  \includegraphics[width=0.7\textwidth]{../img/moo_old/surrogate-models.pdf}
+
+  \vskip -25pt
+
+  \includegraphics[width=0.8\textwidth]{../img/moo_new/mdml-parmoo-2.pdf}
+
+  \vskip -25pt
+
+  {\small
+  Build \& deploy custom solvers for computational and experimental problem!
+
+  }
   \end{center}
 \end{posterbox}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Design Principles}{name=linear,column=1,below=ampl,above=bottom}{
+\headerbox{Example: TFMC Manufacturing Conditions}{name=example,column=1,below=framework,above=bottom}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
-  \begin{tcolorbox}[colback=ArgonneLogoGreen!5!white,colframe=ArgonneLogoGreen!75!black,title=Mix-and-match]
-    \begin{itemize}[nosep]
-      \item Initial search (design-of-experiments)
-      \item Surrogate models
-      \item Acquisition/scalarization functions
-      \item Scalar optimization solvers
-    \end{itemize}
-  \end{tcolorbox}
-  \begin{tcolorbox}[colback=ArgonneLogoBlue!5!white,colframe=ArgonneLogoBlue!75!black,title=Easy for users and developers]
-    \begin{itemize}[nosep]
-      \item Support for variety of design vars and simulations
-      \item Support various scientific workflows
-      \item Embed/extract problems from unit cube
-    \end{itemize}
-  \end{tcolorbox}
-  \begin{tcolorbox}[colback=ArgonneLogoRed!5!white,colframe=ArgonneLogoRed!75!black,title=Flexible problem definitions]
-    \begin{itemize}[nosep]
-      \item Add design vars, sims, objs, + constraints
-      \item Add searches, surrogates, acquisitions, optimizer
-      \item Solve serially or in parallel using {\tt libEnsemble} %\cite{libensemble}
-    \end{itemize}
-  \end{tcolorbox}
-}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\headerbox{A Sample Script}{name=experiments,column=2,row=0}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  \setlength{\parskip}{0.1\baselineskip}
-%
-%  \lstset{style=python}
-%  \lstinputlisting{quickstart.py}
-%
-%}
+  \smallskip
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Download ParMOO}{name=code,column=2,row=0}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \setlength{\parskip}{0.5\baselineskip}
-  \begin{itemize}[nosep]
-    \item {\tt git clone https://github.com/parmoo/parmoo}
-    \item {\tt pip install parmoo}
-  \end{itemize}
   \begin{center}
-  \includegraphics[width=0.38\textwidth]{../img/logos/logo-ParMOO.png}
-  \hskip 24pt
-  \includegraphics[width=0.18\textwidth]{../img/logos/logo-py.png}
-  \hskip 24pt
-  \includegraphics[width=0.08\textwidth]{../img/logos/logo-gh.png}
+
+  {\small
+  Optimize the production of TFMC via a known reaction...}
+
+  \vskip -4pt
+
+  \includegraphics[width=0.8\textwidth]{../img/probs/basic_reaction.pdf}
+
+  \vskip -4pt
+  {\small
+
+  \hbox{
+   \hskip -70pt
+    \vbox{\includegraphics[width=0.38\textwidth]{../img/probs/cfr-nmr-setup.jpg}}
+    \hskip -170pt
+   \vbox{... in LabVIEW automated CFR\\
+    $\quad$ and measured via NMR\\
+    $\quad$\\
+    Left to right:\\
+    PC running LabVIEW\\
+    CFR and feed\\
+    NMR spectroscope\\}
+    }
+
+  }
+
+  \bigskip
+
+  {\small
+  {\sl Design variables and bound constraints for experiment}
+
+  \smallskip
+
+      \begin{tabular}{c|cc}
+      Parameter & Lower bound & Upper bound \\
+      \hline
+       Temperature (degrees C) & 40 & 150 \\
+       Reaction time (seconds) & 60 & 300 \\
+       Equivalence ratio (no units) & 0.9 & 2 \\
+  \end{tabular}
+  }
   \end{center}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\headerbox{Continuing Work}{name=future,column=2,below=code, above=bottom}{
+\headerbox{Experiment Results}{name=results,column=2,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \setlength{\parskip}{0.5\baselineskip}
-  \begin{itemize}[nosep]
-    \item Continue to add new solvers and techniques
-    \item Support wider variety of problems \& workflows
+
+  \smallskip
+
+  {\small
+  \begin{itemize}
+  \item {\bf Want to maximize TFMC production at high temperatures}
+  \item High temperatures trigger a side-reaction and produces byproduct (TFE)
+  \item 15-pt Latin hypercube, Gaussian RBF surrogate, L-BFGS-B optimizer
+  \item 3 scalarizations per batch, sorted by temp
+  \item evaluated batch on CFR, TFMC and TFE peaks recorded by NMR
   \end{itemize}
 
+  \begin{center}
+  {\sl Results after 41 experiments steered by our solver}\\
+  \includegraphics[width=0.7\textwidth]{../img/moo_new/tfmc-tradeoff-eps-converted-to.pdf}\\
+  \end{center}
+
+  \vskip -10pt
+
+  {\sl Get this code!}
+
+  {\tt git clone https://github.com/parmoo/cfr-materials\\
+  pip install REQUIREMENTS.txt}
+
+  }
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\headerbox{References}{name=test,column=2,below=future,above=bottom}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  \setlength{\parskip}{0.5\baselineskip}
-%  \scriptsize
-%  \bibliographystyle{abbrv}
-%  \begingroup
-%  \renewcommand{\section}[2]{}
-%  \bibliography{paper}
-%  \endgroup
-%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\headerbox{Next Steps}{name=future,column=2,below=results}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \setlength{\parskip}{0.5\baselineskip}
+
+  \smallskip
+  {\small
+
+  Need to handle more complex design spaces:\\
+  \hbox{
+  \vbox{
+  \begin{itemize}[nosep]
+    \item Generative AI for embeddings
+    \item Trust-region descent methods
+    \item Subspace iterations
+  \end{itemize}}
+  \hskip -150pt
+  \vbox{
+  \begin{itemize}[nosep]
+    \item Custom surrogate models
+    \item Structure-exploiting optimizers
+  \end{itemize}}}
+
+  \medskip
+
+  \hbox{
+  \vbox{
+  \includegraphics[width=0.55\textwidth]{../img/moo_new/embedder-extractor.pdf}\\
+  $\quad$\\
+  \includegraphics[width=0.6\textwidth]{../img/moo_new/obj-sim-des-space-eps-converted-to.pdf}}
+  \hskip -110pt
+  \vbox{$\quad$\\
+  (Top) using\\
+  custom embedders\\
+  to optimize in\\
+  latent space\\
+  $\quad$\\
+  (Bottom) exploiting\\
+  problem structure\\
+  using composite\\
+  objectives\\
+  }}
+  }
+}
+
+\begin{posterbox}[name=ack,column=2,below=future,above=bottom,boxheaderheight=0em]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  {\small
+
+    This material was based upon work supported by the U.S.\ Department of
+    Energy, Office of Science, Office of Advanced Scientific Computing
+    Research, Applied Mathematics and SciDAC programs under Contract Nos.\
+    DE-AC02-05CH11231 and DE-AC02-06CH11357 
+    and by the Argonne LDRD program.     
+
+  }
+\end{posterbox}
 
 \end{poster}%
 %
