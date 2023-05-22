@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{
+paperwidth=8.5in,
+paperheight=5.7in,
+textwidth=7.5in,
+left=0.5in,
+textheight=4.7in,
+top=0.5in
+}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\begin{document}
+\pagestyle{empty}
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=10em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 2.5cm, auto]
+    % Place nodes
+    \node [block] (search0)
+	{initial search over ${\cal X}$ (using $p+1$ instances of
+		{\tt VTdirect})};
+    \node [block, below of=search0] (fit0)
+	{fit $p$ {\tt LSHEP} surrogate models};
+    \node [block, below of=fit0] (opt0) {optimize $p+1$ weightings of the
+	{\tt LSHEP} models using {\tt GPSMADS}};
+    \node [block, below of=opt0] (eval0)
+	{evaluate {\it at most} $p+1$ candidate designs predicted above};
+    \node [block, right of=search0, node distance=26em] (pf)
+	{compute the current nondominated set};
+    \node [block, below of=pf] (id)
+	{identify the most isolated point
+	(${\tilde X}^{(k)} = F({\tilde x}^{(k)})$) on the current Pareto front};
+    \node [block, below of=id, node distance=3.1cm] (ltr)
+	{choose the $k$th adaptive weights using Delaunay neighbors, AND
+	fit the $k$th LTR about the ${\tilde x}^{(k)}$ using: $k$th LTR
+	$=[{\tilde x}^{(k)} - \Delta^{(k)}, {\tilde x}^{(k)} + \Delta^{(k)}]$};
+    \node [block, right of=id, node distance=15em] (searchk)
+	{search over $k$th LTR (using $p$ instances of {\tt VTdirect})};
+    \node [block, below of=searchk] (fitk)
+	{fit $p$ {\tt LSHEP} surrogate models in $k$th LTR};
+    \node [block, below of=fitk] (optk) {optimize {\it at least} $p+1$
+	adaptive weightings of the {\tt LSHEP} models using {\tt GPSMADS}};
+    \node [block, below of=optk] (evalk)
+	{evaluate the designs predicted above};
+    \node [decision, right of=eval0, node distance=13em] (decide)
+	{stopping criteria reached?};
+    \node [block, below of=decide, node distance=3cm] (exit)
+	{construct the final nondominated and efficient set and return};
+    % Draw edges
+    \path [line] (search0) -- (fit0);
+    \path [line] (fit0) -- (opt0);
+    \path [line] (opt0) -- (eval0);
+    \path [line] (eval0) -- (decide);
+    \path [line] (decide) |- node [near start] {no} (pf);
+    \path [line] (decide) -- node {yes} (exit);
+    \path [line] (pf) -- (id);
+    \path [line] (id) -- (ltr);
+    \path [line] (ltr) -- (searchk);
+    \path [line] (searchk) -- (fitk);
+    \path [line] (fitk) -- (optk);
+    \path [line] (optk) -- (evalk);
+    \path [line] (evalk) -- (decide);
+    %\path [line] (identify) -- (evaluate);
+    %\path [line] (evaluate) -- (decide);
+    %\path [line] (decide) -| node [near start] {yes} (update);
+    %\path [line] (update) |- (identify);
+    %\path [line] (decide) -- node {no}(stop);
+    %\path [line,dashed] (expert) -- (init);
+    %\path [line,dashed] (system) -- (init);
+    %\path [line,dashed] (system) |- (evaluate);
+\end{tikzpicture}
+
+
+\end{document}
+
