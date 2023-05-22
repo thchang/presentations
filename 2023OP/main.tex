@@ -1,0 +1,949 @@
+% ANL Beamer template
+\documentclass[aspectratio=169]{beamer}
+\include{header}
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/NormalANLBlue}}
+
+% Define big arrow down
+\newcommand{\xdownarrow}[1]{%
+  {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
+
+% Packages used
+\usepackage{xcolor,ulem}
+\usepackage{listings}
+% Define custom style for Python code listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{python}{
+    language=python,
+    numbers=none,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{blue},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codegreen},
+    basicstyle=\ttfamily\scriptsize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=3
+}
+
+% Title/author info
+\title{\bigskip
+\\
+Exploiting structures in multiobjective simulation optimization problems}
+\author{Tyler Chang$^a$ and Stefan Wild$^{a\rightarrow b}$}
+\institute{$^a$Mathematics and Computer Science Division,\\
+Argonne National Laboratory\\
+
+\medskip
+
+$^b$Applied Mathematics and Computational Research Division,\\
+Lawrence Berkeley National Laboratory}
+\date{SIAM OP 23}
+
+% Slides start here
+\begin{document}
+
+% Set the background graphics
+\setbeamertemplate{footline}{}
+{
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/TitleANLBlue}}
+\frame{\titlepage}
+}
+\setbeamertemplate{footline}[page number]{}
+
+% FRAME: overview
+\begin{frame}
+  \frametitle{Outlines}
+  \tableofcontents
+\end{frame}
+
+% ========================================
+% main slides come here
+% ========================================
+
+\section{Introduction to MOSO + my experience}
+
+\begin{frame}\frametitle{Multiobjective Optimization Problems}
+\begin{center}
+%\onslide<1->{
+{\Large
+$$
+\min_{x \in \mathcal{X}} F(x)
+$$
+}%}
+\end{center}
+\begin{columns}
+\begin{column}{.35\textwidth}
+%\onslide<2->{
+\includegraphics[width=\textwidth]{../img/moo_old/feasible_design.eps}
+%}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+%\onslide<2->{
+$\xrightarrow{\hspace*{2cm}}$
+$$
+F : {\cal X} \rightarrow {\cal Y}
+$$
+%}
+%\onslide<3->{
+expensive blackbox process
+%}
+\end{center}
+\end{column}
+\begin{column}{.35\textwidth}
+%\onslide<2->{
+\includegraphics[width=\textwidth]{../img/moo_old/convex_pareto.eps}
+%}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Multiobjective Response Surface Methodology}
+{or Model-Based Optimization or Active Learning}
+\begin{columns}
+\begin{column}{0.4\textwidth}
+\begin{center}
+%\onslide<2->{
+\includegraphics[width=0.5\textwidth]{../img/moo_old/lh_doe.eps}\\%}
+\medskip
+\vskip 0.5cm
+\medskip
+%\onslide<5->{
+\includegraphics[width=0.6\textwidth]{../img/moo_old/tradeoff.eps}%}
+\end{center}
+\end{column}
+\begin{column}{0.2\textwidth}
+\begin{center}
+%\onslide<3->{
+$\xrightarrow{\hspace*{1.5cm}}$%}
+\\
+\vskip 1.2cm
+%\onslide<6->{
+$\qquad\qquad\nearrow$\\
+{\Huge $\mathcal{C}$}\\
+$\nearrow\qquad\qquad$%}
+\\
+\vskip 1cm
+%\onslide<5->{
+$\xleftarrow{\hspace*{1.5cm}}$%}
+\end{center}
+\end{column}
+\begin{column}{0.4\textwidth}
+\begin{center}
+%\onslide<3->{
+\includegraphics[width=0.58\textwidth]{../img/probs/cfr-nmr-setup.jpg}%}
+\\
+\medskip
+%\onslide<4->{
+$\xdownarrow{0.5cm}$\\
+\medskip
+\includegraphics[width=0.9\textwidth]{../img/moo_old/rsm.eps}%}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Example: HPC Performance Tuning}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{../img/moo_old/varsys_hist.png}\\
+{\tiny \sl
+VT VarSys Project -- 40 runs of HPL
+}
+\end{center}
+\end{column}
+\begin{column}{0.1\textwidth}
+$\quad$
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=0.4\textwidth]{../img/probs/anl-bebop.png}\\
+{\tiny \sl
+ANL -- LCRC Computing Resources: Bebop
+}
+\end{center}
+\end{column}
+\end{columns}
+%\pause
+\begin{columns}
+\begin{column}{.3\textwidth}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
+\end{center}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+{\tt VTMOP} solver
+$$\xrightarrow{\hspace*{2cm}}$$
+\end{center}
+\end{column}
+\begin{column}{.4\textwidth}
+\includegraphics[width=\textwidth]{../img/moo_old/hpl_n20k_pf.eps}
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[1] Chang et al.
+Multiobjective optimization of the variability of the high-performance 
+LINPACK solver.
+{\sl In Proc.\ WSC 2020.}\\
+}
+\end{frame}
+
+\section{3 challenges + solutions}
+
+\begin{frame}\frametitle{Challenge 1}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 1:\\
+
+\bigskip
+
+mixed vars + problem types
+}
+\end{center}
+\vfill
+\end{frame}
+
+\begin{frame}\frametitle{Example: Particle Accelerator Design}
+\begin{columns}
+\begin{column}{.3\textwidth}
+\begin{center}
+{\large OPAL-t}\\
+(Object Oriented Parallel Accelerator Library for beam-lines + linacs)
+\end{center}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
+\end{center}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+{\tt VTMOP} solver
+$$\xrightarrow{\hspace*{2cm}}$$
+\end{center}
+\end{column}
+\begin{column}{.4\textwidth}
+\includegraphics[width=\textwidth]{../img/probs/opal_res_4k.eps}
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[2] Chang et al.
+Algorithm 1028: VTMOP: Solver for blackbox multiobjective optimization problems.
+{\sl ACM TOMS 48(3):36 (2022).}\\
+}
+
+\medskip
+
+{\tiny\it
+[3] Neveu et al.
+Comparison of multiobjective optimization methods for the LCLS-II photoinjector.
+{\sl CPC 283:108566 (2023).}\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Handling parallel evals}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/moo_old/vtmop_libe_diagram.png}\\
+\end{center}
+
+\vfill
+
+{\tiny\it
+[4] Chang et al.
+Managing computationally expensive blackbox multiobjective optimization
+problems with libEnsemble.
+{\sl In Proc.\ SpringSim 2020.}\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Challenge 2}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 2:\\
+
+\bigskip
+
+parallel evals + computing environments
+}
+\end{center}
+\vfill
+\end{frame}
+
+\begin{frame}\frametitle{Commercial solutions}
+\begin{columns}
+%\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=6em]{../img/probs/linkedin-notifications.png}\\
+{\tiny \sl
+``Using Bayesian optimization for balancing metrics in recommendation systems''
+by Yunbao Ouyang et al.\ on LinkedIn Engineering Blog.\\
+}
+\end{center}
+\end{column}
+%\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/google-cookies.png}\\
+{\tiny \sl
+``The makings of a smart cookie''
+by Daniel Golovin on Google Research Blog.\\
+}
+\end{center}
+\end{column}
+\end{columns}
+\begin{columns}
+%\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[width=5em]{../img/probs/ibm-sdl.png}\\
+{\tiny \sl
+``Accelerating molecular optimization with AI'' by Payel Das et al.\
+on IBM Research Blog.\\
+}
+\end{center}
+\end{column}
+%\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/meta-nas.png}\\
+{\tiny \sl
+``Optimizing model accuracy and latency using Bayesian multi-objective NAS''
+by David Eriksson et al.\ on Meta AI Research Blog.\\
+}
+\end{center}
+\end{column}
+%\pause
+\begin{column}{0.33\textwidth}
+\begin{center}
+\includegraphics[height=5em]{../img/probs/microsoft-nas.png}\\
+{\tiny \sl
+``Archai can design your neural network with state-of-the-art NAS''
+by Shital Shah et al.\ on Microsoft Research Blog.\\
+}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Commercial solvers}
+
+%\pause
+
+{\large \bf General purpose:} (solver + backend)\\
+
+\bigskip
+
+Google -- OSS Vizier + Pythia backend
+
+{\tiny\it
+[5] Song et al.
+OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
+In Proc.\ 2022 AutoML-Conf.
+}
+
+\bigskip
+
+Meta -- BoTorch + Ax backend
+
+{\tiny\it
+[6] Balandat et al.
+BoTorch: a framework for efficient monte-carlo Bayesian optimization.
+In NeurIPS 2020.
+}
+
+\bigskip
+%\pause
+
+{\large \bf Special purpose:} (solver + special purpose deployment)\\
+
+\bigskip
+
+IBM -- Querry-based Molecular Optimization (QMO)
+
+{\tiny\it
+[7] Hoffman et al.
+Optimizing molecules using efficient queries from property evaluations.
+Nature Machine Intelligence 4:21--31 (2022).
+}
+
+\bigskip
+
+Microsoft -- Archai for NAS
+
+{\tiny\it
+[8] Shah et al.
+Archai: platform for neural architecture search.
+Microsoft Research (Jul, 2022).
+}
+\end{frame}
+
+\begin{frame}\frametitle{SOA in structure-exploiting blackbox optimization}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+%\onslide<2->{
+\includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
+{\tiny \sl
+``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0 [9].\\
+}
+%}
+\end{center}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{center}
+%\onslide<3->{
+\includegraphics[height=5em]{../img/probs/siam_news_feb_23.jpg}\\
+{\tiny \sl
+Stochastic dimension reduction explained in this context
+by Stefan [10].\\
+}
+%}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+
+\begin{center}
+%\onslide<4->{
+\includegraphics[width=0.3\textwidth]{../img/logos/logo-tao.png}\\
+{\tiny \sl
+SOS structure can be exploited by DFO solver POUNDERS in TAO [11].\\
+}
+%}
+\end{center}
+
+\vfill
+
+%\onslide<2->{
+{\tiny\it
+[9] Virtanen et al.
+SciPy 1.0: fundamental algorithms for scientific computing in Python.
+{\sl Nature Methods 17:261--272 (2020).}\\
+}
+%}
+
+\medskip
+
+%\onslide<3->{
+{\tiny\it
+[10] Wild. Optimization and learning with zeroth-order stochastic oracles.
+{\sl SIAM News 56(1):1,3 (2023).}\\
+}
+%}
+
+\medskip
+
+%\onslide<4->{
+{\tiny\it
+[11] Wild.
+Solving derivative-free nonlinear least squares problems with POUNDERS.
+{\sl In Advances and Trends in Optimization with Engineering Applications
+(2017).}\\
+}
+%}
+\end{frame}
+
+\begin{frame}\frametitle{Challenge 3}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 3:\\
+
+\bigskip
+
+SOA optimization + exploiting problem structure
+}
+\end{center}
+\vfill
+\end{frame}
+
+\section{ParMOO software design + release}
+
+\begin{frame}\frametitle{ParMOO Design Criteria}
+
+{\large
+\textbf{Design goals:}}
+
+\medskip
+
+\begin{enumerate}
+\item Highly customizable framework for multiobjective RSM
+\item Flexible problem types (mixed-variables, constraints, etc.)
+\item Easy to use, deploy, and extend (unforeseen use-cases and environments)
+\item Solve large-scale problems + exploit structure and domain knowledge
+\end{enumerate}
+
+\vfill
+
+{\tiny\it
+[12]
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+In prep.
+}
+\end{frame}
+
+\begin{frame}\frametitle{Goal 1: Customizability}
+ParMOO UML:\\
+\begin{center}
+\includegraphics[width=\textwidth]{../img/moo_new/uml-diagram-1.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Goal 2: Flexible problem types}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../img/moo_new/embedder-extractor.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Goal 3: Easy to deploy}
+
+Extend {\tt MOOP} base class and overwrite {\tt MOOP.evaluateSimulation()}
+evaluator backend.
+
+%\pause
+\bigskip
+
+Examples:
+\begin{itemize}
+\item parallel simulation evaluations on HPC systems with libEnsemble [13]
+\item streaming experiment data via Kafka producer/consumer requests with the MDML [14]
+\end{itemize}
+
+\vfill
+
+{\tiny\it
+[13] Hudson et al.
+libEnsemble: a library to coordinate the concurrent evaluation of dynamic ensembles of calculations.
+IEEE TPDS 33(4):977--988 (2021).\\
+}
+
+\medskip
+
+{\tiny\it
+[14] Elias et al.
+The manufacturing data and machine learning platform: enabling real-time monitoring and control of scientific experiments via IoT.
+In Proc.\ 2020 IEEE WF-IoT.\\
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Goal 4: problem structure}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../img/moo_new/obj-sim-des-space.eps}
+\end{center}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+%\pause
+\textbf{Sum-of-squares structure:}
+
+\medskip
+
+{\large
+$$
+{\color{blue} h_i(x, S(x)) = \sum_{j \in N_i} \big({\color{red}S_j(x)}\big)^2}
+$$
+
+where each ${\color{blue} N_1, \ldots, N_o}$ is an index set.
+}
+
+\bigskip
+
+Increases order of approximation $\Rightarrow$
+increases order of convergence
+
+\end{column}
+\begin{column}{0.5\textwidth}
+%\pause
+\textbf{Heterogeneous MOOPs:}
+
+{\large
+\begin{align*}
+{\color{red} h_1(x, S(x)) = S_1(x)}\\
+{\color{blue} h_2(x, S(x)) = \|x \|^2}
+\end{align*}
+}
+
+Use expensive surrogate models for {\color{red} $h_1$} (i.e.,
+{\color{red} $S_1$}) but not for {\color{blue} $h_2$}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Sample code}
+  \lstset{style=python}
+  \lstinputlisting{quickstart.py}
+\end{frame}
+
+\begin{frame}\frametitle{ParMOO Release}
+
+\begin{center}
+\includegraphics[width=0.4\textwidth]{../img/logos/logo-parmoo.png}
+\end{center}
+
+\begin{columns}
+\begin{column}{0.7\textwidth}
+
+Written in {\tt Python}
+
+\bigskip
+
+Version 0.2.0 is now available on
+available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
+
+\bigskip
+\bigskip
+\url{https://github.com/parmoo/parmoo}
+
+\bigskip
+
+\url{https://parmoo.readthedocs.io}
+\end{column}
+\begin{column}{0.2\textwidth}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
+
+\bigskip
+
+\includegraphics[width=0.25\textwidth]{../img/logos/logo-gh.png}
+$\quad$
+\includegraphics[width=0.35\textwidth]{../img/logos/logo-conda.png}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+\bigskip
+
+{\tiny
+[15] Chang and Wild.
+ParMOO: A Python library for parallel multiobjective simulation optimization.
+{\sl JOSS 8(82):4468 (2023).}
+}
+
+\end{frame}
+
+\section{Example Problems}
+
+\begin{frame}\frametitle{Example 1: Fayans EDF Model Calibration}
+Find params $x \in [0, 1]^{13}$ to fit the Fayans model to data $d_i$:
+$$
+M\left(\xi_{i};x\right) \approx d_{i} \qquad i=1,\ldots, 198
+$$
+
+\medskip
+
+ParMOO simulation:
+$$
+S_{i}(x) = M\left(\xi_{i};x\right) - d_{i},
+\qquad i=1,\ldots, 198;
+$$
+
+\medskip
+
+\begin{columns}
+\begin{column}{0.65\textwidth}
+Min SOS across 3 observable classes
+\end{column}
+\begin{column}{0.35\textwidth}
+$$
+{\color{blue}F_t = \sum_{i=1}^{m_t}\big({\color{red}S_{t,i}(x)}\big)^2}
+$$
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[16] Bollapragada et al.
+Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
+Journal of Physics G 48(2):024001 (2020).\\}
+\end{frame}
+
+\begin{frame}\frametitle{Fayans Solution with ParMOO}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Approximated Fayans model using inv dist weighting on existing dataset
+\item {\color{blue}
+Implemented parallel solver in ParMOO} using libEnsemble
+\item Just {\bf 14-25 lines of Python code}
+\item Ran for {\bf 10K} sim evals
+\item Compared against
+{\color{red} same solver w/o exploiting SOS structure}
+\item Structure-exploiting is better at small budgets, blackbox can be better at large budgets
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth]{../img/moo_new/fayans_hv1.eps}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Example 2: Material Manufacturing with ParMOO}
+Choose optimal settings for material manufacturing in a
+continuous flow reactor (CFR)
+
+\bigskip
+
+We know how to make a desired material, need to produce at scale:
+
+\begin{enumerate}
+\item {\color{green} \bf Maximize the product} (battery electrolyte: TFML)
+\item Can increase temperature to {\bf \color{red} reduce reaction time}
+\item Too much heat activates a side reaction; need to
+{\bf \color{blue} minimize unwanted byproduct}
+\end{enumerate}
+
+\bigskip
+Challenges:
+
+\begin{itemize}
+\item Mixed variable types
+\item Heterogeneous objectives
+\item Must send experiments to run on CFR
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{CFR Optimization with ParMOO}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+\medskip
+Extend {\tt MOOP} class to send/receive experiment data
+using {\tt MDML} library (Apache Kafka)
+
+\medskip
+Used categorical variable embeddings
+
+\medskip
+Modeled Product/Byproduct as simulations and reaction time using algebraic
+equation of input
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{../img/probs/cfr-nmr-setup.jpg}\\
+\end{center}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/moo_new/cfr_pareto_front.png}\\
+\includegraphics[width=0.8\textwidth]{../img/moo_new/cfr_hv1.eps}
+\end{center}
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[17] Chang et al.
+A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
+Under review.\\
+}
+
+\end{frame}
+
+\section{Grand challenges + some closing thoughts}
+
+\begin{frame}\frametitle{Grand Challenges}
+
+\begin{columns}
+%\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[height=6em]{../img/probs/cfr-nmr-setup.jpg}\\
+{\small
+Molecular discovery.\\
+}
+{\tiny \sl
+Fig: Photo of continuous feed, CFR, NMR, and workstation running
+ParMOO + labView
+by J. Libera (Argonne)\\
+}
+\end{center}
+\end{column}
+%\pause
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[height=6em]{../img/probs/nasa-f15.png}\\
+{\small
+Nonparametric design of aircraft.\\
+}
+{\tiny \sl
+Fig: ``Application \#24. Design of F-15 with simulated aeroelastic effects''
+by Eric Nielsen et al.
+NASA FUN3D Applications.\\
+}
+\end{center}
+\end{column}
+\end{columns}
+\begin{center}
+\includegraphics[height=7em]{../img/probs/meta-protein.png}\\
+{\small
+Discovery of novel proteins.\\
+}
+{\tiny \sl
+Fig: ``ESM Metagenomic Atlas: the first view of the dark matter of the protein
+univ.''\\
+Meta AI Research Blog.\\
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}\frametitle{References}
+
+{\tiny\it
+
+[1] Chang et al.
+Multiobjective optimization of the variability of the high-performance 
+LINPACK solver.
+{\sl In Proc.\ WSC 2020.}
+
+\medskip
+
+[2] Chang et al.
+Algorithm 1028: VTMOP: Solver for blackbox multiobjective optimization problems.
+{\sl ACM TOMS 48(3):36 (2022).}
+
+\medskip
+
+[3] Neveu et al.
+Comparison of multiobjective optimization methods for the LCLS-II photoinjector.
+{\sl CPC 283:108566 (2023).}
+
+\medskip
+
+[4] Chang et al.
+Managing computationally expensive blackbox multiobjective optimization
+problems with libEnsemble.
+{\sl In Proc.\ SpringSim 2020.}
+
+\medskip
+
+[5] Song et al.
+OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
+In Proc.\ 2022 AutoML-Conf.
+
+\medskip
+
+[6] Balandat et al.
+BoTorch: a framework for efficient monte-carlo Bayesian optimization.
+In NeurIPS 2020.
+
+\medskip
+
+[7] Hoffman et al.
+Optimizing molecules using efficient queries from property evaluations.
+Nature Machine Intelligence 4:21--31 (2022).
+
+\medskip
+
+[8] Shah et al.
+Archai: platform for neural architecture search.
+Microsoft Research (Jul, 2022).
+
+\medskip
+
+[9] Virtanen et al.
+SciPy 1.0: fundamental algorithms for scientific computing in Python.
+{\sl Nature Methods 17:261--272 (2020).}
+
+\medskip
+
+[10] Wild. Optimization and learning with zeroth-order stochastic oracles.
+{\sl SIAM News 56(1):1,3 (2023).}
+
+\medskip
+
+[11] Wild.
+Solving derivative-free nonlinear least squares problems with POUNDERS.
+{\sl In Advances and Trends in Optimization with Engineering Applications
+(2017).}
+
+\medskip
+
+[12]
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+In prep.
+
+\medskip
+
+[13] Hudson et al.
+libEnsemble: a library to coordinate the concurrent evaluation of dynamic ensembles of calculations.
+IEEE TPDS 33(4):977--988 (2021).
+
+\medskip
+
+[14] Elias et al.
+The manufacturing data and machine learning platform: enabling real-time monitoring and control of scientific experiments via IoT.
+In Proc.\ 2020 IEEE WF-IoT.
+
+\medskip
+
+[15] Chang and Wild.
+ParMOO: A Python library for parallel multiobjective simulation optimization.
+{\sl JOSS 8(82):4468 (2023).}
+
+\medskip
+
+[16] Bollapragada et al.
+Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
+Journal of Physics G 48(2):024001 (2020).
+
+\medskip
+
+[17] Chang et al.
+A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
+Under review.
+
+}
+\end{frame}
+
+\begin{frame}\frametitle{Resources}
+\begin{center}
+{\large
+GitHub: {\tt github.com/parmoo/parmoo}\\
+Docs: {\tt parmoo.readthedocs.io}\\
+PyPI: {\tt pip install parmoo}\\
+Conda: {\tt conda install --channel=conda-forge parmoo}}
+
+\bigskip
+\bigskip
+
+E-mail: {\tt tchang@anl.gov}\\
+E-mail: {\tt parmoo@mcs.anl.gov}\\
+\bigskip
+\bigskip
+{\sl Chang and Wild. JOSS 8(82):4468 (2023)}\\
+
+\vfill
+
+{\tiny This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.\\}
+
+\end{center}
+\end{frame}
+
+\end{document}
