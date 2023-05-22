@@ -67,7 +67,7 @@ Lawrence Berkeley National Laboratory}
 % main slides come here
 % ========================================
 
-\section{Introduction to MOSO + my experience}
+\section{Intro, ParMOO, and Problem Types}
 
 \begin{frame}\frametitle{Multiobjective Optimization Problems}
 \begin{center}
@@ -150,58 +150,6 @@ $\xdownarrow{0.5cm}$\\
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Example: HPC Performance Tuning}
-\begin{columns}
-\begin{column}{0.45\textwidth}
-\begin{center}
-\includegraphics[width=0.5\textwidth]{../img/moo_old/varsys_hist.png}\\
-{\tiny \sl
-VT VarSys Project -- 40 runs of HPL
-}
-\end{center}
-\end{column}
-\begin{column}{0.1\textwidth}
-$\quad$
-\end{column}
-\begin{column}{0.45\textwidth}
-\begin{center}
-\includegraphics[width=0.4\textwidth]{../img/probs/anl-bebop.png}\\
-{\tiny \sl
-ANL -- LCRC Computing Resources: Bebop
-}
-\end{center}
-\end{column}
-\end{columns}
-%\pause
-\begin{columns}
-\begin{column}{.3\textwidth}
-\begin{center}
-\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
-\end{center}
-\end{column}
-\begin{column}{.2\textwidth}
-\begin{center}
-{\tt VTMOP} solver
-$$\xrightarrow{\hspace*{2cm}}$$
-\end{center}
-\end{column}
-\begin{column}{.4\textwidth}
-\includegraphics[width=\textwidth]{../img/moo_old/hpl_n20k_pf.eps}
-\end{column}
-\end{columns}
-
-\vfill
-
-{\tiny\it
-[1] Chang et al.
-Multiobjective optimization of the variability of the high-performance 
-LINPACK solver.
-{\sl In Proc.\ WSC 2020.}\\
-}
-\end{frame}
-
-\section{3 challenges + solutions}
-
 \begin{frame}\frametitle{Challenge 1}
 \vfill
 \begin{center}
@@ -210,78 +158,11 @@ Challenge 1:\\
 
 \bigskip
 
-mixed vars + problem types
-}
-\end{center}
-\vfill
-\end{frame}
-
-\begin{frame}\frametitle{Example: Particle Accelerator Design}
-\begin{columns}
-\begin{column}{.3\textwidth}
-\begin{center}
-{\large OPAL-t}\\
-(Object Oriented Parallel Accelerator Library for beam-lines + linacs)
-\end{center}
-\begin{center}
-\includegraphics[width=0.7\textwidth]{../img/probs/hpl_dat.png}\\
-\end{center}
-\end{column}
-\begin{column}{.2\textwidth}
-\begin{center}
-{\tt VTMOP} solver
-$$\xrightarrow{\hspace*{2cm}}$$
-\end{center}
-\end{column}
-\begin{column}{.4\textwidth}
-\includegraphics[width=\textwidth]{../img/probs/opal_res_4k.eps}
-\end{column}
-\end{columns}
-
-\vfill
-
-{\tiny\it
-[2] Chang et al.
-Algorithm 1028: VTMOP: Solver for blackbox multiobjective optimization problems.
-{\sl ACM TOMS 48(3):36 (2022).}\\
-}
-
+Mixed vars \& problem types\\
++\\
 \medskip
 
-{\tiny\it
-[3] Neveu et al.
-Comparison of multiobjective optimization methods for the LCLS-II photoinjector.
-{\sl CPC 283:108566 (2023).}\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Handling parallel evals}
-
-\begin{center}
-\includegraphics[width=0.6\textwidth]{../img/moo_old/vtmop_libe_diagram.png}\\
-\end{center}
-
-\vfill
-
-{\tiny\it
-[4] Chang et al.
-Managing computationally expensive blackbox multiobjective optimization
-problems with libEnsemble.
-{\sl In Proc.\ SpringSim 2020.}\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Challenge 2}
-\vfill
-\begin{center}
-{\Huge \bf
-Challenge 2:\\
-
-\bigskip
-
-parallel evals + computing environments
+Unusual computing environments
 }
 \end{center}
 \vfill
@@ -396,7 +277,25 @@ Microsoft Research (Jul, 2022).
 }
 \end{frame}
 
-\begin{frame}\frametitle{SOA in structure-exploiting blackbox optimization}
+\begin{frame}\frametitle{Challenge 2}
+\vfill
+\begin{center}
+{\Huge \bf
+Challenge 2:\\
+
+\bigskip
+
+SOA blackbox optimization\\
++\\
+\medskip
+
+Exploiting problem structure
+}
+\end{center}
+\vfill
+\end{frame}
+
+\begin{frame}\frametitle{SOA in blackbox optimization}
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{center}
@@ -463,22 +362,6 @@ Solving derivative-free nonlinear least squares problems with POUNDERS.
 %}
 \end{frame}
 
-\begin{frame}\frametitle{Challenge 3}
-\vfill
-\begin{center}
-{\Huge \bf
-Challenge 3:\\
-
-\bigskip
-
-SOA optimization + exploiting problem structure
-}
-\end{center}
-\vfill
-\end{frame}
-
-\section{ParMOO software design + release}
-
 \begin{frame}\frametitle{ParMOO Design Criteria}
 
 {\large
@@ -499,56 +382,11 @@ SOA optimization + exploiting problem structure
 [12]
 Chang and Wild.
 Designing a framework for solving multiobjective simulation optimization problems.
-In prep.
+ArXiv preprint 2304.06881 (2023).
 }
 \end{frame}
 
-\begin{frame}\frametitle{Goal 1: Customizability}
-ParMOO UML:\\
-\begin{center}
-\includegraphics[width=\textwidth]{../img/moo_new/uml-diagram-1.pdf}
-\end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Goal 2: Flexible problem types}
-\begin{center}
-\includegraphics[width=0.95\textwidth]{../img/moo_new/embedder-extractor.pdf}
-\end{center}
-\end{frame}
-
-\begin{frame}\frametitle{Goal 3: Easy to deploy}
-
-Extend {\tt MOOP} base class and overwrite {\tt MOOP.evaluateSimulation()}
-evaluator backend.
-
-%\pause
-\bigskip
-
-Examples:
-\begin{itemize}
-\item parallel simulation evaluations on HPC systems with libEnsemble [13]
-\item streaming experiment data via Kafka producer/consumer requests with the MDML [14]
-\end{itemize}
-
-\vfill
-
-{\tiny\it
-[13] Hudson et al.
-libEnsemble: a library to coordinate the concurrent evaluation of dynamic ensembles of calculations.
-IEEE TPDS 33(4):977--988 (2021).\\
-}
-
-\medskip
-
-{\tiny\it
-[14] Elias et al.
-The manufacturing data and machine learning platform: enabling real-time monitoring and control of scientific experiments via IoT.
-In Proc.\ 2020 IEEE WF-IoT.\\
-}
-
-\end{frame}
-
-\begin{frame}\frametitle{Goal 4: problem structure}
+\begin{frame}\frametitle{Problem structures}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{../img/moo_new/obj-sim-des-space.eps}
 \end{center}
@@ -644,7 +482,7 @@ ParMOO: A Python library for parallel multiobjective simulation optimization.
 
 \end{frame}
 
-\section{Example Problems}
+\section{Early Results}
 
 \begin{frame}\frametitle{Example 1: Fayans EDF Model Calibration}
 Find params $x \in [0, 1]^{13}$ to fit the Fayans model to data $d_i$:
@@ -696,7 +534,7 @@ Implemented parallel solver in ParMOO} using libEnsemble
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{../img/moo_new/fayans_hv1.eps}
+\includegraphics[width=\textwidth]{../img/moo_old/fayans_hv1.eps}
 \end{column}
 \end{columns}
 \end{frame}
@@ -749,7 +587,7 @@ equation of input
 \begin{column}{0.5\textwidth}
 \begin{center}
 \includegraphics[width=0.6\textwidth]{../img/moo_new/cfr_pareto_front.png}\\
-\includegraphics[width=0.8\textwidth]{../img/moo_new/cfr_hv1.eps}
+\includegraphics[width=0.8\textwidth]{../img/moo_old/cfr_hv1.eps}
 \end{center}
 \end{column}
 \end{columns}
@@ -759,88 +597,14 @@ equation of input
 {\tiny\it
 [17] Chang et al.
 A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
-Under review.\\
+In {\sl ICLR 2023, Workshop on ML4Materials}.\\
 }
-
-\end{frame}
-
-\section{Grand challenges + some closing thoughts}
-
-\begin{frame}\frametitle{Grand Challenges}
-
-\begin{columns}
-%\pause
-\begin{column}{0.5\textwidth}
-\begin{center}
-\includegraphics[height=6em]{../img/probs/cfr-nmr-setup.jpg}\\
-{\small
-Molecular discovery.\\
-}
-{\tiny \sl
-Fig: Photo of continuous feed, CFR, NMR, and workstation running
-ParMOO + labView
-by J. Libera (Argonne)\\
-}
-\end{center}
-\end{column}
-%\pause
-\begin{column}{0.5\textwidth}
-\begin{center}
-\includegraphics[height=6em]{../img/probs/nasa-f15.png}\\
-{\small
-Nonparametric design of aircraft.\\
-}
-{\tiny \sl
-Fig: ``Application \#24. Design of F-15 with simulated aeroelastic effects''
-by Eric Nielsen et al.
-NASA FUN3D Applications.\\
-}
-\end{center}
-\end{column}
-\end{columns}
-\begin{center}
-\includegraphics[height=7em]{../img/probs/meta-protein.png}\\
-{\small
-Discovery of novel proteins.\\
-}
-{\tiny \sl
-Fig: ``ESM Metagenomic Atlas: the first view of the dark matter of the protein
-univ.''\\
-Meta AI Research Blog.\\
-}
-\end{center}
 
 \end{frame}
 
 \begin{frame}\frametitle{References}
 
 {\tiny\it
-
-[1] Chang et al.
-Multiobjective optimization of the variability of the high-performance 
-LINPACK solver.
-{\sl In Proc.\ WSC 2020.}
-
-\medskip
-
-[2] Chang et al.
-Algorithm 1028: VTMOP: Solver for blackbox multiobjective optimization problems.
-{\sl ACM TOMS 48(3):36 (2022).}
-
-\medskip
-
-[3] Neveu et al.
-Comparison of multiobjective optimization methods for the LCLS-II photoinjector.
-{\sl CPC 283:108566 (2023).}
-
-\medskip
-
-[4] Chang et al.
-Managing computationally expensive blackbox multiobjective optimization
-problems with libEnsemble.
-{\sl In Proc.\ SpringSim 2020.}
-
-\medskip
 
 [5] Song et al.
 OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
@@ -887,19 +651,7 @@ Solving derivative-free nonlinear least squares problems with POUNDERS.
 [12]
 Chang and Wild.
 Designing a framework for solving multiobjective simulation optimization problems.
-In prep.
-
-\medskip
-
-[13] Hudson et al.
-libEnsemble: a library to coordinate the concurrent evaluation of dynamic ensembles of calculations.
-IEEE TPDS 33(4):977--988 (2021).
-
-\medskip
-
-[14] Elias et al.
-The manufacturing data and machine learning platform: enabling real-time monitoring and control of scientific experiments via IoT.
-In Proc.\ 2020 IEEE WF-IoT.
+ArXiv preprint 2304.06881 (2023).
 
 \medskip
 
@@ -917,7 +669,7 @@ Journal of Physics G 48(2):024001 (2020).
 
 [17] Chang et al.
 A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
-Under review.
+In {\sl ICLR 2023 Workshop on ML4Materials}.
 
 }
 \end{frame}
