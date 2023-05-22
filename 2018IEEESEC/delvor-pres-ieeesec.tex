@@ -1,0 +1,313 @@
+% Template for overheads, landscape, fancy VT footlines.
+%
+\magnification=1800 \rightskip=0pt plus 5em
+\hsize=9.0truein \vsize=6.5truein
+\parindent=0pt \parskip=0pt plus 4truept
+\baselineskip=21truept plus 3truept minus 2truept \lineskiplimit=3truept
+\lineskip=3truept plus 3truept \tolerance=1000
+
+%fonts
+\font\helvr=phvr at 18truept
+\font\helvb=phvb at 18truept
+\font\timesi=ptmri at 18truept
+\font\helvbXX=phvb at 20truept
+\font\helvbXXIV=phvb at 24truept
+\font\newfont=pbkli
+
+% bb font : {\bb [text]}
+\font\tenamsb=msbm10
+\font\sevenamsb=msbm7
+\font\fiveamsb=msbm5
+\newfam\bbfam
+\textfont\bbfam=\tenamsb
+\scriptfont\bbfam=\sevenamsb
+\scriptscriptfont\bbfam=\fiveamsb
+\def\bb{\fam\bbfam}
+
+\def\rm{\fam=0\helvr} \let\bf=\helvb \let\tt=\helvb \let\it=\timesi
+\let\sl=\timesi
+
+%definitions
+\def\cl#1{\centerline{#1}}
+\def\head#1{\centerline{\helvbXXIV#1}}
+{\obeyspaces\global\let =\ }
+\def\verbatim{\parindent=0pt\tt\obeylines\obeyspaces}
+\def\l{\hfill\&}        
+\def\shift{\hsize=8.5truein\parindent=25truept\indent}
+\def\bull{\par\hangindent=20pt\hangafter=1
+\indent\hbox to 20pt{\hfil$\bullet$ }\ignorespaces}
+
+% for spacing in tables
+\newdimen\digitwidth \setbox0=\hbox{\rm0} \digitwidth=\wd0
+
+\input epsf % For Postscript figures:{\epsfxsize=  \epsffile{}}
+\helvr
+
+%**********************************  Page 1 ******************************
+
+\cl{\helvbXXIV COMPUTING THE UMBRELLA NEIGHBOURHOOD OF}\smallskip
+\cl{\helvbXXIV A VERTEX IN THE DELAUNAY TRIANGULATION AND}\smallskip
+\cl{\helvbXXIV A SINGLE VORONOI CELL IN ARBITRARY DIMENSION}
+\bigskip
+\bigskip
+\cl{\bf Tyler Chang$^a$, Layne Watson$^{abc}$, Thomas Lux$^a$,}
+\cl{\bf Sharath Raghvendra$^a$, Bo Li$^a$, Li Xu$^d$, Ali Butt$^a$,}
+\cl{\bf Kirk Cameron$^a$, and Yili Hong$^d$}
+\bigskip
+\bigskip
+\cl{Departments of Computer Science$^a$, Mathematics$^b$,}
+\cl{Aerospace \& Ocean Engineering$^c$, and Statistics$^d$}
+\bigskip
+\cl{Virginia Polytechnic Institute and State University}
+\cl{Blacksburg, VA 24061-0106  USA} 
+\vfil
+\vtop to 0pt{\vskip -30truept
+\cl{\epsfxsize=1in \epsffile{VT_Logo_CompSci.eps}}\vss}
+\footline={\hfil}
+\eject
+
+%**********************************  Page 2 ******************************
+\footline={\fiverm\folio\quad\leaders\hrule
+height3truept\hfil\quad{\epsfxsize=1in \epsffile{VT_Logo_CompSci.eps}}}%\newfont Virginia Tech}
+
+\head{What is a Tessellation?}
+\bigskip\bigskip
+A $d$-dimensional {\it tessellation} of some convex region 
+$X \subseteq {\bb R}^d$ is a division of $X$ into closed (typically convex)
+sets called cells such that:
+\smallskip
+\bull They are disjoint except along their shared boundaries.
+\smallskip
+\bull Their union is $X$.
+\bigskip
+\cl{\hbox{\epsfxsize=25truepc\epsffile{tessplane.eps}}}
+\vfil\eject
+
+
+%**********************************  Page 3 ******************************
+\head{What is a Triangulation?}
+\bigskip\bigskip
+A $d$-dimensional {\it triangulation} $T$ of a (finite) set of points 
+$P$ in ${\bb R}^d$ is a tessellation of the {\it convex hull} of $P$, such 
+that:
+\smallskip
+\bull Each cell in $T$ is a $d$-simplex.
+\smallskip
+\bull The vertices of each simplex are points in $P$.
+\bigskip
+\cl{\hbox{\epsfxsize=25truepc\epsffile{triangleplane.eps}}}
+\vfil\eject
+
+%**********************************  Page 4 ******************************
+\head{Who Cares?}
+\bigskip \bigskip
+\bull Discretizing space.
+\medskip
+\bull Interpolation and mesh generation.
+\medskip
+\bull Computer vision/graphics.
+\medskip
+\bull Topological data anlaysis ($\alpha$-shapes and $k$-skeletons).
+\medskip
+\bull Notions of ``nearness'' and ``neighbors'' in high-dimensions.
+\medskip
+\cl{\hbox{\epsfxsize=20truepc\epsffile{seamount.eps}}}
+\vfil
+\eject
+
+%**********************************  Page 5 ******************************
+\head{The Voronoi Diagram and Delaunay Triangulation}
+\bigskip \bigskip
+Given points $P \in {\bb R}^d$, the Voronoi diagram is a ``nearest neighbor''
+tessellation.
+\medskip
+The Delaunay triangulation is its {\it geometric dual}.
+\bigskip
+\cl{\hbox{\epsfxsize=30truepc\epsffile{del-vor.eps}}}
+\vfil\eject
+
+%**********************************  Page 6 ******************************
+\head{The Empty Circumsphere Property}
+\bigskip \bigskip
+More usefully, the Delaunay triangulation can be defined in terms of
+its {\it empty circumsphere property}:
+\medskip
+\cl{\hbox{\epsfxsize=30truepc\epsffile{delaunaycircle.eps}}}
+\medskip
+Note that the center of each circumsphere is a Voronoi vertex.
+\vfil \eject
+
+%**********************************  Page 7 ******************************
+\head{Existence and Uniqueness}
+\bigskip \bigskip
+\bull Trivially, the Voronoi diagram always exists and is unique.
+\medskip
+\bull Since the Delaunay triangulation is defined in terms of the Voronoi 
+diagram, it exists so long as not all the points in $P$ lie in an 
+{\it affine subspace}.
+\medskip
+\bull Unique if no $d+2$ or more points lie on the same circumsphere.
+\medskip
+\bull Since the probability of degeneracy is zero, assume the points are in 
+{\it general position} and the Delaunay triangulation exists and is unique.
+\vfil \eject
+
+%**********************************  Page 8 ******************************
+\head{The Curse of Dimensionality}
+\bigskip \bigskip
+Both can be reasonably computed in two or three dimensions
+\bigskip
+Unfortunately both the Delaunay triangulation and the Voronoi
+diagram grow exponentially in {\it size} with respect to the dimension.
+\bigskip
+In the worst case, the number of Voronoi vertices/Delaunay simplices for
+a set of $n$ points in ${\bb R}^d$ is
+$${\cal O}(n^{\lceil d/2 \rceil}).$$
+\bigskip
+That means that the computational time {\it and} space complexity {\it must}
+grow {\it exponentially}! 
+\vfil\eject
+
+%**********************************  Page 9 ******************************
+\head{Umbrella Neighborhoods and Single Voronoi Cells}
+\bigskip \bigskip
+The Delaunay {\it umbrella neighborhood} of a point $p \in P$ is the
+set of simplices ``incident'' at $P$.
+\smallskip
+I.e., the set of simplices with $P$ as a vertex.
+\bigskip
+Since the circumcenter of each simplex is a Voronoi vertex and vice versa,
+computing the umbrella neighborhood of $p$ is equivalent to computing the
+{\it Voronoi cell} of $p$.
+\medskip
+\cl{\hbox{\epsfxsize=30truepc\epsffile{umbrella.eps}}}
+\vfil\eject
+
+%**********************************  Page 10 ******************************
+\head{Computing the Umbrella Neighborhood}
+\bigskip\bigskip
+Applications that only require the umbrella neighborhood/a single Voronoi
+cell:
+\smallskip
+\bull Multiobjective optimization: Well-spacedness in parameter space
+(Deshpande, Watson, and Canfield, 2016).
+\smallskip
+\bull Modelling of porosity in a pebble-bed nuclear reactor: How much space
+between each pebble?
+(Rycroft et al., 2006).
+\vfil
+\head{Research Questions}
+\bigskip\bigskip
+Can one compute just an umbrella neighborhood/single cell without computing
+the whole triangulation/diagram?
+\bigskip
+How much time will that save?
+\vfil\eject
+
+%**********************************  Page 11 ******************************
+\head{New Algorithm for Computing the Umbrella Neighbourhood}
+\bigskip \bigskip
+\bull Grow an initial simplex from $p$ (through a sequence of least squares
+problems).
+\medskip
+\bull Flip accross each facet containing $p$ as a vertex to ``close'' them.
+\medskip
+\bull Keep track of all ``open'' facets containing $p$ as a vertex in a data 
+structure (called the ``AFL'').
+\medskip
+\bull Iterate until all open facets have been closed.
+\smallskip
+\cl{\hbox{\epsfxsize=20truepc\epsffile{DelaunayWalk.eps}}}
+\vfil\eject
+
+%**********************************  Page 12 ******************************
+\head{Algorithm Analysis}
+\bigskip \bigskip
+\bull Takes ${\cal O}\big(n d^4\big)$ time to compute the first simplex.
+\medskip
+\bull Takes ${\cal O}\big(n d^3\big)$ time to perform each ``flip.''
+\medskip
+\bull If there are $k$ simplices in the umbrella neighbourhood, must
+perform $k$ ``flips.''
+\medskip
+\bull If $k << |DT(P)|$, this will save a significant amount of compute 
+time/space!
+\vfil\eject
+
+%**********************************  Page 13 ******************************
+\head{Results: Empirical Analysis}
+\bigskip \bigskip
+\cl{Average run times in seconds for sizes $n$ and dimensions $d$}
+\cl{(with a sample size of 20, for randomly generated data)}
+\medskip
+\offinterlineskip \tabskip=0pt
+\def\filler{height2pt&\omit&&\omit&&\omit&&\omit&&\omit&\cr}
+\def\tablerule{\noalign{\hrule}}
+\centerline{\vbox{
+\halign{&\vrule#&\strut\hskip 4pt\hfil#\hskip 4pt\cr
+\tablerule\filler
+&\hfill&&$n=2K$\hfill&&$n=8K$\hfill&&$n=16K$\hfill&&$n=32K$\hfill&\cr
+\filler\tablerule\filler
+&\omit\hskip 4pt\hbox{$d=2$}
+&&0.1 s\hfill&&1.6 s\hfill&&6.3 s\hfill&&25.0 s\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=3$}
+&&0.1 s\hfill&&1.8 s\hfill&&7.0 s\hfill&&27.8 s\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=4$}
+&&0.2 s\hfill&&2.0 s\hfill&&7.6 s\hfill&&30.0 s\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=5$}
+&&0.3 s\hfill&&2.6 s\hfill&&9.2 s\hfill&&34.1 s\hfill&\cr
+\filler\tablerule}}}
+\bigskip\medskip
+\cl{Average number of simplices in the umbrella neighbourhood}
+\medskip
+\offinterlineskip \tabskip=0pt
+\def\filler{height2pt&\omit&&\omit&&\omit&&\omit&&\omit&\cr}
+\def\tablerule{\noalign{\hrule}}
+\centerline{\vbox{
+\halign{&\vrule#&\strut\hskip 4pt\hfil#\hskip 4pt\cr
+\tablerule\filler
+&\hfill&&$n=2K$\hfill&&$n=8K$\hfill&&$n=16K$\hfill&&$n=32K$\hfill&\cr
+\filler\tablerule\filler
+&\omit\hskip 4pt\hbox{$d=2$}
+&&6.30\hfill&&5.90\hfill&&6.25\hfill&&6.65\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=3$}
+&&28.10\hfill&&28.90\hfill&&29.50\hfill&&29.10\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=4$}
+&&151.90\hfill&&170.55\hfill&&173.60\hfill&&161.00\hfill&\cr
+&\omit\hskip 4pt\hbox{$d=5$}
+&&1122.90\hfill&&1115.70\hfill&&1111.00\hfill&&1038.70\hfill&\cr
+\filler\tablerule}}}
+\vfil\eject
+
+%**********************************  Page 14 ******************************
+\head{Issues in Stability}
+\bigskip \bigskip
+Thus far have only considered points in {\it general position}.
+In the real world, degeneracies happen, and this can be disastrous for
+the algorithm.
+\smallskip
+\bull The only known solution is perturbation.
+\bigskip
+\cl{\hbox{\epsfxsize=30truepc\epsffile{degen.eps}}}
+\vfil\eject
+
+%**********************************  Page 15 ******************************
+\head{Conclusion}
+\bigskip \bigskip
+A new scalable algorithm for computing Delaunay umbrella neighbourhoods /
+Voronoi diagrams was introduced.
+\medskip
+Empirically, it is able to save a significant amount of time by computing
+a small subset of the complete triangulation.
+\medskip
+Unfortunately, it has trouble handling degenerate data.
+\vfil
+\head{Future Work}
+\bigskip \bigskip
+Investigate perturbation strategies and their stability guarantees.
+\medskip
+Compare to {\verbatim Voro++} library for computing a single Voronoi cell
+in $3$-dimensions.
+\vfil\eject
+
+\bye
