@@ -1,0 +1,415 @@
+% Template for overheads, landscape, fancy VT footlines.
+%
+\magnification=1800 \rightskip=0pt plus 5em
+\hsize=9.0truein \vsize=6.5truein
+\parindent=0pt \parskip=0pt plus 4truept
+\baselineskip=21truept plus 3truept minus 2truept \lineskiplimit=3truept
+\lineskip=3truept plus 3truept \tolerance=1000
+
+%fonts
+\font\helvr=phvr at 18truept
+\font\helvb=phvb at 18truept
+\font\timesi=ptmri at 18truept
+\font\helvbXX=phvb at 20truept
+\font\helvbXXIV=phvb at 24truept
+\font\newfont=pbkli
+
+\def\rm{\fam=0\helvr} \let\bf=\helvb \let\tt=\helvb \let\it=\timesi
+\let\sl=\timesi
+
+%definitions
+\def\cl#1{\centerline{#1}}
+\def\head#1{\centerline{\helvbXXIV#1}}
+{\obeyspaces\global\let =\ }
+\def\verbatim{\parindent=0pt\tt\obeylines\obeyspaces}
+\def\l{\hfill\&}        
+\def\shift{\hsize=8.5truein\parindent=25truept\indent}
+\def\bull{\par\hangindent=20pt\hangafter=1
+\indent\hbox to 20pt{\hfil$\bullet$ }\ignorespaces}
+
+% for spacing in tables
+\newdimen\digitwidth \setbox0=\hbox{\rm0} \digitwidth=\wd0
+
+\input epsf % For Postscript figures:{\epsfxsize=  \epsffile{}}
+\helvr
+
+%**********************************  Page 1 ******************************
+
+\cl{\helvbXXIV GLOBAL DETERMINISTIC AND STOCHASTIC OPTIMIZATION}\smallskip
+\cl{\helvbXXIV IN A SERVICE ORIENTED ARCHITECTURE}
+\bigskip
+\bigskip
+\cl{\bf Chaitra Raghunath$^a$, Tyler H. Chang$^a$, Layne T. Watson$^{abc}$}
+\cl{\bf Mohamed Jrad$^c$, Rakesh K. Kapania$^c$}
+\cl{Departments of Computer Science$^a$,}
+\cl{Mathematics$^b$, and Aerospace \& Ocean Engineering$^c$}
+\cl{Virginia Polytechnic Institute and State University}
+\cl{Blacksburg, VA 24061-0106  USA} 
+\bigskip
+\cl{\bf Raymond M. Kolonay}
+\cl{AFRL/RQVC} 
+\cl{2210 8th Street, Bldg. 146}
+\cl{Wright-Patterson Air Force Base}
+\cl{Dayton, OH 45433}
+\bigskip
+\bigskip
+\cl{\bf http://people.cs.vt.edu/\char'176thchang/SORCER.pdf}
+\vfil
+\vtop to 0pt{\vskip -30truept
+\cl{\epsfxsize=1in \epsffile{VPIlogo.ps}}\vss}
+\footline={\hfil}
+\eject
+%**********************************  Page 2 ******************************
+\footline={\fiverm\folio\quad\leaders\hrule
+height3truept\hfil\quad\newfont Virginia Tech}
+
+\head{Multidisciplinary Design Optimization (MDO)}
+\bigskip \bigskip
+Consider the MDO of an aircraft design problem:
+\medskip
+\bull Used during design space exploration (conceptual design step)
+\bull Goal of achieving optimal design over multiple disciplines
+\bull Reduces size of potential design space in future steps
+\bigskip \bigskip
+{\bf Problem}:
+Traditional MDO uses low fidelity models with poor accuracy
+\bigskip
+{\bf Potential Solution}:
+Higher fidelity physics-based modeling tools
+\bigskip
+{\bf Drawback}:
+High fidelity models can be prohibitively complex
+\vfil\eject
+
+%**********************************  Page 3 ******************************
+
+\head{Service Oriented Architectures \& SORCER}
+\bigskip \bigskip
+Service Oriented Architecture (SOA) provides a framework for
+distributed computing:
+\bull Homo- and/or heterogeneous resources are interoperable, reusable,
+	and loosely coupled services
+\bull Dynamically allocate resources upon service request
+\bull Service ORiented Computing EnviRonment (SORCER) layered over
+	FIPER metacompute grid
+\smallskip
+\vbox{
+\cl{\hbox{\epsfxsize=25truepc\epsffile{soa.eps}}}
+}
+\vfil
+\eject
+
+%**********************************  Page 4 ******************************
+\head{Optimization Algorithms}
+\bigskip \bigskip
+In this work we consider two optimization algorithms used in MDO:
+\bigskip
+{\bf VTDirect95}
+\bull For deterministic global optimization
+\bull Fortran 95 implementations of D. R. Jones'
+Dividing Rectangles (DIRECT) algorithm
+\bull Parallel and serial codes
+\bigskip
+{\bf QNSTOP}
+\bull For stochastic global optimization
+\bull Quasi-Newton method in Fortran 2003
+\bull Parallel and serial codes
+\vfil\eject
+
+%**********************************  Page 5 ******************************
+\head{Objectives}
+\bigskip \bigskip \bigskip
+{\bf Provide VTDirect95 and QNSTOP as services on a SORCER grid}
+\medskip
+\bull Dynamically distribute function evaluations
+\bigskip \bigskip \bigskip
+{\bf Study the overhead of using SORCER for distributed optimization}
+\vfil \eject
+%**********************************  Page 6 ******************************
+
+\head{Background: SORCER - SOOA}
+\bigskip \bigskip
+Service {\bf Object}-Oriented Architecture (SOOA)
+\smallskip
+\cl{\hbox{\epsfxsize=30truepc\epsffile{sooa.eps}}}
+\vfil\eject
+
+%**********************************  Page 7 ******************************
+\head{Background: SORCER - Implementation}
+\bigskip \bigskip
+Implementation
+\bull Uses Jini (Apache River) connection technology
+\bull Java based services (for interoperability)
+\bull Leverages JavaSpaces for dynamically load balanced network
+\bigskip
+Service provider types:
+\bull Analysis providers
+\bull Model providers
+\bigskip
+Abstraction layers 
+\bull Exertion-oriented programming (EOP)
+\bull Var-oriented programming (VOP)
+\bull Var-oriented modelling (VOM)
+\vfil\eject
+%**********************************  Page 8 ******************************
+
+\head{Background: VTDIRECT95 - basic algorithm}
+\bigskip \bigskip
+Based on Dividing Rectangles (DIRECT) by D.R. Jones 
+\smallskip
+\cl{\hbox{\epsfxsize=40truepc\epsffile{direct.eps}}}
+\vfil\eject
+
+%**********************************  Page 9 ******************************
+
+\head{Background: VTDIRECT95 - parallel algorithm}
+\bigskip \bigskip
+The parallel VTDIRECT95 algorithm (pVTdirect) is fully distributed:
+\bull Problem divided between multiple masters to share memory burden
+\bull Function evaluation tasks distributed to workers
+\bigskip
+\cl{\hbox{\epsfxsize=25truepc\epsffile{pscheme2.eps}}}
+\vfil\eject
+
+%**********************************  Page 10 ******************************
+
+\head{Background: QNSTOP - algorithm}
+\bigskip\bigskip
+{\bf Step 1 (regression experiment):}
+Given a feasible set $\Theta$, a current iterate $X_k$, and a radius $\tau_k$:
+\bull Compute the ellipsoidal design region $E_k(\tau_k)$ centered at $X_k$
+\bull Compute LS estimate for the gradient $\hat g_k$ from uniform sampling of
+$E_k(\tau_k)$
+\medskip
+{\bf Step 2 (secant update):} Estimate 
+Hessian matrix $\hat H_k$.
+\medskip
+{\bf Step 3 (update iterate):} Calculate the next iterate $X_{k+1}$ from
+a scaling matrix $W_k$ and lagrange multiplier $\mu_k$
+\bull Project $X_k$ onto the feasible set $\Theta$
+\medskip
+{\bf Step 4 (update subsequent design ellipsoid):} Compute an updated scaling
+matrix $W_{k+1}$.
+\medskip
+{\bf Step 5:} If room for more function evaluations in budget go to {\bf Step 1}.
+Otherwise, the algorithm terminates.
+\vfil\eject
+
+%**********************************  Page 11 ******************************
+\head{Background: QNSTOPP - parallelism}
+\bigskip \bigskip
+Parallel Algorithm {\bf QNSTOPP} (w/ OpenMP)
+\bigskip \bigskip
+Sources of parallelism:\smallskip
+\bull Individual function evaluations\smallskip
+\bull Loop over samples in experimental design\smallskip
+\bull Loop over start points
+\vfil\eject
+
+%**********************************  Page 12 ******************************
+\head{Method: JNI Wrappers}
+\bigskip \bigskip
+Java Native Interface (JNI) libraries used to wrap Fortran optimization code
+in Java (as SORCER {\it analysis} service)
+\bull Leverage {\it invocation interface} to allow native C/C++ code to run
+in JVM
+\bull C ``glue code" needed to wrap Fortran routines
+\bull Objective functions are analysis providers invoked by optimization
+algorithm
+\smallskip
+\cl{\hbox{\epsfxsize=55truepc\epsffile{JNIFlow.eps}}}
+\vfil\eject
+
+%**********************************  Page 13 ******************************
+\head{Method: pVTdirect}
+\bigskip \bigskip
+Parallel VTDIRECT95 subroutine (pVTdirect) fundamentally incompatible with
+SORCER
+\bull SORCER assumes master/slave paradigm
+\bull pVTdirect is fully distributed for scalability
+\vfil\eject
+
+%**********************************  Page 14 ******************************
+\head{Method: QNSTOPP}
+\bigskip \bigskip
+Parallel QNSTOP subroutine (QNSTOPP) parallelized over sampling of
+design region
+\medskip
+\bull Chunked out so that $n$ function evaluations are requested at a
+time via SORCER service requests
+\medskip
+\bull Leads to $n$ way parallelism wrt objective function evaluations
+\vfil\eject
+
+%**********************************  Page 15 ******************************
+\head{Experiment: EBF3PanelOpt}
+\bigskip \bigskip
+Framework for optimization of curvilinearly stiffened panels (wrt panel mass)
+\bull Python based
+\smallskip
+\cl{\hbox{\epsfxsize=45truepc\epsffile{EBF3PanelOpt.eps}}}
+\vfil\eject
+
+%**********************************  Page 16 ******************************
+\head{Experiment: EBF3PanelOpt Implementation}
+\bigskip \bigskip
+EBF3PanelOpt is an analysis provider distributed over SORCER network using:
+\bull JavaSpaces: exertions dropped into JavaSpace and discovered by
+providers via Jini
+\medskip
+\cl{\hbox{\epsfxsize=40truepc\epsffile{javaspaces.eps}}}
+\vfil\eject
+
+%**********************************  Page 16 ******************************
+\head{Experiment: Catalog Alternative}
+\bigskip \bigskip
+SORCER catalog matches services to predefined list of providers
+\medskip
+\cl{\hbox{\epsfxsize=40truepc\epsffile{catalog.eps}}}
+\vfil\eject
+
+%**********************************  Page 17 ******************************
+\head{Experiment: Setup}
+\bigskip \bigskip
+2 identical Intel i7-3770 machines (Ivy Bridge) @3.4 GHz
+\smallskip
+\bull Quad-core w/ hyperthreading
+\smallskip
+\bull 16 GB memory
+\smallskip
+\bull Optimization function \& model provider run on one machine,
+EBF3PanelOpt analysis provider on the other
+\smallskip
+\bull For QNSTOPP \# threads set to 4
+\smallskip
+\bull For VTdirect and QNSTOPS (serial), only 1 analysis provider
+used at a time
+\vfil\eject
+
+%**********************************  Page 18 ******************************
+\head{Experiment: Terminology}
+\bigskip \bigskip
+Parallel efficiency of QNSTOPP w/ and w/o SORCER modelled by:
+\smallskip
+$$
+E_p={\bigl((\hbox{QNSTOPS time})/(\hbox{QNSTOPP time})\bigr)
+\over (\hbox{total number of OMP threads/analysis providers})}.
+$$
+\bigskip \bigskip
+``Script Robustness'' is a Java {\tt GenericUtil} for increased 
+robustness of scripts and communication links across different systems
+\vfil\eject
+
+%**********************************  Page 19 ******************************
+\head{Results: Table 1}
+\bigskip \bigskip
+\cl{Execution times in seconds for pylon wing panel optimization with 2 stiffener panels}
+\bigskip
+\offinterlineskip \tabskip=0pt
+\def\filler{height2pt&\omit&&\omit&&\omit&&\omit&&\omit&&\omit&\cr}
+\def\tablerule{\noalign{\hrule}}
+\centerline{\vbox{
+\halign{&\vrule#&\strut\hskip 4pt\hfil#\hskip 4pt\cr
+\tablerule\filler
+&\hfill &&VTdir\hfil&&pVTdir\hfil&&QNSTOPS\hfil&&QNSTOPP\hfil&&
+$E_p$\hfil&\cr
+\filler\tablerule\filler
+&\omit\hskip 4pt\hbox{SORCER and script robustness}
+&&13,009&&N/A&&11,388&&3,545&&0.80&\cr
+&\omit\hskip 4pt\hbox{SORCER w/o script robustness}
+&&8,957&& N/A&&7,994&&2,542&&0.79&\cr
+&\omit\hskip 4pt\hbox{SORCER/Catalog w/o script robust.}
+&&8,487&& N/A&&7,597&&2,458&&0.77&\cr
+&\omit\hskip 4pt\hbox{W/o SORCER, w/o script robust.}
+&&8,460&&2,924&&7,560&&2,309&&0.82&\cr
+\filler\tablerule}}}
+\vfil\eject
+
+%**********************************  Page 20 ******************************
+\head{Results: Table 2}
+\bigskip \bigskip
+\cl{Execution times in seconds for pylon wing panel optimization with 4 stiffener panels}
+\bigskip
+\offinterlineskip \tabskip=0pt
+\def\filler{height2pt&\omit&&\omit&&\omit&&\omit&&\omit&&\omit&\cr}
+\def\tablerule{\noalign{\hrule}}
+\centerline{\vbox{
+\halign{&\vrule#&\strut\hskip 4pt\hfil#\hskip 4pt\cr
+\tablerule\filler
+&\hfill &&VTdir\hfil&&pVTdir\hfil&&QNSTOPS\hfil&&QNSTOPP\hfil&&
+$E_p$\hfil&\cr
+\filler\tablerule\filler
+&\omit\hskip 4pt\hbox{SORCER w/ script robustness}
+&&14,450&&N/A&&10,370&&3,676&&0.71&\cr
+&\omit\hskip 4pt\hbox{SORCER w/o script robustness}
+&&10,384&&N/A&&7,451&&2,697&&0.69&\cr
+&\omit\hskip 4pt\hbox{SORCER/Catalog w/o script robust.}
+&&9,815&&N/A&&7,088&&2,615&&0.68&\cr
+&\omit\hskip 4pt\hbox{W/o SORCER, w/o script robust.}
+&&9,786&&3,789&&7,052&&2,408&&0.73&\cr
+\filler\tablerule}}}
+\vfil\eject
+
+%**********************************  Page 21 ******************************
+\head{Results: Table 3}
+\bigskip \bigskip
+\cl{Objective function evaluation times in seconds for pylon wing panel (2 \& 4 stiffeners)}
+\smallskip
+\cl{Note: 2 stiffeners = 13 dimensional problem, 4 stiffeners = 25 dimensional problem}
+\bigskip
+\cl{For 100 function evaluations done through VTdirect, average function evaluation cost:}
+\bigskip
+\offinterlineskip \tabskip=0pt
+\def\filler{height2pt&\omit&&\omit&&\omit&\cr}
+\def\tablerule{\noalign{\hrule}}
+\centerline{\vbox{
+\halign{&\vrule#&\strut\hskip 4pt\hfil#\hskip 4pt\cr
+\tablerule\filler
+&\hfill &&$n=13$\hfil&&$n=25$&\cr
+\filler\tablerule\filler
+&\omit\hskip 4pt\hbox{With SORCER and script robustness}
+&&11.13&&12.90&\cr
+&\omit\hskip 4pt\hbox{With SORCER, without script robustness}
+&&7.36&&9.14&\cr
+&\omit\hskip 4pt\hbox{Without SORCER and script robustness}
+&&7.32&&9.10&\cr
+\filler\tablerule}}}
+\vfil\eject
+
+%**********************************  Page 21 ******************************
+\head{Discussion}
+\bigskip \bigskip
+{\bf Advantages:}
+\medskip
+\bull Dynamic distributed resource management
+\medskip
+\bull High level of abstraction, tailored to modelling/design analyses
+\medskip
+\bull Code reusability
+\vfil\hrule\bigskip\bigskip
+{\bf Disadvantages:}
+\medskip
+\bull Heavyweight (in comparison to Condor, Globus, MPI)
+\medskip
+\bull Overhead of wrapping existing code with JNI
+\vfil\eject
+
+%**********************************  Page 22 ******************************
+\head{Thanks for Your Time!}
+\vfil\hrule \bigskip \bigskip
+\head{Acknowledgements}
+\bigskip \bigskip
+This material is based on research sponsored by Air Force Research Laboratory
+under agreement number FA8650-09-2-3938. The U.S. Government is authorized to
+reproduce and distribute reprints for Governmental purposes not withstanding
+any copyright notation thereon.
+The views and conclusions contained herein are those of the authors and should
+not be interpreted as necessarily representing the official policies or
+endorsements, either expressed or implied, of Air Force Research Laboratory or
+the U.S. Government. 
+The EBF3PanelOpt code was developed under a research contract from NASA
+Fundamental Aeronautics Program to Virginia Polytechnic Institute and State
+University with Karen M. B. Taminger as the Program Manager.
+\vfil\eject
+
+\bye

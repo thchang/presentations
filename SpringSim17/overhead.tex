@@ -1,0 +1,309 @@
+% Template for overheads, landscape, fancy VT footlines.
+%
+\magnification=1800 \rightskip=0pt plus 5em
+\hsize=9.0truein \vsize=6.5truein
+\parindent=0pt \parskip=0pt plus 4truept
+\baselineskip=21truept plus 3truept minus 2truept \lineskiplimit=3truept
+\lineskip=3truept plus 3truept \tolerance=1000
+
+%fonts
+\font\helvr=phvr at 18truept
+\font\helvb=phvb at 18truept
+\font\timesi=ptmri at 18truept
+\font\helvbXX=phvb at 20truept
+\font\helvbXXIV=phvb at 24truept
+\font\newfont=pbkli
+
+\def\rm{\fam=0\helvr} \let\bf=\helvb \let\tt=\helvb \let\it=\timesi
+\let\sl=\timesi
+
+%definitions
+\def\cl#1{\centerline{#1}}
+\def\head#1{\centerline{\helvbXXIV#1}}
+{\obeyspaces\global\let =\ }
+\def\verbatim{\parindent=0pt\tt\obeylines\obeyspaces}
+\def\l{\hfill\&}        
+\def\shift{\hsize=8.5truein\parindent=25truept\indent}
+\def\bull{\par\hangindent=20pt\hangafter=1
+\indent\hbox to 20pt{\hfil$\bullet$ }\ignorespaces}
+
+% for spacing in tables
+\newdimen\digitwidth \setbox0=\hbox{\rm0} \digitwidth=\wd0
+
+\input epsf % For Postscript figures:{\epsfxsize=  \epsffile{}}
+\helvr
+
+%**********************************  Page 1 ******************************
+
+\cl{\helvbXXIV A FORTRAN 90 GENETIC ALGORITHM MODULE}\smallskip
+\cl{\helvbXXIV FOR DESIGN OF COMPOSITE LAMINATE STRUCTURES}
+\bigskip
+\bigskip
+\cl{M. T. McMahon and L. T. Watson}
+\cl{Departments of Computer Science and Mathematics}
+\cl{Virginia Polytechnic Institute and State University}
+\cl{Blacksburg, VA 24061-0106  USA} 
+\medskip
+\cl{G. A. Soremekun and Z. G\"urdal}
+\cl{Department of Engineering Science and Mechanics}
+\cl{Virginia Polytechnic Institute and State University}
+\cl{Blacksburg, VA 24061-0219 USA}
+\medskip
+\cl{R. T. Haftka}
+\cl{Department of Aerospace Engineering, Mechanics, and Engineering Science} 
+\cl{University of Florida}
+\cl{Gainesville, FL 32611-6250  USA}
+\vfil
+\cl{\bf http://csgrad.cs.vt.edu/\char'176mcmahon/gamod.ps}
+\bigskip
+\bigskip
+\vtop to 0pt{\vskip -30truept
+\cl{\epsfxsize=1in \epsffile{VPIlogo.ps}}\vss}
+\footline={\hfil}
+\eject
+%**********************************  Page 2 ******************************
+\footline={\fiverm\folio\quad\leaders\hrule
+height3truept\hfil\quad\newfont Virginia Tech}
+
+\head{The goal.}
+\bigskip \bigskip
+To develop a genetic algorithm tool for composite laminate structural
+design optimization that can:
+\medskip
+\bull be used for a wide variety of structures,
+\bull be integrated with analysis codes easily,
+\bull facilitate development and testing of new genetic algorithms.
+\vfil
+\head{The target problem.}
+\bigskip\bigskip
+A stiffened panel made from an assemblage of laminated composite plates, where
+each plate is composed of several plies made of one or more fiber
+reinforced plastic materials.
+\medskip
+{\bf Discrete variables}: material and orientation of the fibers.
+\medskip
+{\bf Continuous design variables}: geometric dimensions of the plates.
+\vfil\eject
+
+\head{The test problem.}
+\bigskip\bigskip
+\bull 36 in. long by 30 in. wide, simply supported panel.
+\bull Loaded under any combination of axial and shear loads.
+\bull Two material types: graphite-epoxy and Kevlar-epoxy.
+\bull Ply orientations from  -75 to 90 degrees, in increments
+of 15 degrees.
+\bull A fitness function which is a measure of the weight, penalized
+by small or violated safety margins.
+
+\vfil
+%\centerline{\epsfxsize=5.0truein\epsffile{laminate.eps}}
+\vskip-12pt
+\eject
+
+%**********************************  Page 3 ******************************
+
+\head{The structure of a population.}
+\vfil
+%\centerline{\epsfxsize=7.0truein\epsffile{population2.eps}}
+\vfil
+\eject
+
+%**********************************  Page 4 ******************************
+\head{Why Fortran 90?  Abstract data types.}
+\bigskip
+Data representations reflect underlying concepts better.
+\medskip
+Inheritance allows a data type definition to use other data types.
+\medskip
+e.g., the data types for an individual are built with:
+\bigskip
+{\verbatim
+! Gene data types:
+    type ply\_gene
+        integer (KIND=small)  ::orientation
+        integer (KIND=small)  ::material
+    end type ply\_gene
+\medskip
+    type geometry\_gene
+        real (KIND=R8)  ::digit
+    end type geometry\_gene
+}\vfil\eject
+\head{Why Fortran 90?  Abstract data types.}
+\bigskip
+{\verbatim
+! Chromosome data types:
+type laminate\_chromosome
+    type (ply\_gene), pointer, dimension(:):: ply\_array
+end type laminate\_chromosome
+!
+type geometry\_chromosome
+    type (geometry\_gene), pointer, dimension(:):: geometry\_gene\_array
+end type geometry\_chromosome
+!
+! Individual (structure) data type:
+type individual
+    type (laminate\_chromosome),pointer,dimension(:):: laminate\_array
+    type (geometry\_chromosome),pointer,dimension(:):: geometry\_array
+end type individual
+}
+\vfil\eject
+
+%**********************************  Page 5 ******************************
+\head{Why Fortran 90?  Dynamic Memory Allocation.}
+\bigskip
+Array sizes can be specified at program run time, which
+supports structure designs and populations of variable size.
+\medskip
+e.g., a child individual's laminate array is sized with:
+\bigskip
+{\shift\vbox
+{\verbatim
+!Allocate laminates:
+type (individual) :: child
+allocate (child\%laminate\_array(individual\_size\_lam))
+}
+}
+\medskip
+and deallocated with:
+\medskip
+{\shift\vbox
+{\verbatim
+!Deallocate laminates:
+deallocate (child\%laminate\_array)
+}
+}
+\bigskip
+Array dimensions, and thus memory usage, depend on user input.
+ 
+\vfil \eject
+%**********************************  Page 6 ******************************
+\head{Why Fortran 90?  High Level Array Operations.}
+\bigskip
+Operations which were previously confined to scalar data elements can be 
+performed on arrays:
+\medskip
+{\shift\vbox
+{\verbatim
+! Declare ply array:
+integer, dimension (3,10) :: ply\_array
+$\vdots$
+! Initialize ply\_array to zero:
+ply\_array = 0
+}
+}
+\medskip
+Portions of an array may be accessed as a single object.
+Array programming becomes more efficient and code more readable.
+e.g., single-point crossover can be implemented with:
+\medskip
+{\shift\vbox
+{\verbatim
+type (laminate\_chromosome) :: child, parent(2)
+$\vdots$
+!Crossover from parent 1:
+child\%ply\_array(1:cross\_point) = parent(1)\%ply\_array(1:cross\_point)
+!Crossover from parent 2:
+child\%ply\_array(cross\_point+1:) = parent(2)\%ply\_array(cross\_point+1:)
+}
+}
+\vfil\eject
+
+%**********************************  Page 7 ******************************
+\head{Why Fortran 90?  Modularity.}
+\bigskip
+Encapsulation---data type declarations and related subprograms are kept
+in a separate syntactic unit.
+\medskip
+Code maintainability and reusability are enhanced---the GA implementation is
+separate from the specific optimization problem.
+\medskip
+e.g., the GENERIC\_GA module is introduced into a user program with:
+\bigskip
+{\shift\vbox
+{\verbatim
+PROGRAM optimize
+USE GENERIC\_GA
+$\vdots$
+END PROGRAM optimize
+}
+}
+\medskip
+or specific portions of the module are introduced with:
+\medskip
+{\shift\vbox
+{\verbatim
+PROGRAM optimize
+USE GENERIC\_GA, ONLY : population, initialize\_population
+$\vdots$
+END PROGRAM optimize
+}
+}
+
+\vfil\eject
+%**********************************  Page 8 ******************************
+
+\head{Fortran 90 program units.}
+\vfil
+%\centerline{\epsfxsize=6.0truein\epsffile{progunits.eps}}
+\vfil\eject
+
+%**********************************  Page 9 ******************************
+
+\head{The GA package of operators.}
+\bigskip
+The GA package written for use with the GENERIC\_GA module contains the
+following genetic operators:
+\bull crossover---one point and two point,
+\bull mutation,
+\bull ply addition,
+\bull ply deletion,
+\bull  ply permutation.
+\medskip
+By using the GA module, the package operators are guaranteed to work
+with any composite laminate structure.
+
+\vfil\hrule
+\bigskip
+Test runs used an elitist selection scheme and operator probabilities of
+crossover $=1.00$, ply mutation $=0.05$, orientation mutation $=0.05$,
+addition $=0.05$, deletion $=0.10$, and permutation $=0.25$.
+\eject
+
+%**********************************  Page 10 ******************************
+
+\head{The GA package continuous variable crossover.}
+\bigskip\bigskip
+This operator allows optimization with continuous variables not represented
+by discrete genes.
+Given parents $p_1$ and $p_2$, the geometry gene crossover first creates a
+randomly distributed $N(\mu,\sigma)$ real number $r$, where
+$$\mu={p_1+p_2\over2},\qquad \sigma={|p_1-p_2|\over2},  $$
+and then enforces physical limits by taking the child value as
+$$ c=\min\{\max \{r,L\},U\},$$
+where $L$, $U$ are lower, upper limits on the geometry variable.  Note
+that with probability 0.68 (the probability that a normal variate lies
+within one standard deviation of the mean $\mu$), $c$ lies between the
+parent values $p_1$ and $p_2$, but that $c$ can also be well outside
+the segment $[p_1,p_2]$.  This is essentially how evolutionary
+algorithms (B\"ack, 1996) work, where the value of $\sigma$ itself can
+be adapted as the evolution proceeds.
+
+\vfil\eject
+
+%**********************************  Page 11 ******************************
+\head{Conclusions.}
+\bigskip
+The design effort described has yielded:
+\bull a flexible, general, reusable GA optimization tool,
+\bull Fortran 90 compliance along with compatibility
+with existing FORTRAN 77 analysis codes,
+\bull optimal designs which match those from custom designed,
+problem specific GA implementations.
+\vfil\hrule\bigskip
+\head{Future work.}
+\bigskip
+\bull expansion of GA package---additional selection schemes,
+subpopulation interaction (migration).
+\bull distributed memory parallel implementation.
+
+\vfil\eject\bye
