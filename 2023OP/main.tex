@@ -393,7 +393,7 @@ ArXiv preprint 2304.06881 (2023).
 \begin{columns}
 \begin{column}{0.5\textwidth}
 %\pause
-\textbf{Sum-of-squares structure:}
+\textbf{Least-squares structure:}
 
 \medskip
 
@@ -484,62 +484,7 @@ ParMOO: A Python library for parallel multiobjective simulation optimization.
 
 \section{Early Results}
 
-\begin{frame}\frametitle{Example 1: Fayans EDF Model Calibration}
-Find params $x \in [0, 1]^{13}$ to fit the Fayans model to data $d_i$:
-$$
-M\left(\xi_{i};x\right) \approx d_{i} \qquad i=1,\ldots, 198
-$$
-
-\medskip
-
-ParMOO simulation:
-$$
-S_{i}(x) = M\left(\xi_{i};x\right) - d_{i},
-\qquad i=1,\ldots, 198;
-$$
-
-\medskip
-
-\begin{columns}
-\begin{column}{0.65\textwidth}
-Min SOS across 3 observable classes
-\end{column}
-\begin{column}{0.35\textwidth}
-$$
-{\color{blue}F_t = \sum_{i=1}^{m_t}\big({\color{red}S_{t,i}(x)}\big)^2}
-$$
-\end{column}
-\end{columns}
-
-\vfill
-
-{\tiny\it
-[16] Bollapragada et al.
-Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
-Journal of Physics G 48(2):024001 (2020).\\}
-\end{frame}
-
-\begin{frame}\frametitle{Fayans Solution with ParMOO}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{itemize}
-\item Approximated Fayans model using inv dist weighting on existing dataset
-\item {\color{blue}
-Implemented parallel solver in ParMOO} using libEnsemble
-\item Just {\bf 14-25 lines of Python code}
-\item Ran for {\bf 10K} sim evals
-\item Compared against
-{\color{red} same solver w/o exploiting SOS structure}
-\item Structure-exploiting is better at small budgets, blackbox can be better at large budgets
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{../img/moo_old/fayans_hv1.eps}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Example 2: Material Manufacturing with ParMOO}
+\begin{frame}\frametitle{Example 1: Material Manufacturing with ParMOO}
 Choose optimal settings for material manufacturing in a
 continuous flow reactor (CFR)
 
@@ -602,10 +547,64 @@ In {\sl ICLR 2023, Workshop on ML4Materials}.\\
 
 \end{frame}
 
+\begin{frame}\frametitle{Example 2: Fayans EDF Model Calibration}
+Find params $x \in [0, 1]^{13}$ to fit the Fayans model to data $d_i$:
+$$
+M\left(\xi_{i};x\right) \approx d_{i} \qquad i=1,\ldots, 198
+$$
+
+\medskip
+
+ParMOO simulation:
+$$
+S_{i}(x) = M\left(\xi_{i};x\right) - d_{i},
+\qquad i=1,\ldots, 198;
+$$
+
+\medskip
+
+\begin{columns}
+\begin{column}{0.65\textwidth}
+Min SOS across 3 observable classes
+\end{column}
+\begin{column}{0.35\textwidth}
+$$
+{\color{blue}F_t = \sum_{i=1}^{m_t}\big({\color{red}S_{t,i}(x)}\big)^2}
+$$
+\end{column}
+\end{columns}
+
+\vfill
+
+{\tiny\it
+[16] Bollapragada et al.
+Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
+Journal of Physics G 48(2):024001 (2020).\\}
+\end{frame}
+
+\begin{frame}\frametitle{Fayans Solution with ParMOO}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Approximated Fayans residuals with MLP trained on existing dataset
+\item Implemented {\color{blue}
+batch-parallel structure-exploiting solver in ParMOO}
+\item Ran for {\bf 10K} sim evals
+\item Compared against
+{\color{red} same solver w/o exploiting SOS structure}
+\item Structure-exploiting is better at small budgets, but {\bf stalls} out...
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth]{../img/moo_old/fayans_hv1.eps}
+\end{column}
+\end{columns}
+\end{frame}
+
 \begin{frame}\frametitle{Two different problems, same issue...}
 \begin{columns}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=0.8\textwidth]{../img/moo_old/cfr_hv1.eps}
+\includegraphics[width=\textwidth]{../img/moo_old/cfr_hv1.eps}
 \end{column}
 \begin{column}{0.5\textwidth}
 \includegraphics[width=\textwidth]{../img/moo_old/fayans_hv1.eps}
@@ -616,7 +615,7 @@ In {\sl ICLR 2023, Workshop on ML4Materials}.\\
 \begin{frame}\frametitle{Solution}
 \begin{columns}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=0.8\textwidth]{../img/moo_new/cfr_hv1.eps}
+\includegraphics[width=\textwidth]{../img/moo_new/cfr_hv1.eps}
 \end{column}
 \begin{column}{0.5\textwidth}
 \includegraphics[width=\textwidth]{../img/moo_new/fayans_hv1.eps}
