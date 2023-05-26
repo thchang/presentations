@@ -850,16 +850,15 @@ To check, we implemented Bayesian optimization in ParMOO
 \end{center}
 
 \begin{itemize}
-\item Structure-exploiting Bayesian optimization is hard, {\bf don't try this at home}
-\item When you compose GPs (from simulation outputs) into nonlinear objectives, the posterior depends on the function
+\item When composing GPs (from simulation outputs) into nonlinear objectives, the posterior depends on the function
 \begin{itemize}
 \item May or may not be iid
 \end{itemize}
-\item I monte carlo integrated to evaluate expected-improvement in the $\varepsilon$-constraint scalarization
+\item Monte carlo integrated to evaluate expected-improvement in the $\varepsilon$-constraint scalarization
 \begin{itemize}
 \item It's very expensive
 \end{itemize}
-\item Tools like BoTorch are really cool and important
+\pause\item Use BoTorch if you can
 \end{itemize}
 \end{frame}
 
