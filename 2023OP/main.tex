@@ -236,7 +236,7 @@ by Shital Shah et al.\ on Microsoft Research Blog.\\
 Google -- OSS Vizier + Pythia backend
 
 {\tiny\it
-[5] Song et al.
+Song et al.
 OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
 In Proc.\ 2022 AutoML-Conf.
 }
@@ -246,7 +246,7 @@ In Proc.\ 2022 AutoML-Conf.
 Meta -- BoTorch + Ax backend
 
 {\tiny\it
-[6] Balandat et al.
+Balandat et al.
 BoTorch: a framework for efficient monte-carlo Bayesian optimization.
 In NeurIPS 2020.
 }
@@ -261,7 +261,7 @@ In NeurIPS 2020.
 IBM -- Querry-based Molecular Optimization (QMO)
 
 {\tiny\it
-[7] Hoffman et al.
+Hoffman et al.
 Optimizing molecules using efficient queries from property evaluations.
 Nature Machine Intelligence 4:21--31 (2022).
 }
@@ -271,7 +271,7 @@ Nature Machine Intelligence 4:21--31 (2022).
 Microsoft -- Archai for NAS
 
 {\tiny\it
-[8] Shah et al.
+Shah et al.
 Archai: platform for neural architecture search.
 Microsoft Research (Jul, 2022).
 }
@@ -302,7 +302,7 @@ Exploiting problem structure
 %\onslide<2->{
 \includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
 {\tiny \sl
-``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0 [9].\\
+``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0.\\
 }
 %}
 \end{center}
@@ -313,7 +313,7 @@ Exploiting problem structure
 \includegraphics[height=5em]{../img/probs/siam_news_feb_23.jpg}\\
 {\tiny \sl
 Stochastic dimension reduction explained in this context
-by Stefan [10].\\
+by Stefan.\\
 }
 %}
 \end{center}
@@ -326,7 +326,7 @@ by Stefan [10].\\
 %\onslide<4->{
 \includegraphics[width=0.3\textwidth]{../img/logos/logo-tao.png}\\
 {\tiny \sl
-SOS structure can be exploited by DFO solver POUNDERS in TAO [11].\\
+SOS structure can be exploited by DFO solver POUNDERS in TAO.\\
 }
 %}
 \end{center}
@@ -335,7 +335,7 @@ SOS structure can be exploited by DFO solver POUNDERS in TAO [11].\\
 
 %\onslide<2->{
 {\tiny\it
-[9] Virtanen et al.
+Virtanen et al.
 SciPy 1.0: fundamental algorithms for scientific computing in Python.
 {\sl Nature Methods 17:261--272 (2020).}\\
 }
@@ -345,7 +345,7 @@ SciPy 1.0: fundamental algorithms for scientific computing in Python.
 
 %\onslide<3->{
 {\tiny\it
-[10] Wild. Optimization and learning with zeroth-order stochastic oracles.
+Wild. Optimization and learning with zeroth-order stochastic oracles.
 {\sl SIAM News 56(1):1,3 (2023).}\\
 }
 %}
@@ -354,7 +354,7 @@ SciPy 1.0: fundamental algorithms for scientific computing in Python.
 
 %\onslide<4->{
 {\tiny\it
-[11] Wild.
+Wild.
 Solving derivative-free nonlinear least squares problems with POUNDERS.
 {\sl In Advances and Trends in Optimization with Engineering Applications
 (2017).}\\
@@ -438,7 +438,7 @@ Written in {\tt Python}
 
 \bigskip
 
-Version 0.2.0 is now available on
+Version 0.2.2 is now available on
 available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
 
 \bigskip
@@ -466,7 +466,7 @@ $\quad$
 \bigskip
 
 {\tiny
-[15] Chang and Wild.
+Chang and Wild.
 ParMOO: A Python library for parallel multiobjective simulation optimization.
 {\sl JOSS 8(82):4468 (2023).}
 }
@@ -499,6 +499,7 @@ Challenges:
 \item Mixed variable types
 \item Heterogeneous objectives
 \item Must send experiments to run on CFR
+\item Limited budget
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -558,7 +559,7 @@ for future study\\
 \vfill
 
 {\tiny\it
-[17] Chang et al.
+Chang et al.
 A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
 In {\sl ICLR 2023, Workshop on ML4Materials}.\\
 }
@@ -570,7 +571,7 @@ In {\sl ICLR 2023, Workshop on ML4Materials}.\\
 \begin{columns}
 \begin{column}{0.55\textwidth}
 \begin{itemize}
-\item 5 mixed-type design variables (including reaction time)
+\item 5 mixed-type design variables (including reaction time), 3 heterogeneous objs
 \item 50-pt Latin hypercube design-of-experiments
 \item Fit {\bf global} Gaussian RBF surrogate on 2 simulation outputs
 \item {\color{blue}3rd obj is identity mapping of reaction time}
@@ -581,7 +582,7 @@ modeled with Gaussian RBFs}
 \end{itemize}
 \end{column}
 \begin{column}{0.45\textwidth}
-Ran 30 iterations (batch size 3) after initial DOE\\
+Ran 30 iterations (batch size 3) after 50-pt DOE (avg over 5 seeds)\\
 
 \bigskip
 
@@ -626,7 +627,7 @@ $$
 \vfill
 
 {\tiny\it
-[16] Bollapragada et al.
+Bollapragada et al.
 Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
 Journal of Physics G 48(2):024001 (2020).\\}
 \end{frame}
@@ -639,11 +640,12 @@ Journal of Physics G 48(2):024001 (2020).\\}
 \item Implemented batch-parallel
 {\color{blue} structure-exploiting solver in ParMOO}
 \begin{itemize}
+\item 13 continuous design variables
 \item 2000-pt LH design-of-experiments
 \item Use {\bf local} Gaussian RBF surrogates to model sim outs
 \item SOS structure applied on top of Gauss RBF surrogate outputs
 \item Solve 10 randomized $\varepsilon$-constraint scalarizations per batch
-\item Solve scalarized problem with a trust-region-constrained
+\item Solve each with a trust-region
 multi-start L-BFGS-B
 \end{itemize}
 \item Compared against
@@ -653,6 +655,7 @@ multi-start L-BFGS-B
 \end{column}
 \begin{column}{0.45\textwidth}
 Ran for 800 iterations (10K sim evals)\\
+Avg over 5 random seeds\\
 
 \bigskip
 
@@ -660,7 +663,7 @@ Ran for 800 iterations (10K sim evals)\\
 
 \bigskip
 
-Structure-exploiting is better at small budgets, but {\bf stalls} out...
+Structure-exploiting is better at small budgets, but {\bf again stalls} out...
 \end{column}
 \end{columns}
 \end{frame}
@@ -742,7 +745,6 @@ fitting surrogate...
 \vfill
 
 {\tiny\it
-[12]
 Chang and Wild.
 Designing a framework for solving multiobjective simulation optimization problems.
 ArXiv preprint 2304.06881 (2023).
@@ -843,18 +845,21 @@ How to even check something like this?
 To check, we implemented Bayesian optimization in ParMOO
 
 \bigskip
+\begin{center}
+\pause\includegraphics[width=0.5\textwidth]{../img/moo_new/bo-pr.png}
+\end{center}
 
 \begin{itemize}
-\pause\item Structure-exploiting Bayesian optimization is hard, {\bf don't try this at home}
-\pause\item When you compose GPs (from simulation outputs) into nonlinear objectives, the posterior depends on the function
+\item Structure-exploiting Bayesian optimization is hard, {\bf don't try this at home}
+\item When you compose GPs (from simulation outputs) into nonlinear objectives, the posterior depends on the function
 \begin{itemize}
 \item May or may not be iid
 \end{itemize}
-\pause \item I monte carlo integrated to evaluate expected-improvement in the $\varepsilon$-constraint scalarization
+\item I monte carlo integrated to evaluate expected-improvement in the $\varepsilon$-constraint scalarization
 \begin{itemize}
 \item It's very expensive
 \end{itemize}
-\pause\item Tools like BoTorch are really cool and important
+\item Tools like BoTorch are really cool and important
 \end{itemize}
 \end{frame}
 
@@ -876,72 +881,179 @@ modeled with Gaussian RBFs}
 $^*${\color{green} Green highlight} = changes made from before
 \end{frame}
 
+\begin{frame}{CFR Bayesian optimization results}
+
+Deja vu?\\
+\begin{center}
+\includegraphics[width=0.5\textwidth]{../img/moo_new/cfr_hv-bo1.eps}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Bayesian optimization of Fayans problem}
+\begin{itemize}
+\item 13 continuous design variables
+\item 2000-pt LH design-of-experiments
+\item Use {\bf local} Gaussian proc.\ surrogates to model sims$^\dagger$
+\item SOS structure applied on top of Gauss RBF surrogate outputs
+\item Implemented batch-parallel
+{\color{blue} structure-exploiting solver in ParMOO}
+\item Compared against
+{\color{red} same solver w/o exploiting least-squares structure}
+(Gaussian RBFs fit directly to three objective values)
+\item {\color{green}10 EI of $\varepsilon$-constraint acquisition functions}
+\item {\color{green}Monte carlo integration of 198-dim Gaussian sim outs}
+\item {\color{green}Multi-start GPS in TR to solve optimization of scalarized objectives}
+\end{itemize}
+
+\bigskip
+
+$^*${\color{green} Green highlight} = changes made from before
+
+\vfill
+
+{\tiny\sl
+
+$\dagger$Eriksson et al.
+Scalable global optimization via local Bayesian optimization.
+In NeurIPS 2019.
+
+}
+\end{frame}
+
+\begin{frame}{Fayans Bayesian optimization results}
+
+Had to drastically reduce budget (200 pt LH, 80 iterations)
+
+\medskip
+
+MC integration with only 300 samples (enough?)
+
+\medskip
+
+Only 2 random seeds
+
+\medskip
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{../img/moo_new/cfr_hv-bo1.eps}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{Conclusion \& Next steps}
+\begin{itemize}
+\item Solving Bayesian optimization too fast seems to stall out
+\begin{itemize}
+\item This is actually mentioned in literature
+\item Related to poor conditioning of RBF kernels?
+\item Is it just the Gaussian processes? What about other models?
+\item What if I optimized the shape parameter instead of setting it algebraically?
+\item How do the ``default'' BoTorch methods do?
+\end{itemize}
+\item Do this at a larger scale to get more thorough results
+\begin{itemize}
+\item Parallelize surrogate problem solvers
+\item Gradient-based solvers \& faster MC integrators
+\end{itemize}
+\end{itemize}
+
+\vfill
+
+{\tiny\sl
+
+Garnett. Bayesian optimization [Ch.\ 9.2] (2023).
+
+}
+\end{frame}
+
 \begin{frame}\frametitle{References}
+
+{\small\bf Lit review/motivation refs}\\
 
 {\tiny\it
 
-[5] Song et al.
+Song et al.
 OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
 In Proc.\ 2022 AutoML-Conf.
 
-\medskip
+\smallskip
 
-[6] Balandat et al.
+Balandat et al.
 BoTorch: a framework for efficient monte-carlo Bayesian optimization.
 In NeurIPS 2020.
 
-\medskip
+\smallskip
 
-[7] Hoffman et al.
+Hoffman et al.
 Optimizing molecules using efficient queries from property evaluations.
 Nature Machine Intelligence 4:21--31 (2022).
 
-\medskip
+\smallskip
 
-[8] Shah et al.
+Shah et al.
 Archai: platform for neural architecture search.
 Microsoft Research (Jul, 2022).
 
-\medskip
+\smallskip
 
-[9] Virtanen et al.
+Virtanen et al.
 SciPy 1.0: fundamental algorithms for scientific computing in Python.
 {\sl Nature Methods 17:261--272 (2020).}
 
-\medskip
+\smallskip
 
-[10] Wild. Optimization and learning with zeroth-order stochastic oracles.
+Wild. Optimization and learning with zeroth-order stochastic oracles.
 {\sl SIAM News 56(1):1,3 (2023).}
 
-\medskip
+\smallskip
 
-[11] Wild.
+Wild.
 Solving derivative-free nonlinear least squares problems with POUNDERS.
-{\sl In Advances and Trends in Optimization with Engineering Applications
+{\sl In Adv.\ \& Trends in Optimization with Eng.\ Applications
 (2017).}
 
+\smallskip
+
+Eriksson et al.
+Scalable global optimization via local Bayesian optimization.
+{\sl In NeurIPS 2019.}
+
+\smallskip
+
+Garnett. {\sl Bayesian optimization [Ch.\ 9.2] (2023).}
+
+}
+
 \medskip
 
-[12]
+{\small\bf ParMOO software \& test problems}\\
+
+{\tiny\it
+
 Chang and Wild.
-Designing a framework for solving multiobjective simulation optimization problems.
-ArXiv preprint 2304.06881 (2023).
-
-\medskip
-
-[15] Chang and Wild.
 ParMOO: A Python library for parallel multiobjective simulation optimization.
 {\sl JOSS 8(82):4468 (2023).}
 
 \medskip
 
-[16] Bollapragada et al.
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+ArXiv preprint 2304.06881 (2023).
+
+}
+
+\medskip
+
+{\small\bf Datasets}\\
+
+{\tiny\it
+
+Bollapragada et al.
 Optimization and supervised machine learning methods for fitting numerical physics models without derivatives.
 Journal of Physics G 48(2):024001 (2020).
 
 \medskip
 
-[17] Chang et al.
+Chang et al.
 A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
 In {\sl ICLR 2023 Workshop on ML4Materials}.
 
@@ -951,19 +1063,22 @@ In {\sl ICLR 2023 Workshop on ML4Materials}.
 \begin{frame}\frametitle{Resources}
 \begin{center}
 {\large
-GitHub: {\tt github.com/parmoo/parmoo}\\
-Docs: {\tt parmoo.readthedocs.io}\\
-PyPI: {\tt pip install parmoo}\\
+GitHub: {\tt github.com/parmoo/parmoo}
+
+\medskip
+
+Pip: {\tt pip install parmoo}\\
 Conda: {\tt conda install --channel=conda-forge parmoo}}
 
 \bigskip
 \bigskip
 
-E-mail: {\tt tchang@anl.gov}\\
-E-mail: {\tt parmoo@mcs.anl.gov}\\
+Test problems: {\tt github.com/parmoo/parmoo-solver-farm}
+
 \bigskip
 \bigskip
-{\sl Chang and Wild. JOSS 8(82):4468 (2023)}\\
+
+{\tt tchang@anl.gov}
 
 \vfill
 
