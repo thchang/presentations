@@ -150,25 +150,25 @@ $\xdownarrow{0.5cm}$\\
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Challenge 1}
-\vfill
-\begin{center}
-{\Huge \bf
-Challenge 1:\\
-
-\bigskip
-
-Mixed vars \& problem types\\
-+\\
-\medskip
-
-Unusual computing environments
-}
-\end{center}
-\vfill
-\end{frame}
-
-\begin{frame}\frametitle{Commercial solutions}
+%\begin{frame}\frametitle{Challenge 1}
+%\vfill
+%\begin{center}
+%{\Huge \bf
+%Challenge 1:\\
+%
+%\bigskip
+%
+%Mixed vars \& problem types\\
+%+\\
+%\medskip
+%
+%Unusual computing environments
+%}
+%\end{center}
+%\vfill
+%\end{frame}
+%
+\begin{frame}\frametitle{Industry applications}
 \begin{columns}
 %\pause
 \begin{column}{0.5\textwidth}
@@ -224,143 +224,143 @@ by Shital Shah et al.\ on Microsoft Research Blog.\\
 \end{column}
 \end{columns}
 \end{frame}
-
-%\begin{frame}\frametitle{Commercial solvers}
 %
-%%\pause
+%%\begin{frame}\frametitle{Commercial solvers}
+%%
+%%%\pause
+%%
+%%{\large \bf General purpose:} (solver + backend)\\
+%%
+%%\bigskip
+%%
+%%Google -- OSS Vizier + Pythia backend
+%%
+%%{\tiny\it
+%%Song et al.
+%%OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
+%%In Proc.\ 2022 AutoML-Conf.
+%%}
+%%
+%%\bigskip
+%%
+%%Meta -- BoTorch + Ax backend
+%%
+%%{\tiny\it
+%%Balandat et al.
+%%BoTorch: a framework for efficient monte-carlo Bayesian optimization.
+%%In NeurIPS 2020.
+%%}
+%%
+%%\bigskip
+%%%\pause
+%%
+%%{\large \bf Special purpose:} (solver + special purpose deployment)\\
+%%
+%%\bigskip
+%%
+%%IBM -- Querry-based Molecular Optimization (QMO)
+%%
+%%{\tiny\it
+%%Hoffman et al.
+%%Optimizing molecules using efficient queries from property evaluations.
+%%Nature Machine Intelligence 4:21--31 (2022).
+%%}
+%%
+%%\bigskip
+%%
+%%Microsoft -- Archai for NAS
+%%
+%%{\tiny\it
+%%Shah et al.
+%%Archai: platform for neural architecture search.
+%%Microsoft Research (Jul, 2022).
+%%}
+%%\end{frame}
 %
-%{\large \bf General purpose:} (solver + backend)\\
+%\begin{frame}\frametitle{Challenge 2}
+%\vfill
+%\begin{center}
+%{\Huge \bf
+%Challenge 2:\\
 %
 %\bigskip
 %
-%Google -- OSS Vizier + Pythia backend
+%SOA blackbox optimization\\
+%+\\
+%\medskip
 %
-%{\tiny\it
-%Song et al.
-%OSS Vizier: distributed infrastructure and API for reliable and flexible black-box optimization.
-%In Proc.\ 2022 AutoML-Conf.
+%Exploiting problem structure
 %}
-%
-%\bigskip
-%
-%Meta -- BoTorch + Ax backend
-%
-%{\tiny\it
-%Balandat et al.
-%BoTorch: a framework for efficient monte-carlo Bayesian optimization.
-%In NeurIPS 2020.
-%}
-%
-%\bigskip
-%%\pause
-%
-%{\large \bf Special purpose:} (solver + special purpose deployment)\\
-%
-%\bigskip
-%
-%IBM -- Querry-based Molecular Optimization (QMO)
-%
-%{\tiny\it
-%Hoffman et al.
-%Optimizing molecules using efficient queries from property evaluations.
-%Nature Machine Intelligence 4:21--31 (2022).
-%}
-%
-%\bigskip
-%
-%Microsoft -- Archai for NAS
-%
-%{\tiny\it
-%Shah et al.
-%Archai: platform for neural architecture search.
-%Microsoft Research (Jul, 2022).
-%}
+%\end{center}
+%\vfill
 %\end{frame}
-
-\begin{frame}\frametitle{Challenge 2}
-\vfill
-\begin{center}
-{\Huge \bf
-Challenge 2:\\
-
-\bigskip
-
-SOA blackbox optimization\\
-+\\
-\medskip
-
-Exploiting problem structure
-}
-\end{center}
-\vfill
-\end{frame}
-
-\begin{frame}\frametitle{SOA in blackbox optimization}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{center}
-%\onslide<2->{
-\includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
-{\tiny \sl
-``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0.\\
-}
+%
+%\begin{frame}\frametitle{SOA in blackbox optimization}
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%\begin{center}
+%%\onslide<2->{
+%\includegraphics[width=0.7\textwidth]{../img/logos/logo-scipy.png}\\
+%{\tiny \sl
+%``Optimization and root finding (scipy.optimize)'' in SciPy v1.10.0.\\
 %}
-\end{center}
-\end{column}
-\begin{column}{0.5\textwidth}
-\begin{center}
-%\onslide<3->{
-\includegraphics[height=5em]{../img/probs/siam_news_feb_23.jpg}\\
-{\tiny \sl
-Stochastic dimension reduction explained in this context
-by Stefan.\\
-}
+%%}
+%\end{center}
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%\begin{center}
+%%\onslide<3->{
+%\includegraphics[height=5em]{../img/probs/siam_news_feb_23.jpg}\\
+%{\tiny \sl
+%Stochastic dimension reduction explained in this context
+%by Stefan.\\
 %}
-\end{center}
-\end{column}
-\end{columns}
-
-\bigskip
-
-\begin{center}
-%\onslide<4->{
-\includegraphics[width=0.3\textwidth]{../img/logos/logo-tao.png}\\
-{\tiny \sl
-SOS structure can be exploited by DFO solver POUNDERS in TAO.\\
-}
+%%}
+%\end{center}
+%\end{column}
+%\end{columns}
+%
+%\bigskip
+%
+%\begin{center}
+%%\onslide<4->{
+%\includegraphics[width=0.3\textwidth]{../img/logos/logo-tao.png}\\
+%{\tiny \sl
+%SOS structure can be exploited by DFO solver POUNDERS in TAO.\\
 %}
-\end{center}
-
-\vfill
-
-%\onslide<2->{
-{\tiny\it
-Virtanen et al.
-SciPy 1.0: fundamental algorithms for scientific computing in Python.
-{\sl Nature Methods 17:261--272 (2020).}\\
-}
+%%}
+%\end{center}
+%
+%\vfill
+%
+%%\onslide<2->{
+%{\tiny\it
+%Virtanen et al.
+%SciPy 1.0: fundamental algorithms for scientific computing in Python.
+%{\sl Nature Methods 17:261--272 (2020).}\\
 %}
-
-\medskip
-
-%\onslide<3->{
-{\tiny\it
-Wild. Optimization and learning with zeroth-order stochastic oracles.
-{\sl SIAM News 56(1):1,3 (2023).}\\
-}
+%%}
+%
+%\medskip
+%
+%%\onslide<3->{
+%{\tiny\it
+%Wild. Optimization and learning with zeroth-order stochastic oracles.
+%{\sl SIAM News 56(1):1,3 (2023).}\\
 %}
-
-\medskip
-
-%\onslide<4->{
-{\tiny\it
-Wild.
-Solving derivative-free nonlinear least squares problems with POUNDERS.
-{\sl In Advances and Trends in Optimization with Engineering Applications
-(2017).}\\
-}
+%%}
+%
+%\medskip
+%
+%%\onslide<4->{
+%{\tiny\it
+%Wild.
+%Solving derivative-free nonlinear least squares problems with POUNDERS.
+%{\sl In Advances and Trends in Optimization with Engineering Applications
+%(2017).}\\
 %}
-\end{frame}
+%%}
+%\end{frame}
 
 \begin{frame}\frametitle{ParMOO Design Criteria}
 
@@ -375,6 +375,14 @@ Solving derivative-free nonlinear least squares problems with POUNDERS.
 \item Easy to use, deploy, and extend (unforeseen use-cases and environments)
 \item Solve large-scale problems + exploit structure and domain knowledge
 \end{enumerate}
+
+\vfill
+
+{\tiny
+Chang and Wild.
+ParMOO: A Python library for parallel multiobjective simulation optimization.
+{\sl JOSS 8(82):4468 (2023).}
+}
 \end{frame}
 
 \begin{frame}\frametitle{Problem structures}
@@ -420,58 +428,58 @@ Use expensive surrogate models for {\color{red} $h_1$} (i.e.,
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]\frametitle{Sample code}
-  \lstset{style=python}
-  \lstinputlisting{quickstart.py}
-\end{frame}
+%\begin{frame}[fragile]\frametitle{Sample code}
+%  \lstset{style=python}
+%  \lstinputlisting{quickstart.py}
+%\end{frame}
 
-\begin{frame}\frametitle{ParMOO Release}
-
-\begin{center}
-\includegraphics[width=0.4\textwidth]{../img/logos/logo-parmoo.png}
-\end{center}
-
-\begin{columns}
-\begin{column}{0.7\textwidth}
-
-Written in {\tt Python}
-
-\bigskip
-
-Version 0.2.2 is now available on
-available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
-
-\bigskip
-\bigskip
-\url{https://github.com/parmoo/parmoo}
-
-\bigskip
-
-\url{https://parmoo.readthedocs.io}
-\end{column}
-\begin{column}{0.2\textwidth}
-\begin{center}
-\includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
-
-\bigskip
-
-\includegraphics[width=0.25\textwidth]{../img/logos/logo-gh.png}
-$\quad$
-\includegraphics[width=0.35\textwidth]{../img/logos/logo-conda.png}
-\end{center}
-\end{column}
-\end{columns}
-
-\bigskip
-\bigskip
-
-{\tiny
-Chang and Wild.
-ParMOO: A Python library for parallel multiobjective simulation optimization.
-{\sl JOSS 8(82):4468 (2023).}
-}
-
-\end{frame}
+%\begin{frame}\frametitle{ParMOO Release}
+%
+%\begin{center}
+%\includegraphics[width=0.4\textwidth]{../img/logos/logo-parmoo.png}
+%\end{center}
+%
+%\begin{columns}
+%\begin{column}{0.7\textwidth}
+%
+%Written in {\tt Python}
+%
+%\bigskip
+%
+%Version 0.2.2 is now available on
+%available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
+%
+%\bigskip
+%\bigskip
+%\url{https://github.com/parmoo/parmoo}
+%
+%\bigskip
+%
+%\url{https://parmoo.readthedocs.io}
+%\end{column}
+%\begin{column}{0.2\textwidth}
+%\begin{center}
+%\includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
+%
+%\bigskip
+%
+%\includegraphics[width=0.25\textwidth]{../img/logos/logo-gh.png}
+%$\quad$
+%\includegraphics[width=0.35\textwidth]{../img/logos/logo-conda.png}
+%\end{center}
+%\end{column}
+%\end{columns}
+%
+%\bigskip
+%\bigskip
+%
+%{\tiny
+%Chang and Wild.
+%ParMOO: A Python library for parallel multiobjective simulation optimization.
+%{\sl JOSS 8(82):4468 (2023).}
+%}
+%
+%\end{frame}
 
 \section{Initial Results + Optimizer Stalling}
 
@@ -966,7 +974,7 @@ Garnett. Bayesian optimization [Ch.\ 9.2] (2023).
 
 \begin{frame}\frametitle{References}
 
-{\small\bf Lit review/motivation refs}\\
+{\small\bf Related work}\\
 
 {\tiny\it
 
@@ -994,29 +1002,29 @@ Garnett. Bayesian optimization [Ch.\ 9.2] (2023).
 %
 %\smallskip
 
-Virtanen et al.
-SciPy 1.0: fundamental algorithms for scientific computing in Python.
-{\sl Nature Methods 17:261--272 (2020).}
-
-\smallskip
-
-Wild. Optimization and learning with zeroth-order stochastic oracles.
-{\sl SIAM News 56(1):1,3 (2023).}
-
-\smallskip
-
-Wild.
-Solving derivative-free nonlinear least squares problems with POUNDERS.
-{\sl In Adv.\ \& Trends in Optimization with Eng.\ Applications
-(2017).}
-
-\smallskip
+%Virtanen et al.
+%SciPy 1.0: fundamental algorithms for scientific computing in Python.
+%{\sl Nature Methods 17:261--272 (2020).}
+%
+%\smallskip
+%
+%Wild. Optimization and learning with zeroth-order stochastic oracles.
+%{\sl SIAM News 56(1):1,3 (2023).}
+%
+%\smallskip
+%
+%Wild.
+%Solving derivative-free nonlinear least squares problems with POUNDERS.
+%{\sl In Adv.\ \& Trends in Optimization with Eng.\ Applications
+%(2017).}
+%
+%\smallskip
 
 Eriksson et al.
 Scalable global optimization via local Bayesian optimization.
 {\sl In NeurIPS 2019.}
 
-\smallskip
+\medskip
 
 Garnett. {\sl Bayesian optimization [Ch.\ 9.2] (2023).}
 
