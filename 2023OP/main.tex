@@ -707,18 +707,18 @@ Structure-exploiting is better at small budgets, but {\bf again stalls} out...
 
 \begin{frame}{What happened?}
 
-\pause
+%\pause
 \bigskip
 
 Many months of debugging and testing...
 
-\pause
+%\pause
 \bigskip
 
 Finally tried centering response values at 0 before
 fitting surrogate...
 
-\pause
+%\pause
 \bigskip
 
 {\bf Fixed!}\\
@@ -772,7 +772,7 @@ e^{-\|x_2 - x\|^2/\sigma}\\
 e^{-\|x_n - x\|^2/\sigma}
 \end{array} \right]
 $$
-\pause
+%\pause
 where
 $ A \omega = y $
 and 
@@ -813,16 +813,21 @@ e^{-\|x_n - x_1\|^2/\sigma} & e^{-\|x_n - x_2\|^2/\sigma} & \ldots & 1 \\
 \right]
 $$
 \begin{itemize}
-\pause \item As we optimize, data points cluster
-\pause \item As $\|x_i - x_j\| \rightarrow 0$, $A \rightarrow$ singularity
-\pause \item Decrease the shape parameter $\sigma$ to keep $A$ nonsingular
-\pause \item Descreasing $\sigma$ restricts the support of ${\hat F}_{RBF}$
+%\pause
+\item As we optimize, data points cluster
+%\pause
+\item As $\|x_i - x_j\| \rightarrow 0$, $A \rightarrow$ singularity
+%\pause
+\item Decrease the shape parameter $\sigma$ to keep $A$ nonsingular
+%\pause
+\item Descreasing $\sigma$ restricts the support of ${\hat F}_{RBF}$
 \begin{itemize}
-\pause
+%\pause
 \item With 0-prior, optimizer will be driven to low-support regions
 \item With GP, uncertainty will be maximal in low-support regions (will drive Bayesian optimization to behave similarly?)
 \end{itemize}
-\pause \item ``Uncertainty principle'' -- for imbalanced datasets, cannot
+%\pause
+\item ``Uncertainty principle'' -- for imbalanced datasets, cannot
 have accuracy and solvability when working with RBF-like models
 \end{itemize}
 \end{frame}
@@ -835,7 +840,7 @@ have accuracy and solvability when working with RBF-like models
 Does Bayesian optimization stall out for structure-exploiting solvers?
 }
 
-\pause
+%\pause
 \bigskip
 
 {\large \bf
@@ -854,7 +859,8 @@ To check, we implemented Bayesian optimization in ParMOO
 
 \bigskip
 \begin{center}
-\pause\includegraphics[width=0.5\textwidth]{../img/moo_new/bo-pr.png}
+%\pause
+\includegraphics[width=0.5\textwidth]{../img/moo_new/bo-pr.png}
 \end{center}
 
 \begin{itemize}
@@ -866,7 +872,7 @@ To check, we implemented Bayesian optimization in ParMOO
 \begin{itemize}
 \item It's very expensive
 \end{itemize}
-\pause\item Use BoTorch if you can
+%\pause\item Use BoTorch if you can
 \end{itemize}
 \end{frame}
 
