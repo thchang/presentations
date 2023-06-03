@@ -492,7 +492,7 @@ continuous flow reactor (CFR)
 We know how to make a desired material, need to produce at scale:
 
 \begin{enumerate}
-\item {\color{green} \bf Maximize the product} (battery electrolyte: TFML)
+\item {\color{green} \bf Maximize the product} (battery electrolyte: TFMC)
 \item Can increase temperature to {\bf \color{red} reduce reaction time}
 \item Too much heat activates a side reaction; need to
 {\bf \color{blue} minimize unwanted byproduct}
@@ -712,13 +712,13 @@ Structure-exploiting is better at small budgets, but {\bf again stalls} out...
 
 Many months of debugging and testing...
 
-%\pause
+\pause
 \bigskip
 
 Finally tried centering response values at 0 before
 fitting surrogate...
 
-%\pause
+\pause
 \bigskip
 
 {\bf Fixed!}\\
@@ -886,7 +886,7 @@ To check, we implemented Bayesian optimization in ParMOO
 modeled with Gaussian RBFs}
 \item {\color{green}3 EI of $\varepsilon$-constraint acquisition functions}
 \item {\color{green}Monte carlo integration of 2 Gaussian sim outs}
-\item {\color{green}Multi-start GPS for global optimization of scalarized objectives}
+\item {\color{green}Multi-start pattern search for optimization of scalarized objectives}
 \end{itemize}
 
 \bigskip
@@ -915,7 +915,7 @@ Deja vu?\\
 (Gaussian RBFs fit directly to three objective values)
 \item {\color{green}10 EI of $\varepsilon$-constraint acquisition functions}
 \item {\color{green}Monte carlo integration of 198-dim Gaussian sim outs}
-\item {\color{green}Multi-start GPS in TR to solve optimization of scalarized objectives}
+\item {\color{green}Multi-start pattern search in TR to optimize scalarized objectives}
 \end{itemize}
 
 \bigskip
