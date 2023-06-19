@@ -1,3 +1,24 @@
-Multivariate interpolation and spatial graphs via Delaunay triangulation in high dimensions
+Title: Toward interpretable machine learning via Delaunay interpolation -- algorithms and challenges
 
+Modern artificial intelligence (AI) architectures use a mixture of
+problem-specific heuristics and approximation techniques in order to
+scale to high-dimensional problems and large datasets.
+A common paradigm for deep learning is to stack several problem-specific
+encoding (i.e., representation learning) layers to embed the
+problem into a lower-dimensional latent space, followed by a heuristic
+piecewise-linear approximation technique (i.e., fully-connected ReLU layers).
+In this talk, I consider the challenges of replacing the fully-connected
+ReLU layers with Delaunay interpolation in order to perform a principled
+piecewise-linear interpolation instead of regression.
+Advantages of this approach include improved verifiability and
+interpretability, and tight error bounds under certain conditions.
 
+I begin by analyzing the similarities between Delaunay interpolants and
+fully-connected ReLU multi-layer perceptrons (MLPs).
+Then I present some advantages and disadvantages of using Delaunay
+interpolants from both an approximation theory and practical perspective.
+Finally, I present several novel algorithms that allow us to work with
+Delaunay interpolants in high dimensions.
+I will conclude by discussing how these techniques could be merged
+into a typical deep learning pipeline and the work that is required to
+achieve scalability in these settings.
