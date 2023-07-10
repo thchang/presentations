@@ -214,14 +214,14 @@ $$
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{inference_2d_pt1.eps}\\
+\includegraphics[width=0.8\textwidth]{../img/delaunay_new/inference_2d_pt1.eps}\\
 10 training points in 1D
 \end{center}
 \end{column}
 
 \begin{column}{0.5\textwidth}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{inference_2d_pt2.eps}\\
+\includegraphics[width=0.95\textwidth]{../img/delaunay_new/inference_2d_pt2.eps}\\
 10 training points in 2D
 \end{center}
 \end{column}
@@ -234,7 +234,7 @@ $$
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{inference_2d_pt3.eps}\\
+\includegraphics[width=0.8\textwidth]{../img/delaunay_new/inference_2d_pt3.eps}\\
 Need data in all quadrants?
 \end{center}
 \end{column}
@@ -278,7 +278,7 @@ Delaunay interpolation vs MLP error in {\bf 20D} with and w/o noise
 
 \vfill
 
-{\tiny Lux, Watson, Chang, et al.
+{\tiny Lux, Watson, Chang, et al.,
 Interpolation of sparse high-dimensional data.
 {\sl Numerical Algorithms 88}, pp.~281–313 (2021).}
 
@@ -311,7 +311,7 @@ This is called a {\sl concentration of measure}
 
 \vfill
 
-{\tiny Gorban and Tyukin.
+{\tiny Gorban and Tyukin,
 Stochastic separation theorems.
 {\sl Neural Networks 94}, pp.~255-259 (2017).}
 
@@ -343,21 +343,100 @@ with variance $\frac{\nu}{d}\rightarrow 0$ as $d\rightarrow\infty$.
 
 \vfill
 
-{\tiny Garg, Chang, and Raghavan.
+{\tiny Garg, Chang, and Raghavan,
 Stochastic optimization of Fourier coefficiencts to generate space-filling designs.
 {\sl To appear in Winter Sim 2023}.}
 
 \end{frame}
 
-% What is Delaunay triangulation
+\begin{frame}
+\frametitle{Hope in problem structure}
+\begin{center}
+\includegraphics[width=0.1\textwidth]{../img/delaunay_new/mnist_data_0.png}
+{\huge $\qquad \xrightarrow{\quad f \quad} \qquad 0$}
+\end{center}
+
+\bigskip
+$$
+28 \times 28 \text{ pixels} \neq 784 \text{ dimensions...}
+$$
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Modern deep learning pipeline}
+
+\includegraphics{../img/delaunay_new/interpolating_latent_space.pdf}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Tyler's hot takes on high-dimensional learning}
+\begin{itemize}
+\pause \item ``Big data'' doesn't exist, all data is small (measure 0)
+\pause \item Overfitting is a myth, we can just interpolate
+\pause \item SOA deep learning = {\sl representation learning} +
+function approximation
+\pause \item The ``function approximation'' part is
+(piecewise linear) MLP regressors/classifiers
+\pause \item Interpolants + approximation theory can give you error bounds,
+model validation, interpretablility, and UQ
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Outlines}
+  \tableofcontents
+\end{frame}
+
+\section{High-dimensional interpolation via Delaunay triangulations}
+
+\begin{frame}
+\frametitle{Multidimensional piecewise linear interpolation}
+
+To define a piecewise linear interpolant in $\mathbb{R}^d$,
+{\bf you need a simplicial mesh over ${\cal X}$}
+
+\begin{columns}
+\begin{column}{.62\textwidth}
+$(x^{(i,0)}, \ldots, x^{(i,d)}, {\bf 1})w = q$
+
+$$
+{\hat f}_{S^{(i)}}(q) = w^T \big(f(x^{(i,1)}), \ldots, f(x^{(i,d)})\big).
+$$
+
+\end{column}
+\begin{column}{.3\textwidth}
+\hbox{\includegraphics[width=\textwidth]{../img/delaunay_old/seamount.eps}}
+\end{column}
+\end{columns}
+
+Taylor bound at $x^{(i,0)}$ is:
+
+$$
+\big|f(q) - \hat f(q)\big| \leq \frac{\gamma \|q - x^{(i,0)}\|_{2}^{2}}{2} + \frac{\sqrt{d}  \gamma k^{2}}{2 \sigma_{d}} \|q - x^{(i,0)}\|_{2}.
+$$
+
+{\small
+$k = \max_{x^{(i,j)} \neq x^{(i,1)}} \|x^{(i,1)} - x^{(i,j)}\|_2$,\\
+$\gamma$ is the Lip const of $\nabla f$,\\
+$\sigma_d$ is the min singular val of Barycentric interpolation matrix}
+
+\vfill
+
+{\tiny Lux, Watson, Chang, et al.,
+Interpolation of sparse high-dimensional data.
+{\sl Numerical Algorithms 88}, pp.~281–313 (2021).}
+
+\end{frame}
+
 \begin{frame}{About Delaunay Triangulations}
 \begin{itemize}
-\item The {\it Delaunay triangulation} is an unstructured simplicial mesh
-defined by an arbitrary vertex set
-${\cal X} = \{x^{(1)}, \ldots, x^{(n)}\} \subset \mathbb{R}^d$
-\item The defining property of the Delaunay triangulation $DT(P)$ is that
-for every simplex $S \in DT({\cal X})$, the circumball $B^{(S)}$
-must have empty intersection with ${\cal X}$:
+\item The {\it Delaunay triangulation} ($DT({\cal X})$)
+is the ``optimal'' unstructured simplicial mesh of ${\cal X}$
+\item {\bf Defining property}:
+for all $S \in DT({\cal X})$, the circumball $B^{(S)}$
+satisfies
 $B^{(S)} \cap {\cal X} = \emptyset$.
 \end{itemize}
 \begin{center}
@@ -368,70 +447,53 @@ $\qquad\qquad$
 \hskip 4pt{\color{green} \cmark}
 \end{center}
 \begin{itemize}
-\item $DT({\cal X})$ exists and is unique when $P$ is in {\it general position}.
+\item $DT({\cal X})$ exists and is unique when ${\cal X}$ is in {\it general position}.
 \end{itemize}
 \end{frame}
 
-% Brief applications of Delaunay
-\begin{frame}{Delaunay Interpolation}
-\begin{columns}
-\begin{column}{.58\textwidth}
-Let $y \in S \in DT(P)$.
-$S$ has vertex set $\{s^{(1)}, \ldots, s^{(d+1)}\}$ and there exist
-convex weights $\{w_1, \ldots, w_{d+1}\}$ such that
-$y = \sum_{i=1}^{d+1} w_i s^{(i)}$.
-$$
-{\hat F}_{DT}(y) = \sum_{i=1}^{d+1} w_i F(s^{(i)}).
-$$
-\end{column}
-\begin{column}{.38\textwidth}
-\hbox{\includegraphics[width=\textwidth]{../img/delaunay_old/seamount.eps}}
-\end{column}
-\end{columns}
-\end{frame}
-% Some properties of Delaunay that we will need
 \begin{frame}{Scalability Issues}
 \begin{itemize}
-\item Oweing to Klee, the size of the Delaunay triangulation is
+\item Meshes blow up exponentially in $d$
+\item Oweing to Klee (of Klee-Minty cube fame),
+the size of the $DT({\cal X})$ is
 $$
 \mathcal{O}\left(n^{\lceil d/2 \rceil}\right)
 $$
 \begin{itemize}
-\item For $d > 4$, this is expensive!
-\item For $d > 8$, this is not scalable!
+\item For $d > 8$, this is impossible!
 \end{itemize}
 \end{itemize}
 \pause
 {\textbf{Observation:}
-For interpolation at a single point $y$, we only need the
-vertices ($\{s^{(1)}, \ldots, s^{(d+1)}\}$) of $S \in DT(P)$
-such that $y\in S$}
+For a given $q$, we only need vertices
+($\{x^{(i,0)}, \ldots, x^{(i,d)}\}$) of $S \in DT({\cal X})$
+such that $q\in S$}
 $$
-{\hat F}_{DT}(y) = \sum_{i=1}^{d+1} w_i\text{~}F(s^{(i)}).
+{\hat f}_{DT}(q) = \sum_{i=1}^{d+1} w_i\text{~}F(s^{(i)}).
 $$
 \medskip
 \pause
-{\textbf{Question:} Can we find $S$ containing $y$ in polynomial time?}
+{\textbf{Question:} Can we find $S$ containing $q$ in polynomial time?}
 \end{frame}
 
 \section{DelaunaySparse algorithm for high-dimensional interpolation}
 
 % Algorithm for computing the Delaunay interpolant
 \begin{frame}{DelaunaySparse Algorithm outline}
-Algorithm to locate Delaunay simplex containing $y$:
+Algorithm to locate Delaunay simplex containing $q$:
 \begin{itemize}
 \item Grow an initial Delaunay simplex (greedy algorithm) that is
-``nearby'' to $y$
-\item ``Flip'' accross facets from which $y$ is visible to a new Delaunay
-simplex (closer to $y$)
-\item This ``visibility walk'' converges to $y$ in finite steps
+``nearby'' to $q$
+\item ``Flip'' accross facets from which $q$ is visible to a new Delaunay
+simplex (closer to $q$)
+\item This ``visibility walk'' converges to $q$ in finite steps
 (Edelsbrunner's acyclicity theorem)
 \end{itemize}
 \vfill
-{\tiny \it Chang, Watson, Lux, Li, Xu, Butt, Cameron, and Hong.
-``A polynomial time algorithm for multivariate interpolation in arbitrary
-dimension via the Delaunay triangulation.''
-In Proc. 2018 ACMSE Conf.}
+{\tiny Chang et al.,
+A polynomial time algorithm for multivariate interpolation in arbitrary
+dimension via the Delaunay triangulation.
+{\sl In 2018 ACMSE Conf.}}
 \end{frame}
 
 \begin{frame}{Algorithm Complexity}
@@ -477,7 +539,7 @@ $$
 \| x^{(n)} \|_2^2 \cr
 \end{matrix}\right]\text{, and }
 {\tilde c} = \left[ \begin{matrix}
--y \cr
+-q \cr
 1 \cr
 \end{matrix}\right].
 $$
@@ -495,10 +557,10 @@ $\displaystyle \hbox{\bf Dual prob: }
 \hbox{ such that }
 {\tilde A}^T{\tilde v} = {\tilde c}, {\tilde v}\geq 0.$\\
 {\bf Ext pts:}
-$\Rightarrow$ ${\tilde v}$ are convex weights for $y$\\
+$\Rightarrow$ ${\tilde v}$ are convex weights for $q$\\
 \medskip
 \pause
-Primal + dual feasible $\Rightarrow$ Delaunay simplex containing $y$\\
+Primal + dual feasible $\Rightarrow$ Delaunay simplex containing $q$\\
 \medskip
 \pause
 {\bf LP basic solution in polynomial time is an open problem!}
@@ -508,17 +570,23 @@ Primal + dual feasible $\Rightarrow$ Delaunay simplex containing $y$\\
 \begin{frame}{Extrapolation}
 What about extrapolation?
 \begin{itemize}
-\item Project $y$ on to the convex hull of $P$
+\item Project $q$ on to the convex hull of ${\cal X}$
 \item Interpolate the projection (if the residual is small)
-\item Note: projection is a quadratic program (more expensive than an LP)
+\item Projection is a quadratic program
 \end{itemize}
-Let $E$ be a $d\times n$ matrix whose columns are points in $P$, and let
-$z$ be an extrapolation point (outside convex hull of $P$).
+Let $E$ be a $d\times n$ matrix whose columns are points in ${\cal X}$, and let
+$z$ be an extrapolation point (outside convex hull of ${\cal X}$).
 $$
 \xi^* = \arg\min_{\xi\in\mathbb{R}^n} \|E\xi - z\| \quad\hbox{subject to}\quad
 \xi \ge 0 \quad\hbox{and}\quad \sum_{i=1}^n \xi_i = 1.
 $$
 Projection: ${\hat z} = E\xi^*$
+
+\vfill
+
+{\tiny Chang et al.,
+Remark on Algorithm 1012.
+{\sl In preparation}.}
 \end{frame}
 
 % DELAUNAYSPARSE
@@ -539,8 +607,7 @@ Standalone software package {\tt DELAUNAYSPARSE}:
 \end{columns}
 \begin{columns}
 \begin{column}{.15\textwidth}
-Runtime (secs) for interpolating a single point ($m=1$) with $n$ pts
-in $\mathbb{R}^d$
+Runtime (secs) for interpolating a single $q$
 \end{column}
 \begin{column}{.8\textwidth}
 {\small
@@ -563,19 +630,118 @@ $n$ & $2\quad$ & $8\quad$ & $32\quad$ & $64\quad$ & $128\quad$ \\
 \end{column}
 \end{columns}
 \vfill
-{\tiny \it Chang, Watson, Lux, Butt, Cameron, and Hong. 2020.
-Algorithm 1012: DELAUNAYSPARSE: Interpolation via a sparse subset of the
-Delaunay triangulation in medium to high dimensions.
-ACM Trans.\ Math.\ Softw.\ 46(4).}
+{\tiny Chang et al.,
+Algorithm 1012: DELAUNAYSPARSE.
+{\sl ACM TOMS 46(4)}, Article No.~28 (2020).}
 \end{frame}
 
-% Delaunay graph
-\section{Application for Computing the Delaunay Graph}
-% Introduction
-\subsection{About the Delaunay Graph}
+\section{Preliminary Results and Future Work}
+
+\begin{frame}
+\frametitle{Recall...}
+
+\includegraphics{../img/delaunay_new/interpolating_latent_space.pdf}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Early results on Airfoil Predictions}
+
+Thanks to Romit for providing airfoil prediction data,
+dimension reduced from 100,000+  down to {\bf 8D} via autoencoder
+
+
+Delaunay interpolation in latent space
+
+\medskip
+
+\begin{center}
+\includegraphics[width=0.48\textwidth]{../img/delaunay_new/latent_delaunay_lift.png}
+\includegraphics[width=0.48\textwidth]{../img/delaunay_new/latent_delaunay_drag.png}\\
+$\quad$Lift predictions $\qquad\qquad\qquad\qquad\qquad$ Drag predictions
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{But what do you get?}
+
+\begin{itemize}
+\pause\item {\bf Interpretability:}
+\begin{itemize}
+\item These $d+1$ training points were used in this prediction
+\item Simplex is ill-conditioned, need more data in this direction
+\end{itemize}
+\pause\item {\bf Verifiability:}
+\begin{itemize}
+\item Do the results agree with the error bounds?
+\item See preprint on Delaunay Diagnostic from LLNL
+\end{itemize}
+\pause\item {\bf Error bounds and UQ:}
+\begin{itemize}
+\item Coming soon...
+\end{itemize}
+\end{itemize}
+
+\vfill
+
+{\tiny Gillette and Kur,
+Data-driven geometric scale detection via Delaunay interpolation.
+{\sl arXiv preprint 2203.05685.}}
+
+{\tiny
+Chang, Gillette, and Maulik, {\sl in preparation}.
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Next steps}
+
+\onslide<1>{
+\includegraphics[width=\textwidth]{../img/delaunay_new/ToDo0.pdf}}
+
+\onslide<2>{
+\vskip -18.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/ToDo1.pdf}}
+
+\onslide<3>{
+\vskip -18.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/ToDo2.pdf}}
+
+\onslide<4>{
+\vskip -18.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/ToDo3.pdf}}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Acknowledgements}
+
+This work was supported in part by the VarSys project:
+NSF Grants CNS-1565314 and CNS-1838271.
+
+\bigskip
+
+This work was also supported in part by FASTMath Institute:
+U.S.~Department of Energy,
+Office of Science, Office of Advanced Scientific Computing Research,
+SciDAC program under contract number DE-AC02-06CH11357.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Questions}
+  \tableofcontents
+  \bigskip
+\end{frame}
+
+% Delaunay graph appendics
+\section{Bonus Slides: Computing the Delaunay Graph}
+
 \begin{frame}{The Delaunay Graph}
 \begin{itemize}
-\item Delaunay graph of $P = DG(P)$
+\item Delaunay graph of ${\cal X} = DG({\cal X})$
 \item Connect 2 vertices iff they are shared by a single Delaunay simplex
 \item Used for:
 \begin{itemize}
@@ -583,17 +749,16 @@ ACM Trans.\ Math.\ Softw.\ 46(4).}
 \item Topological shape analysis
 \end{itemize}
 \item There are at most $n(n-1)/2$ edges
-\item Current state-of-the-art implementation in CGAL computes $DG(P)$ from
-$DT(P)$ -- scales well for large $n$, infeasible for $d\geq10$
+\item Current state-of-the-art implementation in CGAL computes $DG({\cal X})$ from
+$DT({\cal X})$ -- scales well for large $n$, infeasible for $d\geq10$
 \end{itemize}
 \end{frame}
 
-\subsection{Algorithm using DELAUNAYSPARSE}
 \begin{frame}{Getting the Delaunay Graph}
 \begin{itemize}
-\item The number of connections in $DG(P)$ is upper bounded by $n(n-1)/2$
-\item Can recover $DG(P)$ by interpolating the midpoint between each
-pair of points in $P$
+\item The number of connections in $DG({\cal X})$ is upper bounded by $n(n-1)/2$
+\item Can recover $DG({\cal X})$ by interpolating the midpoint between each
+pair of points in ${\cal X}$
 \begin{itemize}
 \item If the simplex containing the midpoint between $x^{(1)}$ and $x^{(2)}$
 also contains both $x^{(1)}$ and $x^{(2)}$, then they are clearly connected
@@ -605,31 +770,26 @@ $\mathcal{O}(n^3 d^2 \ell)$ time --- better than current state-of-the-art for
 $d$ large, worse for $n$ large
 \end{itemize}
 
-\medskip
-Implementation currently under review for publication.
+\vfill
 
-\medskip
-Full proof/description in\\
-{\tiny \it T.H.~Chang. Mathematical Software for Multiobjective Optimization
-Problems. Ph.D.~Thesis, Virginia Tech, 2020.}
+{\tiny Full proof in my PhD dissertation:
+
+Chang, {\sl Mathematical Software for Multiobjective Optimization Problems}.
+PhD dissertation, Virginia Tech (2020).
+}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Questions}
-  \tableofcontents
-  \bigskip
-{\tiny
-This material is based upon work supported by the U.S. Dept.\ of Energy,
-Office of Science, Office of Advanced Scientific Computing Research, SciDAC
-program under contract number DE-AC02-06CH11357, and the Office of Science
-Graduate Student Research (SCGSR) program.
-The SCGSR program is administered by the Oak Ridge Institute for
-Science and Education (ORISE), which is managed by ORAU under contract number
-DE-SC0014664.
-All opinions in this paper are the authors' and do not
-necessarily reflect the policies and views of the DOE, ORAU, or ORISE.
+\frametitle{Parallel scaling}
 
-This work was also supported in part by NSF Grants CNS-1565314 and CNS-1838271.
-}
+For $d>8$, CGAL crashes with out-of-memory error
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{../img/delaunay_new/parallel_scaling_plot.eps}
+\end{center}
+
+\vfill
+
+\pause Paper has been rejected due to lack of real-world data
 \end{frame}
 \end{document}
