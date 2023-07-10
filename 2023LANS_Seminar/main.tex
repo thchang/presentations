@@ -399,10 +399,10 @@ To define a piecewise linear interpolant in $\mathbb{R}^d$,
 
 \begin{columns}
 \begin{column}{.62\textwidth}
-$(x^{(i,0)}, \ldots, x^{(i,d)}, {\bf 1})w = q$
+$\left[x^{(i,0)} \quad \ldots \quad x^{(i,d)} \atop 1 \quad \ldots \quad 1\right]w = \left[q \atop 1\right]$
 
 $$
-{\hat f}_{S^{(i)}}(q) = w^T \big(f(x^{(i,1)}), \ldots, f(x^{(i,d)})\big).
+{\hat f}_{S^{(i)}}(q) = w^T \big(f(x^{(i,0)}), \ldots, f(x^{(i,d)})\big).
 $$
 
 \end{column}
@@ -411,6 +411,7 @@ $$
 \end{column}
 \end{columns}
 
+\pause
 Taylor bound at $x^{(i,0)}$ is:
 
 $$
