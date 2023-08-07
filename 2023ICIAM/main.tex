@@ -1,41 +1,54 @@
-% ANL Beamer template
 \documentclass[aspectratio=169]{beamer}
+
+\usepackage[utf8]{inputenc}
+%\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+%\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{algorithmic}
+
+% Get checkmark logo
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+% Get \lee and \gee commands
+\newcommand{\lee}{\leqq}
+\newcommand{\gee}{\geqq}
+
+% Strikouts
+\usepackage[normalem]{ulem}
+
+% Restore Mathcal
+\let\saveboldmath\boldmath
+\usepackage{mathptmx}
+\let\boldmath\saveboldmath
+\usepackage{bm}
+\DeclareSymbolFont{cmsymbols}{OMS}{cmsy}{m}{n}
+\SetSymbolFont{cmsymbols}{bold}{OMS}{cmsy}{b}{n}
+\DeclareSymbolFontAlphabet{\mathcal}{cmsymbols}
+
 \include{header}
 \usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/NormalANLBlue}}
-
-% Define big arrow down
-\newcommand{\xdownarrow}[1]{%
-  {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
-}
-
-\usepackage{xcolor,ulem}
-
-\AtBeginSection[]{
-  \begin{frame}
-  \vfill
-  \centering
-  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-    \usebeamerfont{title}\insertsectionhead\par%
-  \end{beamercolorbox}
-  \vfill
-  \end{frame}
-}
-
-% Title/author info
+% Title Information
 \title{Data sampling for surrogate modeling and optimization}
-\author{Tyler Chang}
-\institute{MCS Division, Argonne National Laboratory}
-\date{\small ICIAM 2023 -- Tokyo, Japan}
+\author{Tyler Chang\\
+(and others)}
+\date{ICIAM 2023, Tokyo, Japan\\
+Aug 23, 2023}
+\institute{Argonne National Laboratory}
 
-% Slides start here
 \begin{document}
 
-% Set the background graphics
 \setbeamertemplate{footline}{}
 {
 \usebackgroundtemplate{\includegraphics[width=\paperwidth]{../templates/TitleANLBlue}}
 \frame{\titlepage}
 }
+
 \setbeamertemplate{footline}[page number]{}
 
 % FRAME: overview
@@ -44,575 +57,342 @@
   \tableofcontents
 \end{frame}
 
-% ========================================
-% main slides come here
-% ========================================
+\section{Inference problems and high-dimensional modeling}
 
-\section{Problem Setting and Some Background}
+\begin{frame}\frametitle{The fundamental machine learning problem}
 
-\begin{frame}\frametitle{Multivariate Interpolation}
 \begin{columns}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{feasible_design.eps}
-\end{column}
-\begin{column}{.2\textwidth}
+\begin{column}{0.5\textwidth}
+
+\onslide<2>{
 \begin{center}
-$\xrightarrow{\hspace*{2cm}}$
-$$
-F : {\cal X} \rightarrow {\cal Y}
-$$
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt1.eps}
 \end{center}
-\end{column}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{convex_pareto.eps}
-\end{column}
-\end{columns}
-\bigskip
-\bigskip
-\bigskip
-\end{frame}
-
-\begin{frame}\frametitle{Multivariate Interpolation}
-\begin{columns}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{feasible_design_with_data.eps}
-\end{column}
-\begin{column}{.2\textwidth}
-\begin{center}
-$\xrightarrow{\hspace*{2cm}}$
-$$
-F : {\cal X} \rightarrow {\cal Y}
-$$
-\end{center}
-\end{column}
-\begin{column}{.35\textwidth}
-\includegraphics[width=\textwidth]{convex_pareto_with_data.eps}
-\end{column}
-\end{columns}
-
-\pause
-\bigskip
-
-{\large Given a set of $n$ points {\color{red} ${\cal P}$} in ${\cal X}$,
-find
-${\color{blue} {\hat F}} \approx F$ such that ${\hat F}({\color{red} x}) = F({\color{red} x})$ for all
-{\color{red}$x\in{\cal P}$}}
-
-\pause
-\bigskip
-
-{\large Suppose ${\cal X} \subset \mathbb{R}^d$ and
-${\cal Y} \subset \mathbb{R}^p$, and $F$ is continuous
 }
 
-\end{frame}
-
-\begin{frame}\frametitle{My Motivation: Multiobjective RSM}
-\begin{columns}
-\begin{column}{0.4\textwidth}
+\onslide<3>{
 \begin{center}
-\onslide<2->{
-\includegraphics[width=0.6\textwidth]{lh_doe.eps}\\
-}
-\medskip
-\vskip 0.5cm
-\medskip
-\onslide<5->{
-\includegraphics[width=0.6\textwidth]{tradeoff.eps}
-}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt2.eps}
 \end{center}
-\end{column}
-\begin{column}{0.2\textwidth}
+}
+
+\onslide<4>{
 \begin{center}
-\onslide<3->{
-$\xrightarrow{\hspace*{1.5cm}}$}\\
-\vskip 1.2cm
-\onslide<6->{
-$\qquad\qquad\nearrow$\\
-{\Huge $\mathcal{C}$}\\
-$\nearrow\qquad\qquad$}\\
-\vskip 1cm
-\onslide<5->{
-$\xleftarrow{\hspace*{1.5cm}}$}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt3.eps}
 \end{center}
-\end{column}
-\begin{column}{0.4\textwidth}
+}
+
+\onslide<5>{
 \begin{center}
-\onslide<3->{
-\includegraphics[width=0.58\textwidth]{lab_setup.jpg}\\
-}
-\medskip
-\onslide<4->{
-$\xdownarrow{0.5cm}$\\
-\medskip
-\includegraphics[width=0.9\textwidth]{rsm.eps}
-}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt4.eps}
 \end{center}
+}
+
+\onslide<6>{
+\begin{center}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt5.eps}
+\end{center}
+}
+
 \end{column}
-\end{columns}
-\onslide<7>{\tt https://github.com/parmoo/parmoo}
-\end{frame}
-
-\begin{frame}{Interpolation Techniques}
-
+\begin{column}{0.5\textwidth}
 \begin{itemize}
-\pause \item Train a neural network to 0 training error
-\begin{itemize}
-\pause \item For example, a fully-connected ReLU net
+\onslide<2->{\item Want to predict unknown $f(x)$ for observation $x$}
+\onslide<3->{\item {\bf ML}: {\sl Learn} approximation ${\hat f} \sim f$ based on {\sl training data} ${\cal X}$}
+\onslide<3->{\item {\bf NA}: fit an interpolant (piecewise-linear) to $f$ on ${\cal X}$}
+\onslide<4->{\item Both cases: more data $\Rightarrow$ better ${\hat f}$}
+\onslide<5->{\item Real data not perfectly balanced  $\Rightarrow$ ${\hat f} \rightarrow f$ non-uniformly}
+\onslide<6->{\item If we have enough data, it doesn't matter}
 \end{itemize}
-\bigskip
-\pause \item Other statistics/machine learning models
-\begin{itemize}
-\pause
-\item Gaussian processes
-\item Support vector regressor
-\item Decision tree-based methods
-\end{itemize}
-\bigskip
-\pause \item ``Classical'' interpolation techniques
-\begin{itemize}
-\pause \item Polynomial interpolation
-\item B-spline interpolation
-\item RBF interpolants
-\item generalized Shepard's methods
-\item {\bf Piecewise linear interpolation}
-\end{itemize}
-\end{itemize}
-\end{frame}
-
-\section{My Story with Interpolation Methods}
-
-\begin{frame}{Piecewise Linear Interpolation}
-\begin{columns}
-\begin{column}{0.7\textwidth}
-\begin{itemize}
-\item Let ${\color{blue} \cal T}({\cal P})$ be a
-$d$-dimensional triangulation of ${\cal P}$.
-\item Given an interpolation point $q \in {\cal CH}({\color{red} \cal P})$,
-let ${\color{blue} \cal S}$ be a simplex in ${\color{blue} \cal T(P)}$
-with vertices {\color{blue} $s_1$, $\ldots$, $s_{d+1}$} such that
-$q\in {\color{blue} \cal S}$.
-\item Then there exist unique {\it convex weights}
-{\color{red} $w_1$, $\ldots$, $w_{d+1}$} 
-such that $q = \sum_{i=1}^{d+1} {\color{red} w_i} {\color{blue} s_i}$.
-\end{itemize}
-\pause
-\bigskip
-Define:
-$$
-\hat{F}_{\color{blue} \cal T} (q) =
-F({\color{blue} s_1}) {\color{red} w_1} +
-F({\color{blue} s_2}) {\color{red} w_2} +
-\text{ $\ldots$ } +
-F({\color{blue} s_{d+1}}){\color{red} w_{d+1}}
-$$
-\end{column}
-\begin{column}{0.3\textwidth}
-\includegraphics[width=\columnwidth]{delaunayplane-eps-converted-to.pdf}
 \end{column}
 \end{columns}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Some basic numerical analysis results}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+When ${\hat f}$ is a piecewise linear spline:
+
+\bigskip
+
+For $h$ ``small enough'' -- let $q$ be the querry point
+$$
+|f(q) - {\hat f}(q)| \sim {\cal O}( h^2)
+$$
+\end{column}
+\begin{column}{0.5\textwidth}
+\onslide<1>{
+\begin{center}
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt5.eps}
+\end{center}
+}
+
+\onslide<2>{
+\begin{center}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt2.eps}
+\end{center}
+}
+
+\end{column}
+\end{columns}
+\begin{itemize}
+\item $h$ is a ``mesh fineness'' parameter $\sim$ distance between points in ${\cal X}$
+\item For irregular ${\cal X}$, $h$ could be the distance from $q$ to the nearest neighbor in ${\cal X}$
+\item Constants proportional to the Lip constant of $\nabla f$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some basic deep learning}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Train a fully-connected multi-layer perceptron (MLP) using ${\cal X}$
+\item The most popular activation function is ReLU (piecewise linear)
+\item In modern ML, train as close to zero error as possible (interpolate)
+\end{itemize}
+\end{column}
+
+\begin{column}{0.5\textwidth}
 \pause
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../img/delaunay_new/inference_1d_pt3.eps}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Real machine learning}
+
+\begin{center}
+{\large \bf ``There's more to machine learning than function approximation''}
+\end{center}
+
+\pause
+\bigskip
+
+\begin{itemize}
+\item $f$ is often highly {\sl structured} -- MLPs with nothing else are from the 60s
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.1\textwidth]{../img/delaunay_new/mnist_data_0.png}
+{\huge $\qquad \xrightarrow{\quad f \quad} \qquad 0$}
+\end{center}
+
+\bigskip
+$$
+28 \times 28 \text{ pixels} \neq 784 \text{ dimensions...}
+$$
+\end{frame}
+
+\begin{frame}
+\frametitle{The curse of dimensionality}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{../img/delaunay_new/inference_2d_pt1.eps}\\
+10 training points in 1D
+\end{center}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../img/delaunay_new/inference_2d_pt2.eps}\\
+10 training points in 2D
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{The curse of \sout{dimensionality} no data}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{../img/delaunay_new/inference_2d_pt3.eps}\\
+Need data in all quadrants?
+\end{center}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\pause
+\begin{itemize}
+\item Inference in 2D : $2^2 = 4$
+\item Inference in 10D : $2^{10} \approx 1000$
+\item Inference in 100D : $2^{100} \approx 10^{30}$ (orders of magnitude bigger than exascale)
+\item Many ML problems : inference in 1000+ dimensions
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%\begin{frame}
+%\frametitle{The blessing of dimensionality (no noise)}
+%
+%\begin{center}
+%\includegraphics[width=0.7\textwidth]{../img/delaunay_new/2d_errors_w_noise.png}\\
+%Delaunay interpolation vs MLP error in {\bf 2D} with and w/o noise
+%\end{center}
+%
+%\vfill
+%
+%{\tiny Lux, Watson, Chang, et al.
+%Interpolation of sparse high-dimensional data.
+%{\sl Numerical Algorithms 88}, pp.~281–313 (2021).}
+%
+%\end{frame}
+%
+%\begin{frame}
+%\frametitle{The blessing of dimensionality (no noise)}
+%
+%\begin{center}
+%\includegraphics[width=0.7\textwidth]{../img/delaunay_new/20d_errors_w_noise.png}\\
+%Delaunay interpolation vs MLP error in {\bf 20D} with and w/o noise
+%\end{center}
+%
+%\vfill
+%
+%{\tiny Lux, Watson, Chang, et al.,
+%Interpolation of sparse high-dimensional data.
+%{\sl Numerical Algorithms 88}, pp.~281–313 (2021).}
+%
+%\end{frame}
+
+\begin{frame}
+\frametitle{Measure collapse}
+
+Can we still make good predictions where we {\bf do} have data?
+
+\bigskip
+\pause
+
+{\bf No, because we have no data anywhere}
+
+\bigskip
+
+We measure where we {\sl might} have enough data to make a prediction
+using the ``convex hull'' of the training data $CH({\cal X})$
+
+\bigskip
+\pause
+
+If ${\cal X}$ are sampled from {\sl any} distribution,
+$\mu(CH({\cal X})) \rightarrow 0$ {\sl exponentially} as $d$ grows
+
+\bigskip
+
+This is called a {\sl concentration of measure}
 
 \vfill
 
-{\small \it {\bf Chang} et al. 2020. Algorithm 1012: DELAUNAYSPARSE. ACM TOMS 46(4), Article No.~38.}
+{\tiny Gorban and Tyukin,
+Stochastic separation theorems.
+{\sl Neural Networks 94}, pp.~255-259 (2017).}
 
 \end{frame}
 
-\begin{frame}\frametitle{Error Rates for Piecewise Linear Interpolants}
-For an individual component function $F_i$:
-\begin{itemize}
-\item Let $\nabla F_i$ be $\lambda$-Lipschitz in the $2$-norm\\
-\item For ${\cal S}\in {\cal T}$ containing $q$,
-\begin{itemize}
-\item let $\xi$ be the diameter of ${\cal S}$ and
-\item $\kappa_{\cal S}$ be the condition number of ${\cal S}$'s
-barycentric transformation matrix
-\end{itemize}
-\end{itemize}
-\pause
-\bigskip
-Then
-$$
-|F_i(q) - {\hat F}_{\cal T}(q)| \leq
-{\color{blue} \frac{\lambda}{2}(1 + \sqrt{d}{\color{red}\kappa_{\cal S}})}
-{\color{red} \xi^2}
-$$
+\begin{frame}
+\frametitle{Example}
+
+Suppose that we uniformly sample $x = (x_1, x_2, \ldots, x_d)$ from $[0, 1]^d$
 
 \bigskip
 
-\pause
+$$
+\|x - \frac{1}{2}\|_2^2 = \sum_{i=1}^d{(x_i - \frac{1}{2})^2}.
+$$
+
+$$
+\mathbb{E}\left[ \left(x_i - \frac{1}{2}\right)^2 \right]
+= \int_{0}^1 \left(u - \frac{1}{2}\right)^2 du
+= \frac{1}{12}
+$$
+with finite variance $\nu$
+
+\bigskip
+
+By CLT for all $x \in {\cal X}$:
+$\mathbb{E}[\|x - \frac{1}{2}\|_2^2] = \frac{d}{12}$
+with variance $\frac{\nu}{d}\rightarrow 0$ as $d\rightarrow\infty$.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Collapse of some common distributions}
+
+\begin{center}
+\includegraphics[width=0.45\textwidth]{../img/moo_new/discrep_linear.eps}
+\includegraphics[width=0.45\textwidth]{../img/moo_new/discrep_log.eps}
+\end{center}
 
 \vfill
 
-{\small \it Lux, Watson, {\bf Chang}, et al. 2021. Interpolation of sparse high-dimensional data. Numerical Algorithms 88(1), 281--313.}
+{\tiny Garg, Chang, and Raghavan,
+Stochastic optimization of Fourier coefficiencts to generate space-filling designs.
+{\sl To appear in Winter Sim 2023}.}
 
 \end{frame}
 
-\begin{frame}\frametitle{Issues Solving Real-World Problems}
+\begin{frame}
+\frametitle{Modern deep learning pipeline}
 
-\includegraphics[width=0.3\textwidth]{ch-proj.eps}
-\includegraphics[width=0.3\textwidth]{poor-condition-data.eps}
-\includegraphics[width=0.3\textwidth]{unbalanced-simps.eps}
-
-\begin{itemize}
-\pause \item Too many extrapolation points (information lost in projection)
-\pause \item ``Flat'' data set -- cannot (accurately) triangulate
-\pause \item Several massive simplices (high error-rate, poor conditioning)
-\end{itemize}
+\includegraphics{../img/delaunay_new/interpolating_latent_space.pdf}
 
 \end{frame}
 
-\begin{frame}\frametitle{What does the theory say?}
+\section{Modeling for high-dimensional optimization}
 
-\pause
+\begin{frame}
+\frametitle{Hope in context of optimization}
 
-{\small \it Gorban et al.\ 2017. Stochastic separation theorems.
-Neural Networks 94, 255-259.}
-
-\pause
-\bigskip
-
-My take:
-
-Let ${\cal P}$ be randomly sampled by a distribution $\mu$,
-then
-\pause
-$$
-\mathbb{E}\left[ \text{vol}({\cal CH}({\cal P})) \right] \rightarrow 0
-\text{ as $d$ increase}
-\pause
-\quad
-\text{(exponentially)}
-$$
-
-\end{frame}
-
-\begin{frame}\frametitle{But does it happen in practice?}
-
-\pause
-
-{\small \it Yousefzadeh 2020. Deep learning generalization and the convex hull
-of training sets.
-Deep Learning through Info.~Geom.~Workshop, NeurIPS.
-}
-
-\pause
-\bigskip
-
-My take:
-
-Yes, it does... and it's bad.
-
-\end{frame}
-
-\section{The Geometry of Bad Data}
-
-\begin{frame}\frametitle{Error Rates for Piecewise Linear Interpolants}
-For an individual component function $F_i$:
-\begin{itemize}
-\item Let $\nabla F_i$ be $\lambda$-Lipschitz in the $2$-norm\\
-\item For ${\cal S}\in {\cal T}$ containing $q$,
-\begin{itemize}
-\item let $\xi$ be the diameter of ${\cal S}$ and
-\item $\kappa_{\cal S}$ be the condition number of ${\cal S}$'s
-barycentric transformation matrix
-\end{itemize}
-\end{itemize}
-\bigskip
-Then
-$$
-|F_i(q) - {\hat F}_{\cal T}(q)| \leq
-{\color{blue} \frac{\lambda}{2}(1 + \sqrt{d}{\color{red}\kappa_{\cal S}})}
-{\color{red} \xi^2}
-$$
-
-\bigskip
-
-\vfill
-
-{\small \it Lux, Watson, {\bf Chang}, et al. 2021. Interpolation of sparse high-dimensional data. Numerical Algorithms 88(1), 281--313.}
-
-\end{frame}
-
-\begin{frame}\frametitle{What Could Go Wrong: Poor data conditioning}
-\begin{columns}
-\begin{column}{0.6\textwidth}
-\begin{itemize}
-\pause
-\item Simplices are long and narrow
-\item {\color{red} $\kappa_{\cal S}$ term blows up}
-\item ${\hat F}_{\cal T}$ is hard to compute and low accuracy
-\item Ex: data lies close to a lower-dimensional manifold
-\end{itemize}
-\end{column}
-\begin{column}{0.4\textwidth}
 \begin{center}
-\includegraphics[width=0.6\textwidth]{triangleplane.eps}\\
-
-\includegraphics[width=0.9\textwidth]{poor-condition-data.eps}
+\includegraphics[width=0.55\textwidth]{../img/moo_new/iclr-thumbnail.png}
 \end{center}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{What Could Go Wrong: Data imbalance}
-\begin{columns}
-\begin{column}{0.6\textwidth}
-\begin{itemize}
-\pause
-\item Data accumulates in subregions of ${\cal X}$
-\item {\color{red} $\xi$ stays large in less-dense regions of ${\cal X}$}
-\item Can also result in poor conditioning, but they are not the same
-\item Called {\it high discepancy}
-\end{itemize}
-\end{column}
-\begin{column}{0.4\textwidth}
-\includegraphics[width=\textwidth]{imbalanced-data.eps}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{What Could Go Wrong: Extrapolation}
-\begin{columns}
-\begin{column}{0.6\textwidth}
-\begin{itemize}
-\pause
-\item ${\hat F}_{\cal T}$ is only defined in the ${\cal CH}({\cal P})$
-\item Will have to project $q$ into ${\cal CH}({\cal P})$ and interpolate
-projection
-\item {\color{red} Low accuracy when residual is large}
-\item When ${\cal CH}({\cal P})$ is a small subset of ${\cal X}$,
-overall accuracy can be poor
-\end{itemize}
-\end{column}
-\begin{column}{0.4\textwidth}
-\includegraphics[width=\textwidth]{projection.eps}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Same Issues for RBFs/GPs}
-$$
-{\hat F}_{RBF} =
-\omega^\top \left[ \begin{array}{c}
-e^{-\|x_1 - x\|^2/\sigma}\\
-e^{-\|x_2 - x\|^2/\sigma}\\
-\vdots\\
-e^{-\|x_n - x\|^2/\sigma}
-\end{array} \right]
-$$
-\pause
-where
-$ A \omega = y $
-and 
-$$
-A = 
-\left[
-\begin{array}{cccc}
-1 & e^{-\|x_1 - x_2\|^2/\sigma} & \ldots & e^{-\|x_1 - x_n\|^2/\sigma} \\
-e^{-\|x_2 - x_1\|^2/\sigma} & 1 & \ldots & e^{-\|x_2 - x_n\|^2/\sigma} \\
-\vdots & \vdots &  & \vdots \\
-e^{-\|x_n - x_1\|^2/\sigma} & e^{-\|x_n - x_2\|^2/\sigma} & \ldots & 1 \\
-\end{array}
-\right]
-\qquad
-y = 
-\left[
-\begin{array}{c}
-F(x_1) \\
-F(x_2) \\
-\vdots \\
-F(x_n) \\
-\end{array}
-\right]
-$$
 
 \end{frame}
 
-\begin{frame}\frametitle{RBF/GP Conditioning and Accuracy}
-$$
-A = 
-\left[
-\begin{array}{cccc}
-1 & e^{-\|x_1 - x_2\|^2/\sigma} & \ldots & e^{-\|x_1 - x_n\|^2/\sigma} \\
-e^{-\|x_2 - x_1\|^2/\sigma} & 1 & \ldots & e^{-\|x_2 - x_n\|^2/\sigma} \\
-\vdots & \vdots &  & \vdots \\
-e^{-\|x_n - x_1\|^2/\sigma} & e^{-\|x_n - x_2\|^2/\sigma} & \ldots & 1 \\
-\end{array}
-\right]
-$$
+\begin{frame}
+\frametitle{Global modeling is harder than optimization}
+
+For optimization, only need model accuracy near the solution...
+
 \begin{itemize}
-\pause \item As we seek higher accuracy, data points get closer together
-\pause \item As $\|x_i - x_j\| \rightarrow 0$, $A \rightarrow$ singularity
-\pause \item Decrease the shape parameter $\sigma$ to keep $A$ nonsingular
-\pause \item Descreasing $\sigma$ restricts the support of ${\hat F}_{RBF}$
-\begin{itemize}
-\pause
-\item Inability to extrapolate outside ${\cal CH}({\cal P})$
-\item When data is imabalanced, accuracy will {\it decrease} in low density
-regions
-\end{itemize}
-\pause \item ``Uncertainty principle'' -- for real-world datasets, cannot
-have accuracy and solvability
+\item Global modeling is {\sl significantly harder than optimizing}
+\item To build a {\sl globally accurate model} over $n$ variables, need ${\cal O}(2^n)$ samples
+\item To build a {\sl locally accurate model} over $n$ variables, need ${\cal O}(n)$ samples
 \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{More general with Fully Linear Models}
-
-\pause
-A fully linear model is ``accurate enough'' to use as a gradient oracle
-in a $\delta$-ball around $x_0$
-
-\pause
-$$
-\begin{array}{c}
-|{\hat F}(x)-F(x)| \leq C_1 \delta^2\\
-\| \nabla {\hat F}(x) - \nabla F(x)\| \leq C_2 \delta
-\end{array}
-$$
-
-for all $\|x - x_0\| < \delta$.
-
-\pause
+\begin{frame}
+\frametitle{Global optimization}
+In global optimization literature...
 \begin{itemize}
-\item When ${\hat F}$ interpolates, conditions for fully linearity
-reduce to geometric conditions
-\begin{itemize}
-\item $d+1$ model points in ball are affinely independent
-\end{itemize}
-\item Only accurate within ball
-\begin{itemize}
-\item no guarantees during extrapolation
-\item no convergence in low-density regions
-\end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Summary of Bad Data}
-\begin{itemize}
-\item Small convex hull
-\item Imbalanced
-\item Poorly conditioned
+\item Balance exploration vs.\ exploitation
+\item Drive {\sl global model error} to zero
+\item Need exponentially many samples to guarantee global convergence
 \end{itemize}
 
-\bigskip
-\pause
+Guarantees convergence for problems with thousands of local minima
 
-Real-world datasets have zero-volume in high-dimensions, which leads to
-all of the properties
-
-\end{frame}
-
-\section{A Proposed Solution}
-
-\begin{frame}\frametitle{Design of Experiments}
-
-\begin{itemize}
-\pause \item Classical deterministic designs -- full-factorial, central composite, box-behnkin
-\begin{itemize}
-\item Typically don't scale well to many dimensions
-\end{itemize}
-\pause \item Optimal design of experiments -- A-optimal, E-optimal, D-optimal designs
-\begin{itemize}
-\item Maximize info gain, which is roughly equivalent to max.~model conditioning
-\item Expensive to calculate
-\item Typically require a model {\sl a priori}
-\end{itemize}
-\pause \item Geometric criteria -- maximin and minimax
-\begin{itemize}
-\item Heuristically good for maximizing convex hulls
-\item Expensive to calculate in high dimensions
-\end{itemize}
-\pause \item Low discrepancy sequences -- Sobol, Halton, etc.
-\begin{itemize}
-\item Produce balanced datasets
-\item Performance falls off when sample size is not chosen carefully
-\end{itemize}
-\pause \item Latin hypercubes
-\begin{itemize}
-\item Stratifies sample -- good for linear models
-\item No theory for nonlinear models
-\item Heuristically good in practice and cheap to calculate
-\end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Stochastic Fourier SFD}
-\begin{columns}
-\begin{column}{0.3\textwidth}
 \begin{center}
-\begin{tabular}{l}
- - Desired sample size\\
- - Performance criertia
-\end{tabular}\\
-
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
-{\tt COBYLA}
-
+\includegraphics[width=0.35\textwidth]{../img/moo_new/ackley.png}
+$\qquad\qquad$
+\includegraphics[width=0.4\textwidth]{../img/moo_new/rastrigin.png}
 \end{center}
-\end{column}
-\begin{column}{0.2\textwidth}
 
-$\xrightarrow{\hspace*{1.5cm}}$\\
-
-\medskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
-$\xleftarrow{\hspace*{1.5cm}}$\\
-
-\end{column}
-\begin{column}{0.3\textwidth}
-\begin{center}
-\includegraphics[width=0.6\textwidth]{lh_doe.eps}\\
-
-$\downarrow$\\
-
-$$
-\alpha_1 e^{2\pi i x} + \alpha_2 e^{2 \pi i (2x)} + \ldots
-$$
-\end{center}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Preliminary Results}
-\begin{columns}
-\begin{column}{0.3\textwidth}
-\includegraphics[width=\textwidth]{2.png}\\
-\end{column}
-\begin{column}{0.3\textwidth}
-\includegraphics[width=\textwidth]{3.png}\\
-\end{column}
-\begin{column}{0.3\textwidth}
-\includegraphics[width=\textwidth]{5.png}\\
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}\frametitle{Resources}
-\begin{center}
-{\large
-E-mail: {\tt tchang@anl.gov}}\\
-\bigskip
-\bigskip
-Code: {\tt github.com/thchang/sf-sfd}\\
-
-\bigskip
-\bigskip
-
-{\small This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.}
-\end{center}
 \end{frame}
 
 \end{document}
