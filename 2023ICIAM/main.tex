@@ -356,7 +356,30 @@ $$
 \section{Modeling for high-dimensional optimization}
 
 \begin{frame}
-\frametitle{Hope in context of optimization}
+\frametitle{Multiobjective Black-Box Optimization}
+
+\begin{center}
+\includegraphics[width=0.4\textwidth]{../img/moo_new/efficient_set.eps}
+\begin{tabular}{c}
+ \\
+ $\xrightarrow{\hspace*{1cm}}$\\
+ \\
+ \\
+ \\
+ \\
+ \\
+ \\
+ \\
+ \\
+ \\
+\end{tabular}
+\includegraphics[width=0.4\textwidth]{../img/moo_new/pareto_set.eps}
+\end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{General Workflow and Data Acquisition}
 
 \begin{center}
 \includegraphics[width=0.55\textwidth]{../img/moo_new/iclr-thumbnail.png}
@@ -364,17 +387,17 @@ $$
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Global modeling is harder than optimization}
-
-For optimization, only need model accuracy near the solution...
-
-\begin{itemize}
-\item Global modeling is {\sl significantly harder than optimizing}
-\item To build a {\sl globally accurate model} over $n$ variables, need ${\cal O}(2^n)$ samples
-\item To build a {\sl locally accurate model} over $n$ variables, need ${\cal O}(n)$ samples
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Global modeling is harder than optimization}
+%
+%For optimization, only need model accuracy near the solution...
+%
+%\begin{itemize}
+%\item Global modeling is {\sl significantly harder than optimizing}
+%\item To build a {\sl globally accurate model} over $n$ variables, need ${\cal O}(2^n)$ samples
+%\item To build a {\sl locally accurate model} over $n$ variables, need ${\cal O}(n)$ samples
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Global optimization}
@@ -420,6 +443,20 @@ $\qquad\qquad$
 \begin{center}
 \vskip -14.5em
 \includegraphics[width=\textwidth]{../img/moo_new/trust_region_pt2.eps}
+\end{center}
+}
+
+\onslide<3>{
+\begin{center}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/moo_new/trust_region_pt3.eps}
+\end{center}
+}
+
+\onslide<4>{
+\begin{center}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/moo_new/trust_region_pt4.eps}
 \end{center}
 }
 \end{column}
@@ -473,6 +510,173 @@ ParMOO: A Python library for parallel multiobjective simulation optimization.
 {\sl JOSS 8(82):4468 (2023).}
 }
 
+\end{frame}
+
+\section{Some Applications}
+
+\begin{frame}
+\frametitle{Chemical Design on a Limited Budget}
+
+{\small
+\begin{itemize}
+\item 6-dimensional latent space embedding of a mixed-variable problem
+\item 3-objectives electrolyte manufacturing
+\begin{itemize}
+\item high yield, minimal byproduct, low reaction times
+\end{itemize}
+\item Running real-world experiments with very limited budget
+\end{itemize}
+}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/moo_new/cfr_hv1_rbf_gp.eps}
+\end{center}
+
+\vfill
+
+{\tiny
+
+Chang et al.
+A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps
+{\sl In ICLR 2023, Workshop on ML4Materials.}
+
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Fayans Model Calibration (Inverse Problem)}
+
+\begin{itemize}
+\item 13-variable, 3-objective problem
+\item Higher dimensional, requires trust-region methods
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/moo_new/fayans_hv1.eps}
+\end{center}
+
+\vfill
+
+{\tiny
+
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+{\sl Under review, preprint https://arxiv.org/abs/2304.06881.}
+
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Particle Accelerator Beam Design}
+
+\begin{itemize}
+\item 22-variable, 2-objective problem
+\item 3 physics constraints, nearly impossible to satisfy
+\item Matched well-known reference gun geometry with just
+      {\bf 1300} true simulation evaluations
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../img/moo_new/accelerator_design.png}
+\end{center}
+
+\vfill
+
+{\tiny
+
+Chen, Chang, et al.
+An Integrated Multi-Physics Optimization Framework for Particle Accelerator Design.
+{\sl Under review.}
+
+}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Some Conclusions}
+
+\begin{itemize}
+\item Doing anything global (modeling, optimization, etc.) in high-dimensions
+is very hard (maybe impossible)
+\item Easier to identify low-dimensional structures and model these {\sl locally}
+\begin{itemize}
+\item In my experience, giving up global accuracy is the only thing that scales to big problems
+\end{itemize}
+\item Some problems (optimization) don't necessarilly require global accuracy
+\begin{itemize}
+\item Don't demand it if you don't need it!
+\end{itemize}
+\item Optimization rarely truly requires global accuracy
+\pause\item {\sl But there are other problems that do require global accuracy...}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+
+{\small\it
+
+Garg, Chang, and Raghavan.
+Stochastic optimization of Fourier coefficiencts to generate space-filling designs.
+{\sl To appear in Winter Sim 2023}.
+
+\medskip
+
+
+Chang and Wild.
+ParMOO: A Python library for parallel multiobjective simulation optimization.
+{\sl JOSS 8(82):4468 (2023)}.
+
+\medskip
+
+Chang and Wild.
+Designing a framework for solving multiobjective simulation optimization problems.
+{\sl Under Review, ArXiv preprint 2304.06881 (2023)}.
+
+\medskip
+
+Chang et al.
+A framework for fully autonomous design of materials via multiobjective optimization and active learning: challenges and next steps.
+In {\sl ICLR 2023, Workshop on ML4Materials}.
+
+\medskip
+
+Chen, Chang, et al.
+An Integrated Multi-Physics Optimization Framework for Particle Accelerator Design.
+{\sl Under review.}
+
+}
+
+\end{frame}
+
+\begin{frame}\frametitle{Resources}
+\begin{center}
+{\large
+GitHub: {\tt github.com/parmoo/parmoo}
+
+\medskip
+
+Pip: {\tt pip install parmoo}\\
+Conda: {\tt conda install --channel=conda-forge parmoo}}
+
+\bigskip
+\bigskip
+
+Test problems: {\tt github.com/parmoo/parmoo-solver-farm}
+
+\bigskip
+\bigskip
+
+{\tt tchang@anl.gov}
+
+\vfill
+
+{\tiny This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.\\}
+
+\end{center}
 \end{frame}
 
 \end{document}
