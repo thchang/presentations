@@ -57,7 +57,7 @@ Aug 23, 2023}
   \tableofcontents
 \end{frame}
 
-\section{Inference problems and high-dimensional modeling}
+\section{Inference problems, the curse of dimensionality, and measure collapse}
 
 \begin{frame}\frametitle{The fundamental machine learning problem}
 
@@ -168,31 +168,6 @@ $$
 \end{center}
 \end{column}
 \end{columns}
-\end{frame}
-
-\begin{frame}
-\frametitle{Real machine learning}
-
-\begin{center}
-{\large \bf ``There's more to machine learning than function approximation''}
-\end{center}
-
-\pause
-\bigskip
-
-\begin{itemize}
-\item $f$ is often highly {\sl structured} -- MLPs with nothing else are from the 60s
-\end{itemize}
-
-\begin{center}
-\includegraphics[width=0.1\textwidth]{../img/delaunay_new/mnist_data_0.png}
-{\huge $\qquad \xrightarrow{\quad f \quad} \qquad 0$}
-\end{center}
-
-\bigskip
-$$
-28 \times 28 \text{ pixels} \neq 784 \text{ dimensions...}
-$$
 \end{frame}
 
 \begin{frame}
@@ -347,6 +322,31 @@ Stochastic optimization of Fourier coefficiencts to generate space-filling desig
 \end{frame}
 
 \begin{frame}
+\frametitle{Representation learning solution}
+
+\begin{center}
+{\large \bf ``There's more to machine learning than function approximation''}
+\end{center}
+
+\pause
+\bigskip
+
+\begin{itemize}
+\item $f$ is often highly {\sl structured} -- MLPs with nothing else are from the 60s
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.1\textwidth]{../img/delaunay_new/mnist_data_0.png}
+{\huge $\qquad \xrightarrow{\quad f \quad} \qquad 0$}
+\end{center}
+
+\bigskip
+$$
+28 \times 28 \text{ pixels} \neq 784 \text{ dimensions...}
+$$
+\end{frame}
+
+\begin{frame}
 \frametitle{Modern deep learning pipeline}
 
 \includegraphics{../img/delaunay_new/interpolating_latent_space.pdf}
@@ -392,6 +392,86 @@ Guarantees convergence for problems with thousands of local minima
 $\qquad\qquad$
 \includegraphics[width=0.4\textwidth]{../img/moo_new/rastrigin.png}
 \end{center}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Local optimization}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Only exploit -- maybe multi-start or large initial search
+\item Fit a model that is {\sl locally accurate}
+\begin{itemize}
+\item Sample requirement grows only {\sl linearly with} dimension
+\end{itemize}
+\item Modification is as simple as putting a {\sl trust-region} around interesting points
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\onslide<1>{
+\begin{center}
+\includegraphics[width=\textwidth]{../img/moo_new/trust_region_pt1.eps}
+\end{center}
+}
+
+\onslide<2>{
+\begin{center}
+\vskip -14.5em
+\includegraphics[width=\textwidth]{../img/moo_new/trust_region_pt2.eps}
+\end{center}
+}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}\frametitle{ParMOO}
+
+\begin{center}
+\includegraphics[width=0.4\textwidth]{../img/logos/logo-parmoo.png}
+\end{center}
+
+\begin{columns}
+\begin{column}{0.7\textwidth}
+
+Written in {\tt Python}
+
+\bigskip
+
+Version 0.3.0 is now available on
+available on {\tt pip}, {\tt conda-forge}, and {\tt GitHub}
+
+\bigskip
+\bigskip
+\url{https://github.com/parmoo/parmoo}
+
+\bigskip
+
+\url{https://parmoo.readthedocs.io}
+\end{column}
+\begin{column}{0.2\textwidth}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/logos/logo-py.png}
+
+\bigskip
+
+\includegraphics[width=0.25\textwidth]{../img/logos/logo-gh.png}
+$\quad$
+\includegraphics[width=0.35\textwidth]{../img/logos/logo-conda.png}
+\end{center}
+\end{column}
+\end{columns}
+
+\bigskip
+\bigskip
+
+{\tiny
+Chang and Wild.
+ParMOO: A Python library for parallel multiobjective simulation optimization.
+{\sl JOSS 8(82):4468 (2023).}
+}
 
 \end{frame}
 
