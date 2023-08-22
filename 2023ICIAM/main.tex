@@ -113,62 +113,62 @@ Aug 23, 2023}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Some basic numerical analysis results}
-
-\begin{columns}
-\begin{column}{0.5\textwidth}
-When ${\hat f}$ is a piecewise linear spline:
-
-\bigskip
-
-For $h$ ``small enough'' -- let $q$ be the querry point
-$$
-|f(q) - {\hat f}(q)| \sim {\cal O}( h^2)
-$$
-\end{column}
-\begin{column}{0.5\textwidth}
-\onslide<1>{
-\begin{center}
-\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt5.eps}
-\end{center}
-}
-
-\onslide<2>{
-\begin{center}
-\vskip -14.5em
-\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt2.eps}
-\end{center}
-}
-
-\end{column}
-\end{columns}
-\begin{itemize}
-\item $h$ is a ``mesh fineness'' parameter $\sim$ distance between points in ${\cal X}$
-\item For irregular ${\cal X}$, $h$ could be the distance from $q$ to the nearest neighbor in ${\cal X}$
-\item Constants proportional to the Lip constant of $\nabla f$
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Some basic deep learning}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\begin{itemize}
-\item Train a fully-connected multi-layer perceptron (MLP) using ${\cal X}$
-\item The most popular activation function is ReLU (piecewise linear)
-\item In modern ML, train as close to zero error as possible (interpolate)
-\end{itemize}
-\end{column}
-
-\begin{column}{0.5\textwidth}
-\pause
-\begin{center}
-\includegraphics[width=0.9\textwidth]{../img/delaunay_new/inference_1d_pt3.eps}
-\end{center}
-\end{column}
-\end{columns}
-\end{frame}
+%\begin{frame}
+%\frametitle{Some basic numerical analysis results}
+%
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%When ${\hat f}$ is a piecewise linear spline:
+%
+%\bigskip
+%
+%For $h$ ``small enough'' -- let $q$ be the querry point
+%$$
+%|f(q) - {\hat f}(q)| \sim {\cal O}( h^2)
+%$$
+%\end{column}
+%\begin{column}{0.5\textwidth}
+%\onslide<1>{
+%\begin{center}
+%\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt5.eps}
+%\end{center}
+%}
+%
+%\onslide<2>{
+%\begin{center}
+%\vskip -14.5em
+%\includegraphics[width=\textwidth]{../img/delaunay_new/inference_1d_pt2.eps}
+%\end{center}
+%}
+%
+%\end{column}
+%\end{columns}
+%\begin{itemize}
+%\item $h$ is a ``mesh fineness'' parameter $\sim$ distance between points in ${\cal X}$
+%\item For irregular ${\cal X}$, $h$ could be the distance from $q$ to the nearest neighbor in ${\cal X}$
+%\item Constants proportional to the Lip constant of $\nabla f$
+%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}
+%\frametitle{Some basic deep learning}
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%\begin{itemize}
+%\item Train a fully-connected multi-layer perceptron (MLP) using ${\cal X}$
+%\item The most popular activation function is ReLU (piecewise linear)
+%\item In modern ML, train as close to zero error as possible (interpolate)
+%\end{itemize}
+%\end{column}
+%
+%\begin{column}{0.5\textwidth}
+%\pause
+%\begin{center}
+%\includegraphics[width=0.9\textwidth]{../img/delaunay_new/inference_1d_pt3.eps}
+%\end{center}
+%\end{column}
+%\end{columns}
+%\end{frame}
 
 \begin{frame}
 \frametitle{The curse of dimensionality}
