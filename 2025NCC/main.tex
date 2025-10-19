@@ -11,6 +11,14 @@
 \usepackage{amsthm}
 \usepackage{algorithmic}
 
+% Fancy figures
+\usepackage{multicol}
+\usepackage{subcaption}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
 % Get checkmark logo
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}}
@@ -280,13 +288,69 @@ Journal of Computational Physics 524, Article 113726 (2025).
 % Slide 9: Problem definition and experiment
 \begin{frame}
 \frametitle{Experiments on UIUC Airfoil Dataset}
-    $f\big($
-    \includegraphics[height=2em]{../img/}
+    {\bf Training set:}\\
+
+    $\sim$1600 labeled images:
+    $\qquad f\big($
+    \includegraphics[height=4em]{../img/probs/uiuc_airfoil/test_pt149_0.png}
     $\big) \rightarrow $
     lift/drag
+
+    \bigskip
+
+    {\bf Problem representation:}\\
+
+    % Tikz image of our architecture
+    \begin{center}
+    {\small
+    \begin{tikzpicture}[
+        node distance=1cm and 1.5cm,
+        every node/.style={
+            draw, minimum width=1.5cm, minimum height=0.5cm, align=center
+        },
+        arrow/.style={-Stealth, thick}
+    ]
+    % Nodes in the top row
+    \node (original) {Original Images};
+    \node (encoded) [right=of original] {Latent Space $\mathbb{R}^d$};
+    \node (decoded) [right=of encoded] {Decoded Images};
+    % Nodes in the bottom row
+    \node (lift_drag) [below=of original] {Lift/Drag Ratio};
+    % Arrows in the top row
+    \draw[arrow] (original) -- node[above, draw=none, fill=none]
+        {Encoder} (encoded);
+    \draw[arrow] (encoded) -- node[above, draw=none, fill=none]
+        {Decoder} (decoded);
+    % Arrows to the bottom row without boxes around labels
+    \draw[arrow] (original) -- node[left, draw=none]
+        {Original data} (lift_drag);
+    \draw[arrow] (encoded) -- node[right, xshift=5pt, draw=none]
+        {Interpolation methods} (lift_drag);
+    \end{tikzpicture}
+    }
+    \end{center}
+    \vfill
+    \url{https://github.com/ziliHarvey/CNN-for-Airfoil}
 \end{frame}
 
 % Slide 10: Results on validation set
+\begin{frame}
+\frametitle{Results on Validation Set}
+    \begin{center}
+    \begin{figure}
+    \begin{subfigure}{0.55\textwidth}
+        \includegraphics[width=0.8\textwidth]
+        {../img/probs/uiuc_airfoil/airfoil_latent4D_error_summary.eps}\\
+        \includegraphics[width=0.8\textwidth]
+        {../img/probs/uiuc_airfoil/airfoil_latent4D_error_summary_zoom.eps}
+    \end{subfigure}
+    \begin{subfigure}{0.43\textwidth}
+        \includegraphics[width=0.8\textwidth]
+        {../img/probs/uiuc_airfoil/airfoil_latent4D_scatter.eps}
+    \end{subfigure}
+    \end{figure}
+    \end{center}
+\end{frame}
 
 % Slide 11: Results on holdout set
 
