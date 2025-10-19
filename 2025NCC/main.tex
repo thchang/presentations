@@ -162,7 +162,7 @@ Journal of Computational Physics 524, Article 113726 (2025).
 
     \bigskip
 
-    (2) Lets us use the covariance of $q$ with $q$ as an uncertainty heuristic:
+    (2) lets us use the variance of $q$ as an uncertainty heuristic:
     $$
     K(q, q) = \tau_f \left(
         1 - \| \phi^{(1)}(q), \ldots, \phi^{(1)}(q) \|_{A_{GP}^{-1}}^2 \right)
@@ -235,13 +235,56 @@ Journal of Computational Physics 524, Article 113726 (2025).
     errors on a holdout set generated from the same distribution.
 \end{frame}
 
-% Slide 7: Effects of problem smoothness
+% Slide 7: Results for dimension/smoothness
+\begin{frame}
+\frametitle{Effects of problem dimension and smoothness}
+    \begin{center}
+    % Delaunay/MLP figure
+    \includegraphics[width=0.75\textwidth]
+    {../img/delaunay_new/del_mlp_dim_smooth_interp.pdf}\\
 
-% Slide 8: Effects of dataset skew
+    % RBF/GP figure
+    \includegraphics[width=0.75\textwidth]
+    {../img/delaunay_new/rbf_gp_dim_smooth_extrap.pdf}
+    \llap{%
+        \raisebox{0.21in}{
+        \includegraphics[width=0.75\textwidth]
+        {../img/delaunay_new/rbf_gp_dim_smooth_interp.pdf}
+        }%
+    }
+    \end{center}
+\end{frame}
+
+% Slide 8: Results for training sample size/smoothness
+\begin{frame}
+\frametitle{Effects of training sample size and problem smoothness}
+    \begin{center}
+    % Delaunay/MLP figure
+    \includegraphics[width=0.75\textwidth]
+    {../img/delaunay_new/del_mlp_n_smooth_interp.pdf}\\
+
+    % RBF/GP figure
+    \includegraphics[width=0.75\textwidth]
+    {../img/delaunay_new/rbf_gp_n_smooth_extrap.pdf}
+    \llap{%
+        \raisebox{0.22in}{
+        \includegraphics[width=0.75\textwidth]
+        {../img/delaunay_new/rbf_gp_n_smooth_interp.pdf}
+        }%
+    }
+    \end{center}
+\end{frame}
 
 \section{Experiments on Airfoil SciML Problem}
 
 % Slide 9: Problem definition and experiment
+\begin{frame}
+\frametitle{Experiments on UIUC Airfoil Dataset}
+    $f\big($
+    \includegraphics[height=2em]{../img/}
+    $\big) \rightarrow $
+    lift/drag
+\end{frame}
 
 % Slide 10: Results on validation set
 
