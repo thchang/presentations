@@ -61,7 +61,7 @@ Journal of Computational Physics 524, Article 113726 (2025).
 % Begin body
 \setbeamertemplate{footline}[page number]{}
 
-\section{Introduction and SciML Context}
+% \section{Introduction and SciML Context}
 
 % Slide 1: AI, SciML, and Interpolation
 \begin{frame}
@@ -336,25 +336,107 @@ Journal of Computational Physics 524, Article 113726 (2025).
 % Slide 10: Results on validation set
 \begin{frame}
 \frametitle{Results on Validation Set}
-    \begin{center}
-    \begin{figure}
-    \begin{subfigure}{0.55\textwidth}
-        \includegraphics[width=0.8\textwidth]
+    \begin{columns}
+    \begin{column}{0.55\textwidth}
+        \includegraphics[width=\textwidth]
         {../img/probs/uiuc_airfoil/airfoil_latent4D_error_summary.eps}\\
-        \includegraphics[width=0.8\textwidth]
+        \includegraphics[width=\textwidth]
         {../img/probs/uiuc_airfoil/airfoil_latent4D_error_summary_zoom.eps}
-    \end{subfigure}
-    \begin{subfigure}{0.43\textwidth}
-        \includegraphics[width=0.8\textwidth]
+    \end{column}
+    \begin{column}{0.43\textwidth}
+        \includegraphics[width=\textwidth]
         {../img/probs/uiuc_airfoil/airfoil_latent4D_scatter.eps}
-    \end{subfigure}
-    \end{figure}
-    \end{center}
+    \end{column}
+    \end{columns}
 \end{frame}
 
 % Slide 11: Results on holdout set
+\begin{frame}
+\frametitle{Results on Test (Holdout) Set}
+    \begin{columns}
+    % Error table
+    \begin{column}{0.55\textwidth}
+        \begin{tabular}{c|cc}
+        \bf Method  & MAE      & average bound \\
+        \hline
+        Delaunay    &  0.21    &  20.04    \\
+        GP          &  17.38   &  0.01     \\
+        TPS RBF     &  0.23    &  12.87    \\
+        ReLU MLP    &  0.21    & n/a       \\
+        \end{tabular}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+        % Error bound image
+        \includegraphics[width=\textwidth]
+        {../img/probs/uiuc_airfoil/airfoil_latent4D_test_scatter.eps}
+    \end{column}
+    \end{columns}
+\end{frame}
 
-% Slide 12: Conclusion
+% Slide 12: Debugging issues on validation set
+\begin{frame}
+\frametitle{Diving Deeper on the Validation Set}
+    \begin{center}
+    \includegraphics[width=0.20\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_0.png}
+    $\qquad$
+    \includegraphics[width=0.20\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_1.png}\\
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_3.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_5.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_7.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_9.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/val_pt_605_11.png}
+    \end{center}
+
+    Top: True validation image (left) and its embedding (right).\\
+    Bottom: The 5 training images used to make the prediction.
+\end{frame}
+
+% Slide 13: Debugging issues on test set
+\begin{frame}
+\frametitle{Diving Deeper on the Test Set}
+    \begin{center}
+    \includegraphics[width=0.20\textwidth]
+    {../img/probs/uiuc_airfoil/test_pt197_0.png}
+    $\qquad$
+    \includegraphics[width=0.20\textwidth]
+    {../img/probs/uiuc_airfoil/test_pt197_1.png}\\
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/test_pt197_3.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/test_pt197_5.png}
+    \includegraphics[width=0.15\textwidth]
+    {../img/probs/uiuc_airfoil/test_pt197_7.png}
+    \end{center}
+
+    Top: True test image (left) and its embedding (right).\\
+    Bottom: The 3 training images used to make the prediction.
+\end{frame}
+
+% Slide 14: Conclusion
+\begin{frame}
+\frametitle{Conclusions}
+    \begin{itemize}
+    \item Error bounds for interpolation methods are useful diagnostic tools
+    for understanding performance of these methods
+
+    \item Interpolation methods and their error bounds can be used to detect
+    potential issues at various stages of scientific machine learning
+    training/validation/testing pipeline
+
+    \item The right interpolation methods achieve similar performance to deep
+    learning methods on real-world noisy {\sl regression} problems
+
+    \item Interpolation methods should be a tool for scientific machine
+    learning problems, alongside other AI-based approaches
+    \end{itemize}
+\end{frame}
 
 % Funding acknowledgement
 \begin{frame}
