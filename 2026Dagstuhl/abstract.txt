@@ -10,6 +10,10 @@ surrogate model admits some uncertainty information, as in many Bayesian
 optimization frameworks, since the uncertainty information must also be mapped
 through these objective, scalarization, and acquisition functions.  Existing
 frameworks use statistical techniques, such as Monte Carlo integration, to
-approximate the effects of this uncertainty information at the outermost level.
+approximate the effects of this uncertainty information at the outermost layer.
 In this talk, we will explore potential analytical techniques to propagate this
-information through multiple layers of outputs and mappings.
+information through multiple layers of outputs and mappings.  This talk is
+based on work in progress.
+
+Topics: surrogate modeling under uncertainty, optimization under uncertainty
+Type: 10 min presentation
