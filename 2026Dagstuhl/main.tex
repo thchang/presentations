@@ -1,0 +1,89 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Define big arrow down
+\newcommand{\xdownarrow}[1]{%
+  {\left\downarrow\vbox to #1{}\right.\kern-\nulldelimiterspace}
+}
+
+% Packages used
+\usepackage{xcolor,ulem}
+\usepackage{listings}
+
+% Title/author info
+\title{Propagating Uncertainty Information through Gray-Box Multiobjective Optimization Problems}
+\author{Tyler Chang}
+\institute{Siemens EDA (formerly Argonne National Laboratory)}
+\date{Dagstuhl Seminar 26041, Jan 2026}
+
+% Slides start here
+\begin{document}
+
+% Titleslide
+\frame{\titlepage}
+
+% FRAME: overview
+\begin{frame}
+  \frametitle{Outlines}
+  \tableofcontents
+\end{frame}
+
+% ========================================
+% main slides come here
+% ========================================
+
+\section{Introduction to MOSO + my experience}
+
+\begin{frame}\frametitle{Multiobjective Optimization Problems}
+\begin{center}
+%\onslide<1->{
+{\Large
+$$
+\min_{x \in \mathcal{X}} F(x)
+$$
+}%}
+\end{center}
+\begin{columns}
+\begin{column}{.35\textwidth}
+%\onslide<2->{
+\includegraphics[width=\textwidth]{../img/moo_old/feasible_design.eps}
+%}
+\end{column}
+\begin{column}{.2\textwidth}
+\begin{center}
+%\onslide<2->{
+$\xrightarrow{\hspace*{2cm}}$
+$$
+F : {\cal X} \rightarrow {\cal Y}
+$$
+%}
+%\onslide<3->{
+expensive blackbox process
+%}
+\end{center}
+\end{column}
+\begin{column}{.35\textwidth}
+%\onslide<2->{
+\includegraphics[width=\textwidth]{../img/moo_old/convex_pareto.eps}
+%}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}\frametitle{Multiobjective Response Surface Methodology}
+$\xleftarrow{\hspace*{1.5cm}}$%}
+\end{center}
+\end{column}
+\begin{column}{0.4\textwidth}
+\begin{center}
+\includegraphics[width=0.58\textwidth]{../img/probs/cfr-nmr-setup.jpg}%}
+\\
+\medskip
+$\xdownarrow{0.5cm}$\\
+\medskip
+\includegraphics[width=0.9\textwidth]{../img/moo_old/rsm.eps}%}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+\end{document}
