@@ -67,9 +67,10 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Multi-layered ``Gray Box''}
+\begin{frame}\frametitle{Composite ``Gray Box'' Functions}
 \begin{center}
-    \includegraphics[width=0.4\textwidth]{../2023WSC/setup2.png}
+Sum of squares:\\
+    \includegraphics[width=0.3\textwidth]{../2023WSC/setup2.png}
     $\rightarrow$
     minimize sum-of-squares
 \end{center}
@@ -77,82 +78,141 @@
 \bigskip
 
 \begin{center}
+One black-box, one simple:\\
     minimize
-    \includegraphics[width=0.4\textwidth]{../img/probs/microsoft-nas.png},
+    \includegraphics[width=0.15\textwidth]{../img/probs/cfr-nmr-setup.jpg},
     minimize $f(x)$
 \end{center}
-\end{frame}
 
-\begin{frame}\frametitle{Modeling Gray Box as Multi-Layer}
+\bigskip
+
 $$
-\min f(x, S(x))
-$$
-s.t.
-$$
+\min f(x, S(x)) \qquad\qquad\text{s.t.}\qquad\qquad
 g(x, S(x)) \leq 0
 $$
 where
 $x$ are design variables;
-$S(x)$ is an expensive ``simulation'' black-box
-
-Then scalarization / acquisition function:
-
-$$
-\min A(f(x, S(x), w))
-$$
+$S(x)$ is an expensive ``simulation'' black-box;
+$f$ and $g$ are algebraic
 \end{frame}
 
-\begin{frame}\frametitle{ParMOO}
-Built to manage complexity of all these layers
-\begin{itemize}
- \item mainly targeting trust region methods originally
- \item often asked to compare against BO Torch, which is similar software for
- BO
- \item was looking into implementing some BO methods in ParMOO
-\end{itemize}
+\begin{frame}\frametitle{Surrogate Modeling for Multiobjective Gray Box Optimization}
+
+So for MOO, we have an acquisition/scalarization function $A$, then solve:
+
+$$
+\min A(f(x, S(x)), w))
+$$
+
+\bigskip
+
+At Argonne we solve these problems with surrogate based trust-region descent methods.
+
+In each iteration: fit ${\hat S}(x) \approx S(x)$, then solve
+$$
+\min A(f(x, {\hat S}(x)), w)) \qquad\text{s.t.}\qquad x\in[x_0 - r, x_0 + r]
+$$
+
+\bigskip
+
+\includegraphics[width=0.3\textwidth]{../img/logos/logo-parmoo.png}
+$\qquad$
+\url{https://github.com/parmoo/parmoo}
+
 \end{frame}
 
 \begin{frame}\frametitle{Challenge of surrogate uncertainty}
+
+Other gray-box tools use Bayesian optimization:\\
+\includegraphics[width=0.3\textwidth]{../img/logos/logo-botorch.png}
+
+\bigskip
+
+How to do this in ParMOO?
 \begin{itemize}
   \item Need to propagate uncertainty info through multiple layers
-  \item BO Torch does this non intrusively via MC simulation
+  \item BOTorch does this non intrusively via MC simulation
+  \begin{itemize}
+    \item This is not easy, requires advanced MC tools and kernel tricks to do
+    efficiently
+  \end{itemize}
   \item Can we do it analytically?
 \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Option 1: Propagate Uncertainty through nonlinear mappings}
 
-Use a Gaussian process fed into a sum-of-squares function with expected
-improvement acquisition function and any scalarization:
-
+Consider:
 \begin{itemize}
-  \item gaussian distribution
-  \item goes into sum-of-square loss and becomes chi-squared
-  \item goes into aug chebyshev and is still chi-squared above the cutoff but
-  more complicated near the "0" values
+  \item A Gaussian process surrogate 
+  \item $\rightarrow$ Sum-of-squares function
+  \item $\rightarrow$ Augmented Chebyshev scalarization 
+  \item $\rightarrow$ expected improvement acquisition function
+\end{itemize}
+
+\bigskip
+
+For this case, we can propagate the posterior distribution for the GP
+\begin{itemize}
+  \item Gaussian distribution
+  \item $\rightarrow$ sum-of-square loss $\rightarrow$ $\chi^2$
+  \item $\rightarrow$ augmented Chebyshev $\rightarrow$ weird piecewise $\chi^2$
 \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{Option 2: Solve a constraint optimization problem}
 
-Use a Gaussian process fed into an algebraic function with lower confidence
-bound acquisition function and augmented chebyshev scalarization:
+Consider:
+\begin{itemize}
+  \item A Gaussian process surrogate 
+  \item $\rightarrow$ {\bf Any algebraic} function $f$
+  \item $\rightarrow$ Augmented Chebyshev scalarization 
+  \item $\rightarrow$ {\bf Lower confidence bound} acquisition function
+\end{itemize}
 
-To evaluate $f$, solve $f(x) = \min f(x, s)$ s.t. $s \in [S(x) - CB, S(x) + CB]$.
+\bigskip
 
-Depending on solver used, $\frac{df}{ds}$ could be approximated by the dual
-solution?
-
+For this case, we can directly evaluate the acquisition without propagating
+\begin{itemize}
+  \item Evaluate the Gaussian surrogate, get a distribution
+  $S(x) \sim N(\mu_x, \sigma_x)$
+  \item The 95\% lower confidence bound would be $\min_x \mu_x - 2\sigma_x$
+  \item For our composite problem, we want to solve $\min_x \text{LCB}(f(x, S(x)))$
+  \item We can solve $\min_x \min_s f(x, s)$ s.t. $s \in [\mu_x - 2\sigma_x, \mu_x + 2\sigma_x]$
+  \begin{enumerate}
+    \item Note that we have to solve a nested optimization problem for each
+    function evaluation
+    \item So to make it feasible, we need a gradient-based solver
+    \item Use the differentiable optimization trick: the gradient
+    $\frac{\delta s}{\delta x} = $ dual solution to the subproblem
+  \end{enumerate}
+\end{itemize}
 \end{frame}
 
 \begin{frame}
 
 That's it!
 
+\bigskip
+
 Talk to me if you have thoughts on how to finish the idea!
 
+\bigskip
+
+Thanks to Argonne funding that funded old work on ParMOO
+
+\smallskip
+
+{\tiny This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.\\}
+
+\bigskip
+
+Thanks Siemens EDA for funding my flights here:\\
+
+\medskip
+
 Also (unrelated) talk to me if you are interested in solving multiobjective
-optimization problems on graphs (with Siemens EDA)!
+optimization problems on graphs!
 
 \end{frame}
 
