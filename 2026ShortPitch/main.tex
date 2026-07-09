@@ -11,7 +11,7 @@
 
 % Title/author info
 \title{Solving Very Hard Multiobjective Simulation Optimization Problems}
-\author{Tyler Chang}
+\author{Tyler H. Chang}
 \date{July 2026}
 
 % Slides start here
@@ -31,178 +31,31 @@
 % main slides come here
 % ========================================
 
-\section{Introduction}
+% \section{Pitch}
 
 \begin{frame}\frametitle{Multiobjective ``Simulation'' Optimization Problems}
-\begin{columns}
-  \begin{column}{0.5\textwidth}
-    \begin{center}
-    \includegraphics[width=0.6\textwidth]{../2023WSC/setup2.png}\\
-    Tuning geometry of electron beam RF gun cavity (Linear accelerator) via
-    multi-physics simulations
-    \end{center}
-  \end{column}
-  \begin{column}{0.5\textwidth}
-    \begin{center}
-    \includegraphics[width=0.4\textwidth]{../img/probs/cfr-nmr-setup.jpg}\\
-    Automated continuous flow reactor settings for material manufacturing
-    \end{center}
-  \end{column}
-\end{columns}
-\begin{columns}
-  \begin{column}{0.5\textwidth}
-    \begin{center}
-    \includegraphics[width=0.35\textwidth]{../img/probs/anl-bebop.png}\\
-    Autotuning (performance optimization) of HPC system libraries\\
-    \end{center}
-  \end{column}
-  \begin{column}{0.5\textwidth}
-    \begin{center}
-    \includegraphics[width=0.5\textwidth]{../img/probs/microsoft-nas.png}\\
-    Neural Architecture Search (image credit from Microsoft press release)
-    \end{center}
-  \end{column}
-\end{columns}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=0.5\textwidth]{../img/probls/moo_probs.png}\\
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=0.5\textwidth]{../img/probs/structure_example.png}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}\frametitle{Composite ``Gray Box'' Functions}
-\begin{center}
-Sum of squares:\\
-    \includegraphics[width=0.3\textwidth]{../2023WSC/setup2.png}
-    $\rightarrow$
-    minimize sum-of-squares
-\end{center}
-
-\bigskip
-
-\begin{center}
-One black-box, one simple:\\
-    minimize
-    \includegraphics[width=0.15\textwidth]{../img/probs/cfr-nmr-setup.jpg},
-    minimize $f(x)$
-\end{center}
-
-\bigskip
-
-$$
-\min f(x, S(x)) \qquad\qquad\text{s.t.}\qquad\qquad
-g(x, S(x)) \leq 0
-$$
-where
-$x$ are design variables;
-$S(x)$ is an expensive ``simulation'' black-box;
-$f$ and $g$ are algebraic
+\begin{frame}\frametitle{Framework for Exploiting Structure}
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{../img/moo_new/parmoo_diagram.png}\\
+  \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Surrogate Modeling for Multiobjective Gray Box Optimization}
-
-So for MOO, we have an acquisition/scalarization function $A$, then solve:
-
-$$
-\min A(f(x, S(x)), w))
-$$
-
-\bigskip
-
-At Argonne we solve these problems with surrogate based trust-region descent methods.
-
-In each iteration: fit ${\hat S}(x) \approx S(x)$, then solve
-$$
-\min A(f(x, {\hat S}(x)), w)) \qquad\text{s.t.}\qquad x\in[x_0 - r, x_0 + r]
-$$
-
-\bigskip
-
-\includegraphics[width=0.3\textwidth]{../img/logos/logo-parmoo.png}
-$\qquad$
-\url{https://github.com/parmoo/parmoo}
-
-\end{frame}
-
-\begin{frame}\frametitle{Challenge of surrogate uncertainty}
-
-Other gray-box tools use Bayesian optimization:\\
-\includegraphics[width=0.3\textwidth]{../img/logos/logo-botorch.png}
-
-\bigskip
-
-How to do this in ParMOO?
-\begin{itemize}
-  \item Need to propagate uncertainty info through multiple layers
-  \item BOTorch does this non intrusively via MC simulation
-  \begin{itemize}
-    \item This is not easy, requires advanced MC tools and kernel tricks to do
-    efficiently
-  \end{itemize}
-  \item Can we do it analytically?
-\end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Option 1: Propagate Uncertainty through nonlinear mappings}
-
-Consider:
-\begin{itemize}
-  \item A Gaussian process surrogate 
-  \item $\rightarrow$ Sum-of-squares function
-  \item $\rightarrow$ Augmented Chebyshev scalarization 
-  \item $\rightarrow$ expected improvement acquisition function
-\end{itemize}
-
-\bigskip
-
-For this case, we can propagate the posterior distribution for the GP
-\begin{itemize}
-  \item Gaussian distribution
-  \item $\rightarrow$ sum-of-square loss $\rightarrow$ $\chi^2$
-  \item $\rightarrow$ augmented Chebyshev $\rightarrow$ weird piecewise $\chi^2$
-\end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Option 2: Solve a constraint optimization problem}
-
-Consider:
-\begin{itemize}
-  \item A Gaussian process surrogate 
-  \item $\rightarrow$ {\bf Any algebraic} function $f$
-  \item $\rightarrow$ Augmented Chebyshev scalarization 
-  \item $\rightarrow$ {\bf Lower confidence bound} acquisition function
-\end{itemize}
-
-\bigskip
-
-For this case, we can directly evaluate the acquisition without propagating
-\begin{itemize}
-  \item Evaluate the Gaussian surrogate, get a distribution
-  $S(x) \sim N(\mu_x, \sigma_x)$
-  \item The 95\% lower confidence bound would be $\min_x \mu_x - 2\sigma_x$
-  \item For our composite problem, we want to solve $\min_x \text{LCB}(f(x, S(x)))$
-  \item We can solve $\min_x \min_s f(x, s)$ s.t. $s \in [\mu_x - 2\sigma_x, \mu_x + 2\sigma_x]$
-  \begin{enumerate}
-    \item Note that we have to solve a nested optimization problem for each
-    function evaluation
-    \item So to make it feasible, we need a gradient-based solver
-    \item Use the differentiable optimization trick: the gradient
-    $\frac{\delta s}{\delta x} = $ dual solution to the subproblem
-  \end{enumerate}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-
-TBD
-
-\bigskip
-
-Thanks to DOE for funding old work on ParMOO at Argonne
-
-\smallskip
-
-{\tiny This material is based upon work supported by the U.S. Department of Energy, Office of Science, Office of Advanced Scientific Computing Research, SciDAC program under contract number DE-AC02-06CH11357.\\}
-
-\bigskip
-
-Thanks Siemens EDA for funding my travels here\\
-
+\begin{frame}\frametitle{Key challenges in tuning AI models}
+\begin{enumerate}
+    \item Good problem representations
+    \item Optimizing online
+    \item Local vs global optimization
+\end{enumerate}
 \end{frame}
 
 \end{document}
