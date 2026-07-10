@@ -33,42 +33,94 @@
 
 % \section{Pitch}
 
-\begin{frame}\frametitle{Multiobjective ``Simulation'' Optimization Problems}
+\begin{frame}\frametitle{Multiobjective ``Simulation'' Optimization Problems + Structure}
   \begin{columns}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=0.5\textwidth]{../img/probls/moo_probs.png}\\
+      \includegraphics[width=\textwidth]{../img/probs/moo-application-collage.png}\\
     \end{column}
     \begin{column}{0.5\textwidth}
-      \includegraphics[width=0.5\textwidth]{../img/probs/structure_example.png}
+      Example structure:\\
+      \includegraphics[width=\textwidth]{../img/moo_new/blackbox_sum_of_squares.png}\\
+      Blackbox least squares, e.g., Gauss-Newton
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}\frametitle{Framework for Exploiting Structure}
   \begin{columns}
-    \begin{column}{0.6\textwidth}
+    \begin{column}{0.5\textwidth}
       \begin{center}
-        \includegraphics[width=0.5\textwidth]{../img/moo_new/parmoo_diagram.png}\\
+        \includegraphics[width=1.0\textwidth]{../img/moo_new/parmoo_flowchart.png}\\
       \end{center}
     \end{column}
-    \begin{column}{0.4\textwidth}
+    \begin{column}{0.5\textwidth}
       \begin{center}
-        \includegraphics[width=1.0\textwidth]{../img/moo_new/cfr_hv1-eps-converted-to.pdf}\\
-
-        \vskip 24pt
-
-        $\qquad$\includegraphics[width=0.6\textwidth]{../img/probs/siam_news_feb_23.jpg}
+        \includegraphics[width=0.95\textwidth]{../img/moo_new/cfr_hv1-eps-converted-to.pdf}\\
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{../img/logos/logo-parmoo.png}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{../img/probs/siam_news_feb_23.jpg}\\
+            $\qquad$
+          \end{column}
+        \end{columns}
+        {\tt github.com/parmoo/parmoo}
       \end{center}
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}\frametitle{Key challenges in tuning AI models}
-\begin{enumerate}
-    \item Good problem representations
-    \item Optimizing online
-    \item Local vs global optimization
-\end{enumerate}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \begin{enumerate}
+        \item Search space + problem representations\\
+        $\quad$
+        \item Online optimization $\rightarrow$ RL?\\
+        $\quad$
+        \item Global optimization (perfect)\\
+        $\qquad\qquad$vs.\\
+        Local optimization (good
+        enough)
+      \end{enumerate}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../img/moo_new/local_optima_contour.png}\\
+    \end{column}
+  \end{columns}
+
+\bigskip
+
+Some references:\\
+
+\medskip
+
+  {\tiny
+
+    [1] Chang and Wild (2023).
+    ``ParMOO: A Python library for parallel multiobjective simulation
+    optimization.''
+    JOSS 8(82):4468.
+    %doi.org/10.21105/joss.04468.
+
+    [2] Chang et al. (2023).
+    ``A framework for fully autonomous design of materials...''
+    In ICLR 2023, ML4Materials Workshop.
+    %openreview.net/forum?id=8KJS7RPjMqG
+
+    [3] Egele, Chang, et al. (2023).
+    ``Parallel multi-objective hyperparameter optimization with uniform
+    normalization and bounded objectives.'' arXiv.
+    %arxiv.org/abs/2309.14936.
+
+    [4] Chang and Wild (2026).
+    ``Designing a Framework for Solving Multiobjective Simulation Optimization
+    Problems.''
+    IJOC 38(1):269-294.
+    %doi.org/10.1287/ijoc.2023.0250.
+
+  }
 \end{frame}
 
 \end{document}
